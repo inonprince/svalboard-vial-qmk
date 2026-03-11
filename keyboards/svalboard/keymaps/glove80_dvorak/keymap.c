@@ -114,11 +114,29 @@ enum custom_keycodes {
 
 static bool app_switch_active = false;
 static bool app_switch_added_gui = false;
+static uint8_t app_switch_layer_tap_depth = 0;
+
+static bool is_app_switch_layer_tap(uint16_t keycode) {
+  return IS_QK_LAYER_TAP(keycode);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (app_switch_active && app_switch_added_gui && keycode != SV_APP_SWITCH &&
       record->event.pressed) {
     register_weak_mods(MOD_BIT(KC_LGUI));
+  }
+
+  if (app_switch_active && keycode != SV_APP_SWITCH &&
+      is_app_switch_layer_tap(keycode)) {
+    if (record->event.pressed) {
+      if (app_switch_layer_tap_depth++ == 0) {
+        layer_off(TYPING);
+      }
+    } else if (app_switch_layer_tap_depth > 0) {
+      if (--app_switch_layer_tap_depth == 0) {
+        layer_on(TYPING);
+      }
+    }
   }
 
   switch (keycode) {
@@ -141,6 +159,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           unregister_weak_mods(MOD_BIT(KC_LGUI));
         }
         layer_off(TYPING);
+        app_switch_layer_tap_depth = 0;
         app_switch_added_gui = false;
         app_switch_active = false;
       }
@@ -195,7 +214,8 @@ static void set_qmk_setting_u32(uint16_t qsid, uint32_t value) {
 /*
  * Pin the runtime settings so the source-built keymap behaves deterministically
  * regardless of existing EEPROM state. Tapping term is adjusted to match the
- * user's Glove80-style home-row mod timing.
+ * user's Glove80-style home-row mod timing, and chordal hold stays enabled to
+ * preserve the same-hand HRM suppression the Glove80 keymap used.
  */
 static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_GRAVE_ESC_OVERRIDE, 0);
@@ -222,7 +242,7 @@ static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_HOLD_ON_OTHER_KEY_PRESS, 0);
   set_qmk_setting_u8(QSID_RETRO_TAPPING, 0);
   set_qmk_setting_u16(QSID_QUICK_TAP_TERM, TAPPING_TERM);
-  set_qmk_setting_u8(QSID_CHORDAL_HOLD, 0);
+  set_qmk_setting_u8(QSID_CHORDAL_HOLD, 1);
   set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 0);
 }
 #endif
