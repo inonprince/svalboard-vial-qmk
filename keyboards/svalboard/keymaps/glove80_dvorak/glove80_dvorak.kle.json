@@ -1,0 +1,609 @@
+[
+  {
+    "name": "Svalboard QWERTY Layout",
+    "author": "Morgan Venable",
+    "notes": "Trackpoint-enabled versions can use Automousekeys for mouse buttons, shown in red.",
+    "background": {
+      "name": "ABS WA",
+      "style": "background-image: url('/bg/plastic/abs-wa.jpg');"
+    },
+    "radii": "10"
+  },
+  [
+    {
+      "x": 3.5,
+      "c": "#303030",
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    ",\npgdn\n7\n:",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    ".\npgup\n8\nins",
+    {
+      "x": 7.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "C\n\u2318X\ndel\n]",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "R\n\u2318Z\nins\n}"
+  ],
+  [
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "esc\nins\n+\n,",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "O\n\u2193\n4\nspc",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "X\n\u2318Z\n!\n.",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "`\ndel\n-\n`",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "E\n\u2191\n5\nent",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "\u21e7tab\n\u21e7\u2318Z\n@\n\"",
+    {
+      "x": 5.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "[\n\u2318\u2192\n\u21e7\u2325\u2192\n#",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "T\n\u2318\n\u2318\n[",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "]\n\u2318F\nbksp\n&",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "B\n\u2318\u2190\n\u21e7\u2318\u2192\n^",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "N\n\u2325\n\u2325\n{",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "=\n\u21e7\u2318Z\nspc\n$"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 1.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "'\nhome\n*\n~",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "P\nend\n9\n\u21e7tab",
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "G\n\u2318C\n\u21e7tab\n)",
+    {
+      "x": 7,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "L\n\u2318S\nesc\n>"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 3.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "Q\n\u2318\u2190\n1\n;",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "J\n\u2318\u2192\n2\n'",
+    {
+      "x": 7.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "W\n\u21e7\u2318\u2192\n\u21e7\u2318Z\n@",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "V\n\u21e7\u2318\u2190\n\u21e7\u2318G\n%"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "del\nesc\n(\n_",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "A\n\u2190\n=\n\\",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "\\\n\u21e7tab\n)\n|",
+    {
+      "x": 4.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "Y\nbksp\n/\nesc",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "U\n\u2192\n6\ntab",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "I\ntab\n#\ndel",
+    {
+      "x": 0.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "D\n\u2325\u2192\n\u2318F\n!",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "H\n\u21e7\n\u21e7\n(",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "F\n\u2318V\ntab\n*",
+    {
+      "x": 5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "/\n\u2325\u2190\n\u2318A\n?",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "S\n\u2303\n\u2303\n<",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "-\n\u2318G\nent\n="
+  ],
+  [
+    {
+      "x": 1.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    ";\n\u2325\u2190\n_\n-",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "K\n\u2325\u2192\n3\nbksp",
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "M\n\u21e7\u2325\u2192\n\u2318Z\n/",
+    {
+      "x": 1.25,
+      "t": "#ff3f3f",
+      "a": 7,
+      "f": 3,
+      "w": 1.5,
+      "h": 1.25
+    },
+    "Trackpoint",
+    {
+      "x": 4.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "Z\n\u21e7\u2325\u2190\n\u2318G\n+"
+  ],
+  [
+    {
+      "y": 0.5,
+      "x": 7.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "h": 2
+    },
+    "bksp (LT 3)\n\n,\n",
+    {
+      "w": 1.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "capswd\n\n\n",
+    {
+      "a": 5,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "tab (LT 15)\n\n.\n",
+    {
+      "x": 0.75,
+      "a": 4,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "del (LT 2)\n\n\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 7,
+      "w": 1.5,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "app sw\n\n\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4,
+      "h": 2,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "spc (LT 1)\n\n\n"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 6,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "w": 2,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "\u2318\n\n\n",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "w": 2,
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "\u21e7\n\n\n"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 8.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "w": 1.5
+    },
+    "esc (LT 5)\n\n0\n",
+    {
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "\u2303\n\n\n",
+    {
+      "x": 0.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ]
+    },
+    "\u2325\n\n\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        6,
+        4,
+        4,
+        4
+      ],
+      "w": 1.5
+    },
+    "ent (LT 4)\n\n\n"
+  ]
+]
