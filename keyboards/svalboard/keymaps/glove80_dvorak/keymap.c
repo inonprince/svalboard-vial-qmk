@@ -53,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAC_FIND_NEXT LGUI(KC_G)
 #define MAC_FIND_PREV SGUI(KC_G)
 #define MAC_SAVE      LGUI(KC_S)
+#define MAC_SELECT_ALL LGUI(KC_A)
 
 #define WORD_LEFT      LALT(KC_LEFT)
 #define WORD_RIGHT     LALT(KC_RIGHT)
@@ -267,18 +268,18 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [NUM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
-        /*R1*/ KC_7            , AMPR            , CIRC            , KC_LEFT          , KC_6            , KC_NO ,
-        /*R2*/ KC_8            , ASTR            , KC_SLSH         , KC_UP            , UNDS            , KC_NO ,
-        /*R3*/ KC_9            , LPRN            , KC_SCLN         , KC_DOWN          , KC_INS          , KC_NO ,
-        /*R4*/ KC_0            , RPRN            , KC_BSLS         , KC_RIGHT         , TILD            , KC_NO ,
-        /*L1*/ KC_4            , DLR             , KC_5            , KC_END           , PERC            , KC_NO ,
-        /*L2*/ KC_3            , HASH            , KC_MINS         , KC_PGDN          , PLUS            , KC_NO ,
-        /*L3*/ KC_2            , AT              , KC_DOT          , KC_PGUP          , KC_COMM         , KC_NO ,
-        /*L4*/ KC_1            , EXLM            , KC_EQL          , KC_HOME          , KC_QUOT         , KC_NO ,
+        /*R1*/ KC_LSFT         , S(KC_TAB)       , KC_TAB          , MAC_UNDO         , MAC_FIND        , KC_NO ,
+        /*R2*/ KC_LGUI         , KC_DEL          , KC_BSPC         , MAC_REDO         , SEL_WORD_RIGHT  , KC_NO ,
+        /*R3*/ KC_LALT         , KC_INS          , KC_SPACE        , MAC_FIND_PREV    , SEL_LINE_END    , KC_NO ,
+        /*R4*/ KC_LCTL         , KC_ESC          , KC_ENTER        , MAC_FIND_NEXT    , MAC_SELECT_ALL  , KC_NO ,
+        /*L1*/ KC_6            , KC_9            , HASH            , KC_3             , KC_SLSH         , KC_NO ,
+        /*L2*/ KC_5            , KC_8            , AT              , KC_2             , KC_MINS         , KC_NO ,
+        /*L3*/ KC_4            , KC_7            , EXLM            , KC_1             , PLUS            , KC_NO ,
+        /*L4*/ KC_EQL          , ASTR            , RPRN            , UNDS             , LPRN            , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*LT*/ KC_0          , KC_COMM, KC_TRNS, KC_DOT , KC_TRNS, KC_TRNS
     ),
 
     [SYM] = LAYOUT(

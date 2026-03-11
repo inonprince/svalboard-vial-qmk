@@ -15,6 +15,14 @@ Compile examples:
 - `make svalboard/right:glove80_dvorak`
 - `make svalboard/left:glove80_dvorak`
 
+KLE export:
+- `python3 keyboards/svalboard/keymaps/glove80_dvorak/render_kle.py --template /Users/inon/Downloads/svalboard-qwerty-layout.json --output keyboards/svalboard/keymaps/glove80_dvorak/glove80_dvorak.kle.json`
+- Default legends are `BASE,NAV,NUM,SYM`, written as four newline-separated slots per key.
+- Every physical key gets the same per-layer text colors: base white, nav blue, num red, sym yellow.
+- Tap-hold keys are rendered as `tap (hold)`, for example `spc (LT 1)`.
+- Modifier labels use compact macOS symbols such as `⌃`, `⌥`, `⌘`, and `⇧`, and longer names are shortened where possible, for example `bksp`.
+- The decorative `Trackpoint` tile in the template is preserved and not mapped to any keycode.
+
 Workflow:
 - Treat `keymap.c` as the source of truth.
 - Use Vial/Keybard to experiment live on the board.
