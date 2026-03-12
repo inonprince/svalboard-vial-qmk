@@ -25,8 +25,8 @@ KLE_PHYSICAL_ORDER = [
     "l3s", "l2s", "r2s", "r3s",
     "l4w", "l4c", "l4e", "l1w", "l1c", "l1e", "r1w", "r1c", "r1e", "r4w", "r4c", "r4e",
     "l4s", "l1s", "r1s", "r4s",
-    "lti", "ltdd", "ltuo", "rtuo", "rtu", "rti",
-    "ltu", "rtdd",
+    "lti", "ltdd", "ltuo", "rtuo", "rtdd", "rti",
+    "ltu", "rtu",
     "ltd", "ltlo", "rtlo", "rtd",
 ]
 
@@ -50,7 +50,11 @@ LEGEND_COLORS = [
     "#5fffb0",
 ]
 
-LEGEND_FONT_SIZES = [6, 4, 4, 4, 3, 3]
+LEGEND_FONT_SIZES = [4, 2, 2, 2, 1, 1]
+# KLE alignment 4 ("center front") gives us the four visible corner legend
+# slots we want for BASE/NAV/NUM/SYM. Some thumb keys in the template use
+# alignments like 5 or 7, which do not expose a visible third legend slot.
+LEGEND_ALIGNMENT = 4
 
 KEY_LABELS = {
     "KC_A": "A",
@@ -590,6 +594,7 @@ def update_kle_template(
             props = dict(pending_props)
             props["t"] = text_colors
             props["fa"] = font_sizes
+            props["a"] = LEGEND_ALIGNMENT
             if props:
                 new_row.append(props)
             pending_props = {}

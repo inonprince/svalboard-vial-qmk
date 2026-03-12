@@ -15,172 +15,188 @@
       "c": "#303030",
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    ",\npgdn\n7\n:",
+    ",\n\u2318Z\n7\nins",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    ".\npgup\n8\nins",
+    ".\n\u21e7\u2318Z\n8\ndel",
     {
       "x": 7.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "C\n\u2318X\ndel\n]",
+    "C\ndel\ndel\n]",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "R\n\u2318Z\nins\n}"
+    "R\nins\nins\n<"
   ],
   [
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "esc\nins\n+\n,",
+    "esc\n\n(\n\u2325",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
     "O\n\u2193\n4\nspc",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "X\n\u2318Z\n!\n.",
+    "X\n\u21e7\u2318G\n)\nsv triple grave",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "`\ndel\n-\n`",
+    "`\n\n%\n\u2318",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
     "E\n\u2191\n5\nent",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "\u21e7tab\n\u21e7\u2318Z\n@\n\"",
+    "\u21e7tab\n\u2318G\n:\n`",
     {
       "x": 5.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "[\n\u2318\u2192\n\u21e7\u2325\u2192\n#",
+    "[\n\u2193\n\u21e7\u2325\u2192\n\"",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "T\n\u2318\n\u2318\n[",
+    "T\n\u2318\n\u2318\n{",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "]\n\u2318F\nbksp\n&",
+    "]\npgdn\nbksp\n|",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "B\n\u2318\u2190\n\u21e7\u2318\u2192\n^",
+    "B\n\u2191\n\u21e7\u2318\u2192\n-",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "N\n\u2325\n\u2325\n{",
+    "N\n\u2325\n\u2325\n}",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "=\n\u21e7\u2318Z\nspc\n$"
+    "=\npgup\nspc\n~"
   ],
   [
     {
@@ -188,46 +204,50 @@
       "x": 1.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "'\nhome\n*\n~",
+    "'\ntab\n!\nbksp",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "P\nend\n9\n\u21e7tab",
+    "P\n\u21e7tab\n9\n\u21e7tab",
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "G\n\u2318C\n\u21e7tab\n)",
+    "G\n\u21e7tab\n\u21e7tab\n[",
     {
       "x": 7,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "L\n\u2318S\nesc\n>"
+    "L\nesc\nesc\n>"
   ],
   [
     {
@@ -235,46 +255,50 @@
       "x": 3.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "Q\n\u2318\u2190\n1\n;",
+    "Q\nF18\n1\n#",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "J\n\u2318\u2192\n2\n'",
+    "J\nF17\n2\n&",
     {
       "x": 7.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "W\n\u21e7\u2318\u2192\n\u21e7\u2318Z\n@",
+    "W\nbksp\n\u21e7\u2318Z\n*",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "V\n\u21e7\u2318\u2190\n\u21e7\u2318G\n%"
+    "V\nspc\n\u21e7\u2318G\n/"
   ],
   [
     {
@@ -282,161 +306,176 @@
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "del\nesc\n(\n_",
+    "del\nosm(mod lsft)\n/\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "A\n\u2190\n=\n\\",
+    "A\n\u2190\n+\nesc",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "\\\n\u21e7tab\n)\n|",
+    "\\\n\n*\n",
     {
       "x": 4.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "Y\nbksp\n/\nesc",
+    "Y\n\n~\n\u21e7",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
     "U\n\u2192\n6\ntab",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "I\ntab\n#\ndel",
+    "I\n\u2318F\n$\n'",
     {
       "x": 0.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "D\n\u2325\u2192\n\u2318F\n!",
+    "D\n\u2190\n\u2318F\n(",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "H\n\u21e7\n\u21e7\n(",
+    "H\n\u21e7\n\u21e7\n)",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "F\n\u2318V\ntab\n*",
+    "F\nhome\ntab\n?",
     {
       "x": 5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "/\n\u2325\u2190\n\u2318A\n?",
+    "/\n\u2192\n\u2318A\n;",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "S\n\u2303\n\u2303\n<",
+    "S\n\u2303\n\u2303\n=",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "-\n\u2318G\nent\n="
+    "-\nend\nent\n^"
   ],
   [
     {
       "x": 1.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    ";\n\u2325\u2190\n_\n-",
+    ";\nF19\n-\n$",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "K\n\u2325\u2192\n3\nbksp",
+    "K\nF16\n3\n!",
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "M\n\u21e7\u2325\u2192\n\u2318Z\n/",
+    "M\ntab\n\u2318Z\n+",
     {
       "x": 1.25,
       "t": "#ff3f3f",
@@ -451,13 +490,13 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ]
     },
-    "Z\n\u21e7\u2325\u2190\n\u2318G\n+"
+    "Z\nent\n\u2318G\n_"
   ],
   [
     {
@@ -465,99 +504,103 @@
       "x": 7.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
-      "h": 2
+      "h": 2,
+      "a": 4
     },
-    "bksp (LT 3)\n\n,\n",
+    "bksp (LT 3)\nsv select word\n0\n",
     {
       "w": 1.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "capswd\n\n\n",
+    "capswd\nsv select none\n>\n",
     {
-      "a": 5,
+      "a": 4,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "tab (LT 15)\n\n.\n",
+    "esc (LT 5)\nsv extend word\n,\n",
     {
       "x": 0.75,
       "a": 4,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "del (LT 2)\n\n\n",
+    "ent (LT 4)\n\n\n\\",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
-      "a": 7,
+      "a": 4,
       "w": 1.5,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ]
     },
-    "app sw\n\n\n",
+    "\u21e7\n\n\n*",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
       "h": 2,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ]
     },
-    "spc (LT 1)\n\n\n"
+    "spc (LT 1)\n\n\n%"
   ],
   [
     {
       "y": -0.25,
       "x": 6,
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
       "w": 2,
-      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4
     },
-    "\u2318\n\n\n",
+    "\u2318\n\u2318A\n=\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "w": 2,
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "\u21e7\n\n\n"
+    "app sw\n\n\n@"
   ],
   [
     {
@@ -565,45 +608,49 @@
       "x": 8.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
-      "w": 1.5
+      "w": 1.5,
+      "a": 4
     },
-    "esc (LT 5)\n\n0\n",
+    "tab (LT 15)\nsv select line\n.\n",
     {
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
-      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4
     },
-    "\u2303\n\n\n",
+    "\u2303\nsv extend line\n<\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
-      ]
+        2,
+        2,
+        2
+      ],
+      "a": 4
     },
-    "\u2325\n\n\n",
+    "\u2325\n\n\n.",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
-        6,
         4,
-        4,
-        4
+        2,
+        2,
+        2
       ],
-      "w": 1.5
+      "w": 1.5,
+      "a": 4
     },
-    "ent (LT 4)\n\n\n"
+    "del (LT 2)\n\n\n:"
   ]
 ]

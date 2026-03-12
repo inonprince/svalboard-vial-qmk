@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SEL_WORD_RIGHT LSA(KC_RIGHT)
 #define SEL_LINE_START SGUI(KC_LEFT)
 #define SEL_LINE_END   SGUI(KC_RIGHT)
+#define SEL_DOWN       S(KC_DOWN)
 
 #define TILD S(KC_GRV)
 #define PIPE S(KC_BSLS)
@@ -110,14 +111,27 @@ enum layer {
 
 enum custom_keycodes {
     SV_APP_SWITCH = QK_KB_20,
+    SV_SELECT_NONE,
+    SV_SELECT_WORD,
+    SV_EXTEND_WORD,
+    SV_SELECT_LINE,
+    SV_EXTEND_LINE,
+    SV_TRIPLE_GRAVE,
+    SV_KVM_SWITCH,
 };
 
 static bool app_switch_active = false;
 static bool app_switch_added_gui = false;
 static uint8_t app_switch_layer_tap_depth = 0;
+static bool kvm_next_is_two = false;
 
 static bool is_app_switch_layer_tap(uint16_t keycode) {
   return IS_QK_LAYER_TAP(keycode);
+}
+
+static void tap_code16_wait(uint16_t keycode) {
+  tap_code16(keycode);
+  wait_ms(1);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -162,6 +176,58 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         app_switch_layer_tap_depth = 0;
         app_switch_added_gui = false;
         app_switch_active = false;
+      }
+      return false;
+
+    case SV_SELECT_NONE:
+      if (record->event.pressed) {
+        tap_code16_wait(KC_DOWN);
+        tap_code16_wait(KC_UP);
+        tap_code16_wait(KC_RIGHT);
+        tap_code16(KC_LEFT);
+      }
+      return false;
+
+    case SV_SELECT_WORD:
+      if (record->event.pressed) {
+        tap_code16_wait(WORD_RIGHT);
+        tap_code16_wait(WORD_LEFT);
+        tap_code16(SEL_WORD_RIGHT);
+      }
+      return false;
+
+    case SV_EXTEND_WORD:
+      if (record->event.pressed) {
+        tap_code16(SEL_WORD_RIGHT);
+      }
+      return false;
+
+    case SV_SELECT_LINE:
+      if (record->event.pressed) {
+        tap_code16_wait(LINE_START);
+        tap_code16(SEL_LINE_END);
+      }
+      return false;
+
+    case SV_EXTEND_LINE:
+      if (record->event.pressed) {
+        tap_code16_wait(SEL_DOWN);
+        tap_code16(SEL_LINE_END);
+      }
+      return false;
+
+    case SV_TRIPLE_GRAVE:
+      if (record->event.pressed) {
+        SEND_STRING("```");
+      }
+      return false;
+
+    case SV_KVM_SWITCH:
+      if (record->event.pressed) {
+        tap_code(KC_LCTL);
+        tap_code(KC_LCTL);
+        tap_code(kvm_next_is_two ? KC_2 : KC_1);
+        kvm_next_is_two = !kvm_next_is_two;
       }
       return false;
   }
@@ -266,24 +332,24 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
-        /*RT*/ LT(FUNC, KC_ENTER), LT(NAV, KC_SPACE), SV_APP_SWITCH , LT(NUM, KC_DEL)  , KC_LALT         , KC_LSFT ,
-        /*LT*/ LT(SYS, KC_ESC)   , LT(SYM, KC_BSPC), KC_LGUI       , LT(MBO, KC_TAB)  , KC_LCTL         , SV_CAPS_WORD
+        /*RT*/ LT(NUM, KC_DEL)  , LT(NAV, KC_SPACE), SV_APP_SWITCH , LT(FUNC, KC_ENTER), KC_LALT         , KC_LSFT ,
+        /*LT*/ LT(MBO, KC_TAB)  , LT(SYM, KC_BSPC), SV_KVM_SWITCH , LT(SYS, KC_ESC)   , KC_LCTL         , SV_CAPS_WORD
     ),
 
     [NAV] = LAYOUT(
         /*     Center            North             East               South              West              Double */
-        /*R1*/ KC_LSFT         , MAC_COPY        , MAC_PASTE        , SEL_WORD_RIGHT    , WORD_RIGHT      , KC_NO ,
-        /*R2*/ KC_LGUI         , MAC_CUT         , MAC_FIND         , SEL_LINE_END      , LINE_END        , KC_NO ,
-        /*R3*/ KC_LALT         , MAC_UNDO        , MAC_REDO         , SEL_LINE_START    , LINE_START      , KC_NO ,
-        /*R4*/ KC_LCTL         , MAC_SAVE        , MAC_FIND_NEXT    , SEL_WORD_LEFT     , WORD_LEFT       , KC_NO ,
-        /*L1*/ KC_RIGHT        , KC_END          , KC_TAB           , WORD_RIGHT        , KC_BSPC         , KC_NO ,
-        /*L2*/ KC_UP           , KC_PGUP         , MAC_REDO         , LINE_END          , KC_DEL          , KC_NO ,
-        /*L3*/ KC_DOWN         , KC_PGDN         , MAC_UNDO         , LINE_START        , KC_INS          , KC_NO ,
-        /*L4*/ KC_LEFT         , KC_HOME         , S(KC_TAB)        , WORD_LEFT         , KC_ESC          , KC_NO ,
+        /*R1*/ KC_LSFT         , S(KC_TAB)       , KC_HOME          , KC_TAB            , KC_LEFT         , KC_NO ,
+        /*R2*/ KC_LGUI         , KC_DEL          , KC_PGDN          , KC_BSPC           , KC_DOWN         , KC_NO ,
+        /*R3*/ KC_LALT         , KC_INS          , KC_PGUP          , KC_SPACE          , KC_UP           , KC_NO ,
+        /*R4*/ KC_LCTL         , KC_ESC          , KC_END           , KC_ENTER          , KC_RIGHT        , KC_NO ,
+        /*L1*/ KC_RIGHT        , S(KC_TAB)       , MAC_FIND         , KC_F16            , KC_TRNS         , KC_NO ,
+        /*L2*/ KC_UP           , MAC_REDO        , MAC_FIND_NEXT    , KC_F17            , KC_TRNS         , KC_NO ,
+        /*L3*/ KC_DOWN         , MAC_UNDO        , MAC_FIND_PREV    , KC_F18            , KC_TRNS         , KC_NO ,
+        /*L4*/ KC_LEFT         , KC_TAB          , KC_TRNS          , KC_F19            , OSM(MOD_LSFT)   , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*RT*/ KC_TRNS       , KC_TRNS       , KC_TRNS         , KC_TRNS         , KC_TRNS        , KC_TRNS ,
+        /*LT*/ SV_SELECT_LINE, SV_SELECT_WORD, MAC_SELECT_ALL , SV_EXTEND_WORD  , SV_EXTEND_LINE , SV_SELECT_NONE
     ),
 
     [NUM] = LAYOUT(
@@ -292,29 +358,29 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R2*/ KC_LGUI         , KC_DEL          , KC_BSPC         , MAC_REDO         , SEL_WORD_RIGHT  , KC_NO ,
         /*R3*/ KC_LALT         , KC_INS          , KC_SPACE        , MAC_FIND_PREV    , SEL_LINE_END    , KC_NO ,
         /*R4*/ KC_LCTL         , KC_ESC          , KC_ENTER        , MAC_FIND_NEXT    , MAC_SELECT_ALL  , KC_NO ,
-        /*L1*/ KC_6            , KC_9            , HASH            , KC_3             , KC_SLSH         , KC_NO ,
-        /*L2*/ KC_5            , KC_8            , AT              , KC_2             , KC_MINS         , KC_NO ,
-        /*L3*/ KC_4            , KC_7            , EXLM            , KC_1             , PLUS            , KC_NO ,
-        /*L4*/ KC_EQL          , ASTR            , RPRN            , UNDS             , LPRN            , KC_NO ,
+        /*L1*/ KC_6            , KC_9            , DLR             , KC_3             , TILD            , KC_NO ,
+        /*L2*/ KC_5            , KC_8            , COLN            , KC_2             , PERC            , KC_NO ,
+        /*L3*/ KC_4            , KC_7            , RPRN            , KC_1             , LPRN            , KC_NO ,
+        /*L4*/ PLUS            , EXLM            , ASTR            , KC_MINS          , KC_SLSH         , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_0          , KC_COMM, KC_TRNS, KC_DOT , KC_TRNS, KC_TRNS
+        /*LT*/ KC_DOT        , KC_0   , KC_EQL , KC_COMM, LTGT   , GTGT
     ),
 
     [SYM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
-        /*R1*/ LPRN            , RPRN            , ASTR            , KC_SLSH          , EXLM            , KC_NO ,
-        /*R2*/ KC_LBRC         , KC_RBRC         , AMPR            , AT               , HASH            , KC_NO ,
-        /*R3*/ LCBR            , RCBR            , DLR             , PERC             , CIRC            , KC_NO ,
-        /*R4*/ LTGT            , GTGT            , KC_EQL          , PLUS             , QUES            , KC_NO ,
-        /*L1*/ KC_TAB          , S(KC_TAB)       , KC_DEL          , KC_BSPC          , KC_ESC          , KC_NO ,
-        /*L2*/ KC_ENTER        , KC_INS          , DQUO            , KC_QUOT          , KC_GRV          , KC_NO ,
-        /*L3*/ KC_SPACE        , COLN            , KC_DOT          , KC_SCLN          , KC_COMM         , KC_NO ,
-        /*L4*/ KC_BSLS         , TILD            , PIPE            , KC_MINS          , UNDS            , KC_NO ,
+        /*R1*/ RPRN            , KC_LBRC         , QUES            , PLUS             , LPRN            , KC_NO ,
+        /*R2*/ LCBR            , KC_RBRC         , PIPE            , ASTR             , DQUO            , KC_NO ,
+        /*R3*/ RCBR            , LTGT            , TILD            , KC_SLSH          , KC_MINS         , KC_NO ,
+        /*R4*/ KC_EQL          , GTGT            , CIRC            , UNDS             , KC_SCLN         , KC_NO ,
+        /*L1*/ KC_TAB          , S(KC_TAB)       , KC_QUOT         , EXLM             , KC_LSFT         , KC_NO ,
+        /*L2*/ KC_ENTER        , KC_DEL          , KC_GRV          , AMPR             , KC_LGUI         , KC_NO ,
+        /*L3*/ KC_SPACE        , KC_INS          , SV_TRIPLE_GRAVE , HASH             , KC_LALT         , KC_NO ,
+        /*L4*/ KC_ESC          , KC_BSPC         , KC_TRNS         , DLR              , KC_TRNS         , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
+        /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_DOT , ASTR ,
         /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
@@ -331,7 +397,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*LT*/ KC_VOLD       , KC_MUTE, KC_VOLU, KC_MPRV, KC_MNXT, KC_MPLY
     ),
 
     [SYS] = LAYOUT(
@@ -384,18 +450,18 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [MBO] = LAYOUT(
         /*     Center                  North    East     South       West     Double */
-        /*R1*/ KC_BTN1               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*R2*/ KC_BTN3               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*R3*/ KC_BTN2               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*R4*/ SV_RECALIBRATE_POINTER, KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*L1*/ KC_BTN1               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*L2*/ KC_BTN3               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*L3*/ KC_BTN2               , KC_TRNS, KC_TRNS, KC_TRNS   , KC_TRNS, KC_NO ,
-        /*L4*/ SV_RECALIBRATE_POINTER, KC_TRNS, KC_TRNS, SV_SNIPER_3, KC_TRNS, KC_NO ,
+        /*R1*/ KC_TRNS               , SV_LEFT_DPI_DEC        , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
+        /*R2*/ KC_TRNS               , SV_LEFT_DPI_INC        , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*R3*/ KC_TRNS               , SV_LEFT_SCROLL_TOGGLE  , KC_TRNS, KC_BTN3      , KC_TRNS, KC_NO ,
+        /*R4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
+        /*L1*/ KC_TRNS               , SV_RIGHT_DPI_DEC       , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
+        /*L2*/ KC_TRNS               , SV_RIGHT_DPI_INC       , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
+        /*L3*/ KC_TRNS               , SV_RIGHT_SCROLL_TOGGLE , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
+        /*L4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_BTN1, KC_TRNS, KC_BTN2, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_BTN1, KC_TRNS, KC_BTN2, KC_TRNS, KC_TRNS
+        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
+        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 };
 #endif
