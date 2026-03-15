@@ -415,7 +415,7 @@
       ],
       "a": 4
     },
-    "/\n\u2192\n\u2318A\n;",
+    "qk repeat key\n\u2192\n\u2318A\n;",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -512,7 +512,7 @@
       "h": 2,
       "a": 4
     },
-    "bksp (LT 3)\nsv select word\n0\n",
+    "bksp (LT 3)\nsv select word\n0\nsv lock sym",
     {
       "w": 1.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -571,7 +571,7 @@
         2
       ]
     },
-    "spc (LT 1)\n\n\n%"
+    "spc (LT 1)\nsv lock nav\n\n%"
   ],
   [
     {
@@ -587,7 +587,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "\u2318\n\u2318A\n=\n",
+    "LT 5\n\u2318A\n=\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -651,6 +651,6 @@
       "w": 1.5,
       "a": 4
     },
-    "del (LT 2)\n\n\n:"
+    "del (LT 2)\n\nsv lock num\n:"
   ]
 ]

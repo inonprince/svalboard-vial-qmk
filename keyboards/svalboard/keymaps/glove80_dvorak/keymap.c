@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../keymap_support.c"
 #include "keycodes.h"
 #include "quantum_keycodes.h"
+#include "layer_lock.h"
 #include QMK_KEYBOARD_H
 #include <stdbool.h>
 #include <stdint.h>
@@ -87,13 +88,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LCBR S(KC_LBRC)
 #define RCBR S(KC_RBRC)
 
+static bool kvm_next_is_two = false;
+
+/* RGBLIGHT_LAYERS: KVM indicator on left LED (index 0) only.
+ * Lighting layer 0 = machine 1 (white), layer 1 = machine 2 (blue).
+ * The enabled_layer_mask is split-synced, so the slave applies the
+ * override inside rgblight_set() → rgblight_layers_write(). */
+const rgblight_segment_t PROGMEM kvm_one_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0x00, 0x00, 0xFF});
+const rgblight_segment_t PROGMEM kvm_two_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0xAA, 0xFF, 0xFF});
+
+const rgblight_segment_t * const PROGMEM kvm_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    kvm_one_seg,
+    kvm_two_seg
+);
+
+static void update_layer_indicator(uint32_t layer, bool save) {
+  if (layer > 15) {
+    layer = 15;
+  }
+
+  /* Toggle KVM lighting layers before setting base color, so
+   * rgblight_layers_write() inside rgblight_set() sees the new mask. */
+  rgblight_set_layer_state(0, !kvm_next_is_two);
+  rgblight_set_layer_state(1, kvm_next_is_two);
+
+  /* Base color on both LEDs; rgblight_layers_write() then overrides LED 0. */
+  sval_set_active_layer(layer, save);
+}
+
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-  sval_set_active_layer(0, false);
+  update_layer_indicator(0, false);
   return state;
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  sval_set_active_layer(get_highest_layer(state), false);
+  update_layer_indicator(get_highest_layer(state), false);
   return state;
 }
 
@@ -109,6 +138,14 @@ enum layer {
     MBO = MH_AUTO_BUTTONS_LAYER,
 };
 
+#define TH_NUM  LT(NUM, KC_DEL)
+#define TH_NAV  LT(NAV, KC_SPACE)
+#define TH_FUNC LT(FUNC, KC_ENTER)
+#define TH_MBO  LT(MBO, KC_TAB)
+#define TH_SYM  LT(SYM, KC_BSPC)
+#define TH_SYS  LT(SYS, KC_ESC)
+#define KVM_SYS LT(SYS, KC_NO)
+
 enum custom_keycodes {
     SV_APP_SWITCH = QK_KB_20,
     SV_SELECT_NONE,
@@ -117,16 +154,29 @@ enum custom_keycodes {
     SV_SELECT_LINE,
     SV_EXTEND_LINE,
     SV_TRIPLE_GRAVE,
-    SV_KVM_SWITCH,
+    SV_LOCK_NAV,
+    SV_LOCK_NUM,
+    SV_LOCK_SYM,
+    SV_LOCK_FUNC,
+    SV_LOCK_SYS,
+    SV_LOCK_MBO,
+    SV_LOCK_CLEAR,
 };
 
 static bool app_switch_active = false;
 static bool app_switch_added_gui = false;
 static uint8_t app_switch_layer_tap_depth = 0;
-static bool kvm_next_is_two = false;
 
 static bool is_app_switch_layer_tap(uint16_t keycode) {
   return IS_QK_LAYER_TAP(keycode);
+}
+
+static void trigger_kvm_switch(void) {
+  tap_code(KC_RCTL);
+  tap_code(KC_RCTL);
+  tap_code(kvm_next_is_two ? KC_2 : KC_1);
+  kvm_next_is_two = !kvm_next_is_two;
+  update_layer_indicator(get_highest_layer(layer_state), false);
 }
 
 static void tap_code16_wait(uint16_t keycode) {
@@ -222,14 +272,54 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case SV_KVM_SWITCH:
+    case SV_LOCK_NAV:
       if (record->event.pressed) {
-        tap_code(KC_LCTL);
-        tap_code(KC_LCTL);
-        tap_code(kvm_next_is_two ? KC_2 : KC_1);
-        kvm_next_is_two = !kvm_next_is_two;
+        layer_lock_invert(NAV);
       }
       return false;
+
+    case SV_LOCK_NUM:
+      if (record->event.pressed) {
+        layer_lock_invert(NUM);
+      }
+      return false;
+
+    case SV_LOCK_SYM:
+      if (record->event.pressed) {
+        layer_lock_invert(SYM);
+      }
+      return false;
+
+    case SV_LOCK_FUNC:
+      if (record->event.pressed) {
+        layer_lock_invert(FUNC);
+      }
+      return false;
+
+    case SV_LOCK_SYS:
+      if (record->event.pressed) {
+        layer_lock_invert(SYS);
+      }
+      return false;
+
+    case SV_LOCK_MBO:
+      if (record->event.pressed) {
+        layer_lock_invert(MBO);
+      }
+      return false;
+
+    case SV_LOCK_CLEAR:
+      if (record->event.pressed) {
+        layer_lock_all_off();
+      }
+      return false;
+
+    case KVM_SYS:
+      if (!record->event.pressed && record->tap.count) {
+        trigger_kvm_switch();
+        return false;
+      }
+      return true;
   }
 
   return true;
@@ -279,9 +369,13 @@ static void set_qmk_setting_u32(uint16_t qsid, uint32_t value) {
 
 /*
  * Pin the runtime settings so the source-built keymap behaves deterministically
- * regardless of existing EEPROM state. Tapping term is adjusted to match the
- * user's Glove80-style home-row mod timing, and chordal hold stays enabled to
- * preserve the same-hand HRM suppression the Glove80 keymap used.
+ * regardless of existing EEPROM state. This approximates the Glove80 bilateral
+ * home-row-mod behavior with QMK's closest knobs:
+ * - a moderate global tapping term for the Svalboard's light switches
+ * - PERMISSIVE_HOLD to mimic ZMK's hold-trigger-on-release behavior
+ * - CHORDAL_HOLD to reject same-hand HRM chords
+ * - FLOW_TAP_TERM to approximate ZMK's require-prior-idle streak decay
+ * - a longer QUICK_TAP_TERM to preserve tap-then-hold repeat behavior
  */
 static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_GRAVE_ESC_OVERRIDE, 0);
@@ -304,12 +398,12 @@ static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u16(QSID_TAP_HOLD_CAPS_DELAY, 80);
   set_qmk_setting_u8(QSID_TAPPING_TOGGLE, 5);
   set_qmk_setting_u32(QSID_MAGIC, 128);
-  set_qmk_setting_u8(QSID_PERMISSIVE_HOLD, 0);
+  set_qmk_setting_u8(QSID_PERMISSIVE_HOLD, 1);
   set_qmk_setting_u8(QSID_HOLD_ON_OTHER_KEY_PRESS, 0);
   set_qmk_setting_u8(QSID_RETRO_TAPPING, 0);
-  set_qmk_setting_u16(QSID_QUICK_TAP_TERM, TAPPING_TERM);
+  set_qmk_setting_u16(QSID_QUICK_TAP_TERM, 300);
   set_qmk_setting_u8(QSID_CHORDAL_HOLD, 1);
-  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 0);
+  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 150);
 }
 #endif
 
@@ -325,15 +419,15 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R1*/ HM_H            , KC_G           , KC_F            , KC_M            , KC_D          , KC_NO ,
         /*R2*/ HM_T            , KC_C           , KC_RBRC         , KC_W            , KC_LBRC       , KC_NO ,
         /*R3*/ HM_N            , KC_R           , KC_EQL          , KC_V            , KC_B          , KC_NO ,
-        /*R4*/ HM_S            , KC_L           , KC_MINS         , KC_Z            , KC_SLSH       , KC_NO ,
+        /*R4*/ HM_S            , KC_L           , KC_MINS         , KC_Z            , QK_REPEAT_KEY , KC_NO ,
         /*L1*/ HM_U            , KC_P           , KC_I            , KC_K            , KC_Y          , KC_NO ,
         /*L2*/ HM_E            , KC_DOT         , S(KC_TAB)       , KC_J            , KC_GRV        , KC_NO ,
         /*L3*/ HM_O            , KC_COMM        , KC_X            , KC_Q            , KC_ESC        , KC_NO ,
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
-        /*RT*/ LT(NUM, KC_DEL)  , LT(NAV, KC_SPACE), SV_APP_SWITCH , LT(FUNC, KC_ENTER), KC_LALT         , KC_LSFT ,
-        /*LT*/ LT(MBO, KC_TAB)  , LT(SYM, KC_BSPC), SV_KVM_SWITCH , LT(SYS, KC_ESC)   , KC_LCTL         , SV_CAPS_WORD
+        /*RT*/ TH_NUM          , TH_NAV          , SV_APP_SWITCH , TH_FUNC           , SGUI(KC_LALT)   , KC_LSFT ,
+        /*LT*/ TH_MBO          , TH_SYM          , KVM_SYS       , TH_SYS            , KC_HYPR         , SV_CAPS_WORD
     ),
 
     [NAV] = LAYOUT(
@@ -348,7 +442,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ KC_LEFT         , KC_TAB          , KC_TRNS          , KC_F19            , OSM(MOD_LSFT)   , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS       , KC_TRNS         , KC_TRNS         , KC_TRNS        , KC_TRNS ,
+        /*RT*/ KC_TRNS       , SV_LOCK_NAV   , KC_TRNS         , KC_TRNS         , KC_TRNS        , KC_TRNS ,
         /*LT*/ SV_SELECT_LINE, SV_SELECT_WORD, MAC_SELECT_ALL , SV_EXTEND_WORD  , SV_EXTEND_LINE , SV_SELECT_NONE
     ),
 
@@ -364,7 +458,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ PLUS            , EXLM            , ASTR            , KC_MINS          , KC_SLSH         , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
+        /*RT*/ SV_LOCK_NUM   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
         /*LT*/ KC_DOT        , KC_0   , KC_EQL , KC_COMM, LTGT   , GTGT
     ),
 
@@ -381,7 +475,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_DOT , ASTR ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*LT*/ KC_TRNS       , SV_LOCK_SYM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
     [FUNC] = LAYOUT(
@@ -396,7 +490,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ KC_F1           , KC_F2            , KC_F15          , KC_F16          , KC_F21           , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
+        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, SV_LOCK_FUNC, KC_TRNS, KC_TRNS ,
         /*LT*/ KC_VOLD       , KC_MUTE, KC_VOLU, KC_MPRV, KC_MNXT, KC_MPLY
     ),
 
@@ -411,19 +505,19 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L3*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, SV_SNIPER_3        , SV_LEFT_DPI_DEC    , KC_NO              , KC_NO ,
         /*L4*/ SV_SCROLL_HOLD      , SV_SCROLL_TOGGLE     , KC_NO              , KC_NO              , KC_NO              , KC_NO ,
 
-        /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*     Down            Pad             Up       Nail            Knuckle          DoubleDown */
+        /*RT*/ SV_LOCK_NUM    , SV_LOCK_NAV    , KC_TRNS, SV_LOCK_FUNC  , SV_LOCK_CLEAR   , KC_TRNS ,
+        /*LT*/ SV_LOCK_MBO    , SV_LOCK_SYM    , KC_TRNS, SV_LOCK_SYS   , SV_LOCK_CLEAR   , KC_TRNS
     ),
 
     [TYPING] = LAYOUT(
         /*     Center            North    East     South    West     Double */
         /*R1*/ KC_H            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
-        /*R2*/ KC_T            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
+        /*R2*/ KC_T            , KC_TRNS, KC_UP  , KC_TRNS, KC_DOWN, KC_NO ,
         /*R3*/ KC_N            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*R4*/ KC_S            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L1*/ KC_U            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
-        /*L2*/ KC_E            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
+        /*L2*/ KC_E            , KC_TRNS, KC_DOWN, KC_TRNS, KC_UP  , KC_NO ,
         /*L3*/ KC_O            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L4*/ KC_A            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
 
@@ -445,19 +539,19 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*LT*/ SV_LOCK_MBO   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
     [MBO] = LAYOUT(
         /*     Center                  North    East     South       West     Double */
-        /*R1*/ KC_TRNS               , SV_LEFT_DPI_DEC        , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
-        /*R2*/ KC_TRNS               , SV_LEFT_DPI_INC        , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
-        /*R3*/ KC_TRNS               , SV_LEFT_SCROLL_TOGGLE  , KC_TRNS, KC_BTN3      , KC_TRNS, KC_NO ,
-        /*R4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
+        /*R1*/ KC_LSFT               , SV_LEFT_DPI_DEC        , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
+        /*R2*/ KC_LGUI               , SV_LEFT_DPI_INC        , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*R3*/ KC_LALT               , SV_LEFT_SCROLL_TOGGLE  , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
+        /*R4*/ KC_LCTL               , KC_TRNS                , KC_TRNS, SV_BOOST_2   , KC_TRNS, KC_NO ,
         /*L1*/ KC_TRNS               , SV_RIGHT_DPI_DEC       , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
-        /*L2*/ KC_TRNS               , SV_RIGHT_DPI_INC       , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
-        /*L3*/ KC_TRNS               , SV_RIGHT_SCROLL_TOGGLE , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
-        /*L4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*L2*/ KC_TRNS               , SV_RIGHT_DPI_INC       , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*L3*/ KC_TRNS               , SV_RIGHT_SCROLL_TOGGLE , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
+        /*L4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, SV_BOOST_2   , KC_TRNS, KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
@@ -467,7 +561,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 #endif
 
 void keyboard_post_init_user(void) {
-  // Enable debug flags here if you need to inspect matrix or pointer behavior.
+  rgblight_layers = kvm_rgb_layers;
+  rgblight_set_layer_state(0, true); /* machine 1 (green) active at boot */
 
 #ifdef QMK_SETTINGS
   sync_runtime_qmk_settings();

@@ -94,6 +94,9 @@ bool scroll_timer_running = false;
 bool enable_scale_2 = false;
 bool enable_scale_3 = false;
 bool enable_scale_5 = false;
+bool enable_boost_2 = false;
+bool enable_boost_3 = false;
+bool enable_boost_5 = false;
 
 static bool scroll_hold    = false,
             scroll_toggle  = false;
@@ -199,10 +202,25 @@ void handle_sniper_key(bool pressed, uint8_t divisor) {
     }
 }
 
+void handle_boost_key(bool pressed, uint8_t multiplier) {
+    if (!pressed) {
+        div_mult_axis(&sniper_x, multiplier);
+        div_mult_axis(&sniper_y, multiplier);
+        div_mult_axis(&sniper_h, multiplier);
+        div_mult_axis(&sniper_v, multiplier);
+    } else {
+        mult_mult_axis(&sniper_x, multiplier);
+        mult_mult_axis(&sniper_y, multiplier);
+        mult_mult_axis(&sniper_h, multiplier);
+        mult_mult_axis(&sniper_v, multiplier);
+    }
+}
+
 report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, report_mouse_t reportMouse2) {
     report_mouse_t ret_mouse;
 
-    if (enable_scale_2 || enable_scale_3 || enable_scale_5) {
+    if (enable_scale_2 || enable_scale_3 || enable_scale_5 ||
+        enable_boost_2 || enable_boost_3 || enable_boost_5) {
         reportMouse1.x = add_to_axis(&sniper_x, reportMouse1.x);
         reportMouse1.y = add_to_axis(&sniper_y, reportMouse1.y);
         reportMouse1.h = add_to_axis(&sniper_h, reportMouse1.h);
@@ -447,6 +465,18 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 enable_scale_5 = true;
                 handle_sniper_key(true, 5);
                 return false;
+            case SV_BOOST_2:
+                enable_boost_2 = true;
+                handle_boost_key(true, 2);
+                return false;
+            case SV_BOOST_3:
+                enable_boost_3 = true;
+                handle_boost_key(true, 3);
+                return false;
+            case SV_BOOST_5:
+                enable_boost_5 = true;
+                handle_boost_key(true, 5);
+                return false;
             case SV_SCROLL_HOLD:
                 scroll_hold = true;
                 return false;
@@ -492,6 +522,18 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             case SV_SNIPER_5:
                 enable_scale_5 = false;
                 handle_sniper_key(false, 5);
+                return false;
+            case SV_BOOST_2:
+                enable_boost_2 = false;
+                handle_boost_key(false, 2);
+                return false;
+            case SV_BOOST_3:
+                enable_boost_3 = false;
+                handle_boost_key(false, 3);
+                return false;
+            case SV_BOOST_5:
+                enable_boost_5 = false;
+                handle_boost_key(false, 5);
                 return false;
             case SV_SCROLL_HOLD:
                 scroll_hold = false;
