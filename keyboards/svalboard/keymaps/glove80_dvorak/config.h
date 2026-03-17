@@ -30,3 +30,7 @@
 #undef TAPPING_TERM
 #endif
 #define TAPPING_TERM 225
+
+// The thumb Down switch is held back briefly so a firm press can resolve to
+// DoubleDown without emitting Down first.
+#define THUMB_DOUBLEDOWN_GRACE_MS 50
