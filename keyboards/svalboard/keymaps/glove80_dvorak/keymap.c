@@ -138,12 +138,14 @@ enum layer {
     MBO = MH_AUTO_BUTTONS_LAYER,
 };
 
+/* Thumb layer-taps: tap sends the key, hold activates the layer. */
 #define TH_NUM  LT(NUM, KC_DEL)
 #define TH_NAV  LT(NAV, KC_SPACE)
 #define TH_FUNC LT(FUNC, KC_ENTER)
 #define TH_MBO  LT(MBO, KC_TAB)
 #define TH_SYM  LT(SYM, KC_BSPC)
 #define TH_SYS  LT(SYS, KC_ESC)
+/* Tap toggles KVM; hold activates SYS layer. KC_NO tap is intercepted. */
 #define KVM_SYS LT(SYS, KC_NO)
 
 enum custom_keycodes {
@@ -169,13 +171,18 @@ enum custom_keycodes {
 
 static bool app_switch_active = false;
 static bool app_switch_added_gui = false;
+/* Track nested layer-tap holds so TYPING overlay is only removed/restored
+ * at the outermost boundary during app switching. */
 static uint8_t app_switch_layer_tap_depth = 0;
+/* Bitmask of mods currently pinning the automouse layer open on MBO. */
 static uint8_t mbo_mouse_layer_mods = 0;
 
 static bool is_app_switch_layer_tap(uint16_t keycode) {
   return IS_QK_LAYER_TAP(keycode);
 }
 
+/* Send the RCTL-RCTL-{1|2} sequence expected by the KVM switch,
+ * then flip the tracked machine and update the LED indicator. */
 static void trigger_kvm_switch(void) {
   tap_code(KC_RCTL);
   tap_code(KC_RCTL);
@@ -184,11 +191,15 @@ static void trigger_kvm_switch(void) {
   update_layer_indicator(get_highest_layer(layer_state), false);
 }
 
+/* tap_code16 + 1ms pause so macOS registers multi-key selection macros. */
 static void tap_code16_wait(uint16_t keycode) {
   tap_code16(keycode);
   wait_ms(1);
 }
 
+/* MBO modifier that pins the automouse layer while held but does NOT reset
+ * the timeout on tap.  Plain KC_L* mods would call mouse_mode(true) via
+ * keymap_support.c on every press, extending the timeout even for taps. */
 static bool handle_mouse_layer_mod(keyrecord_t *record, uint8_t mod_bit) {
   if (record->event.pressed) {
     register_mods(mod_bit);
@@ -215,6 +226,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     register_weak_mods(MOD_BIT(KC_LGUI));
   }
 
+  /* While the app switcher is open, layer-tap keys (e.g. TH_NAV) would
+   * activate layers under the TYPING overlay. Temporarily drop TYPING
+   * so the target layer becomes visible, and restore it on release. */
   if (app_switch_active && keycode != SV_APP_SWITCH &&
       is_app_switch_layer_tap(keycode)) {
     if (record->event.pressed) {
@@ -254,6 +268,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
+    /* Selection macros: move cursor to deselect, select word/line, or
+     * extend an existing selection by one word/line. */
     case SV_SELECT_NONE:
       if (record->event.pressed) {
         tap_code16_wait(KC_DOWN);
@@ -309,6 +325,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case SV_MBO_CTL:
       return handle_mouse_layer_mod(record, MOD_BIT(KC_LCTL));
 
+    /* Layer locks: toggle a layer on/off independent of the layer-tap. */
     case SV_LOCK_NAV:
       if (record->event.pressed) {
         layer_lock_invert(NAV);
@@ -351,7 +368,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case KVM_SYS:
+    case KVM_SYS: /* tap = KVM switch, hold = SYS layer (handled by LT) */
       if (!record->event.pressed && record->tap.count) {
         trigger_kvm_switch();
         return false;
@@ -547,6 +564,9 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*LT*/ SV_LOCK_MBO    , SV_LOCK_SYM    , KC_TRNS, SV_LOCK_SYS   , SV_LOCK_CLEAR   , KC_TRNS
     ),
 
+    /* TYPING: overlay activated during app-switch to unmask home-row mods
+     * so Cmd+Tab/arrow work. Center keys emit plain letters; most others
+     * are transparent so the base layer still handles them. */
     [TYPING] = LAYOUT(
         /*     Center            North    East     South    West     Double */
         /*R1*/ KC_H            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
