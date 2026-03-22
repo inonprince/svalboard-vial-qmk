@@ -1,7 +1,7 @@
 [
   {
-    "name": "Svalboard QWERTY Layout",
-    "author": "Morgan Venable",
+    "name": "Svalboard inonio Layout",
+    "author": "Inon Prince",
     "notes": "Trackpoint-enabled versions can use Automousekeys for mouse buttons, shown in red.",
     "background": {
       "name": "ABS WA",
@@ -627,7 +627,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "\u2303\nsv extend line\n<\n",
+    "hypr\nsv extend line\n<\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -639,7 +639,7 @@
       ],
       "a": 4
     },
-    "\u2325\n\n\n.",
+    "\u21e7\u2318\u2325\n\n\n.",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [

@@ -1,0 +1,298 @@
+[
+  {
+    "name": "Svalboard inonio Layout",
+    "author": "Inon Prince",
+    "notes": "Trackpoint-enabled versions can use Automousekeys for mouse buttons, shown in red.",
+    "background": {
+      "name": "ABS WA",
+      "style": "background-image: url('/bg/plastic/abs-wa.jpg');"
+    },
+    "radii": "10"
+  },
+  [
+    {
+      "x": 3.5,
+      "c": "#303030",
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00",
+      "fa": [
+        7,
+        4,
+        0,
+        2
+      ]
+    },
+    "W\n@\n\nF4",
+    {
+      "x": 2.25
+    },
+    "E\n#\n\nF6",
+    {
+      "x": 7.25
+    },
+    "I\n*\n\nF8",
+    {
+      "x": 2.25
+    },
+    "O\n(\n\nF10"
+  ],
+  [
+    {
+      "x": 2.5,
+      "t": "#ffffff"
+    },
+    "Esc",
+    {
+      "t": "#ffffff\n#3b64ff"
+    },
+    "S\n2",
+    {
+      "t": "#ffffff\n\n\n#f9ff00"
+    },
+    "B\n\n\nNumLk",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff"
+    },
+    "`\n<",
+    {
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "D\n3\n\nMou",
+    {
+      "t": "#ffffff\n#3b64ff"
+    },
+    "T\n>",
+    {
+      "x": 5.25,
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "Y\n^\n\nEnd",
+    "K\n8\n\nNav",
+    {
+      "t": "#ffffff\n#3b64ff"
+    },
+    ":\n:",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "N\n;\n\nInsert",
+    "L\n9\n\nPrtSc",
+    "Win\nWin\n\nWin"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 1.25
+    },
+    "Q\n!\n\nF2",
+    {
+      "x": 6.75
+    },
+    "R\n$\n\nUp",
+    {
+      "x": 2.5
+    },
+    "U\n&\n\nUp",
+    {
+      "x": 7
+    },
+    "P\n)\n\nPgUp"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 3.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        7,
+        4,
+        1,
+        2
+      ]
+    },
+    "X\nx\nMB2\nF3",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3f3f\n#f9ff00"
+    },
+    "C\n%\nMB3\nF5",
+    {
+      "x": 7.25,
+      "t": "#ffffff\n#3b64ff\n#ff0000\n#f9ff00"
+    },
+    ",\n,\nMB3\nF7",
+    {
+      "x": 2.25
+    },
+    ".\n.\nMB2\nF9"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 0.25,
+      "t": "#ffffff"
+    },
+    "Del",
+    {
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "A\n1\n\nMode",
+    "[\n~\n\nScroll",
+    {
+      "x": 4.75,
+      "t": "#ffffff\n\n\n#f9ff00"
+    },
+    "\"\n\n\nLeft",
+    {
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "F\n4\n\nHome",
+    "G\n5\n\nRight",
+    {
+      "x": 0.5
+    },
+    "H\n6\n\nLeft",
+    "J\n7\n\nHome",
+    "'\n_\n\nRight",
+    {
+      "x": 5
+    },
+    "]\n]\n\nF11",
+    ";\n0\n\nPause",
+    {
+      "t": "#ffffff\n\n\n#f9ff00"
+    },
+    "\\\n\n\nF12"
+  ],
+  [
+    {
+      "x": 1.25,
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00"
+    },
+    "Z\n=\n\nF1",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3939\n#f9ff00"
+    },
+    "V\n-\nMB1\nDown",
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff0000\n#f9ff00"
+    },
+    "M\n+\nMB1\nDown",
+    {
+      "x": 1.25,
+      "t": "#ff3f3f",
+      "a": 7,
+      "f": 3,
+      "w": 1.5,
+      "h": 1.25
+    },
+    "Trackpoint",
+    {
+      "x": 4.25,
+      "t": "#ffffff\n#3b64ff\n\n#f9ff00",
+      "a": 4,
+      "fa": [
+        0,
+        4,
+        1,
+        2
+      ]
+    },
+    "/\n?\n\nPgDn"
+  ],
+  [
+    {
+      "y": 0.5,
+      "x": 7.5,
+      "t": "#ffffff",
+      "fa": [
+        9
+      ],
+      "h": 2
+    },
+    "↵",
+    {
+      "w": 1.5
+    },
+    "⇪",
+    {
+      "a": 5,
+      "fa": [
+        7,
+        9
+      ]
+    },
+    "⇤\n⇥",
+    {
+      "x": 0.75,
+      "a": 4,
+      "fa": [
+        9
+      ]
+    },
+    "⌫",
+    {
+      "t": "#4a5eff",
+      "a": 7,
+      "w": 1.5
+    },
+    "",
+    {
+      "t": "#ffffff",
+      "a": 4,
+      "h": 2
+    },
+    "␣"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 6,
+      "fa": [
+        7
+      ],
+      "w": 2
+    },
+    "Normal",
+    {
+      "x": 6.75,
+      "t": "#daff00",
+      "w": 2
+    },
+    "Func"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 8.5,
+      "t": "#ffffff",
+      "fa": [
+        9
+      ],
+      "w": 1.5
+    },
+    "⇧",
+    {
+      "fa": [
+        7
+      ]
+    },
+    "Ctrl",
+    {
+      "x": 0.75
+    },
+    "Alt",
+    {
+      "t": "#4a5eff",
+      "fa": [
+        7,
+        1
+      ],
+      "w": 1.5
+    },
+    "NAS\n(x2 to lock)"
+  ]
+]
