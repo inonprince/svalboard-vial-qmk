@@ -154,6 +154,10 @@ enum custom_keycodes {
     SV_SELECT_LINE,
     SV_EXTEND_LINE,
     SV_TRIPLE_GRAVE,
+    SV_MBO_SFT,
+    SV_MBO_GUI,
+    SV_MBO_ALT,
+    SV_MBO_CTL,
     SV_LOCK_NAV,
     SV_LOCK_NUM,
     SV_LOCK_SYM,
@@ -166,6 +170,7 @@ enum custom_keycodes {
 static bool app_switch_active = false;
 static bool app_switch_added_gui = false;
 static uint8_t app_switch_layer_tap_depth = 0;
+static uint8_t mbo_mouse_layer_mods = 0;
 
 static bool is_app_switch_layer_tap(uint16_t keycode) {
   return IS_QK_LAYER_TAP(keycode);
@@ -182,6 +187,26 @@ static void trigger_kvm_switch(void) {
 static void tap_code16_wait(uint16_t keycode) {
   tap_code16(keycode);
   wait_ms(1);
+}
+
+static bool handle_mouse_layer_mod(keyrecord_t *record, uint8_t mod_bit) {
+  if (record->event.pressed) {
+    register_mods(mod_bit);
+    if (!(mbo_mouse_layer_mods & mod_bit) && (layer_state & (1 << MH_AUTO_BUTTONS_LAYER))) {
+      mouse_keys_pressed++;
+      mbo_mouse_layer_mods |= mod_bit;
+    }
+  } else {
+    unregister_mods(mod_bit);
+    if (mbo_mouse_layer_mods & mod_bit) {
+      if (mouse_keys_pressed > 0) {
+        mouse_keys_pressed--;
+      }
+      mbo_mouse_layer_mods &= ~mod_bit;
+    }
+  }
+
+  return false;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -271,6 +296,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("```");
       }
       return false;
+
+    case SV_MBO_SFT:
+      return handle_mouse_layer_mod(record, MOD_BIT(KC_LSFT));
+
+    case SV_MBO_GUI:
+      return handle_mouse_layer_mod(record, MOD_BIT(KC_LGUI));
+
+    case SV_MBO_ALT:
+      return handle_mouse_layer_mod(record, MOD_BIT(KC_LALT));
+
+    case SV_MBO_CTL:
+      return handle_mouse_layer_mod(record, MOD_BIT(KC_LCTL));
 
     case SV_LOCK_NAV:
       if (record->event.pressed) {
@@ -544,10 +581,10 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [MBO] = LAYOUT(
         /*     Center                  North    East     South       West     Double */
-        /*R1*/ KC_LSFT               , SV_LEFT_DPI_DEC        , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
-        /*R2*/ KC_LGUI               , SV_LEFT_DPI_INC        , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
-        /*R3*/ KC_LALT               , SV_LEFT_SCROLL_TOGGLE  , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
-        /*R4*/ KC_LCTL               , KC_TRNS                , KC_TRNS, SV_BOOST_2   , KC_TRNS, KC_NO ,
+        /*R1*/ SV_MBO_SFT            , SV_LEFT_DPI_DEC        , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
+        /*R2*/ SV_MBO_GUI            , SV_LEFT_DPI_INC        , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*R3*/ SV_MBO_ALT            , SV_LEFT_SCROLL_TOGGLE  , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
+        /*R4*/ SV_MBO_CTL            , KC_TRNS                , KC_TRNS, SV_BOOST_2   , KC_TRNS, KC_NO ,
         /*L1*/ KC_TRNS               , SV_RIGHT_DPI_DEC       , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
         /*L2*/ KC_TRNS               , SV_RIGHT_DPI_INC       , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
         /*L3*/ KC_TRNS               , SV_RIGHT_SCROLL_TOGGLE , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
