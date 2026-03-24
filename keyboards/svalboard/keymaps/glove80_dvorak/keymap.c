@@ -457,7 +457,7 @@ static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_RETRO_TAPPING, 0);
   set_qmk_setting_u16(QSID_QUICK_TAP_TERM, 300);
   set_qmk_setting_u8(QSID_CHORDAL_HOLD, 1);
-  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 150);
+  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 80);
 }
 #endif
 
@@ -480,8 +480,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
-        /*RT*/ TH_NUM          , TH_NAV          , SV_APP_SWITCH , TH_FUNC           , SGUI(KC_LALT)   , KC_LSFT ,
-        /*LT*/ TH_MBO          , TH_SYM          , KVM_SYS       , TH_SYS            , KC_HYPR         , SV_CAPS_WORD
+        /*RT*/ TH_NUM          , TH_NAV          , KVM_SYS       , TH_FUNC           , SGUI(KC_LALT)   , KC_LSFT ,
+        /*LT*/ TH_MBO          , TH_SYM          , SV_APP_SWITCH , TH_SYS            , KC_HYPR         , SV_CAPS_WORD
     ),
 
     [NAV] = LAYOUT(
@@ -579,8 +579,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ KC_A            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
 
         /*     Down            Pad      Up             Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, SV_APP_SWITCH, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_TRNS       , KC_TRNS, KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS
+        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS ,
+        /*LT*/ KC_TRNS       , KC_TRNS, SV_APP_SWITCH , KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
     [BOARD_CONFIG] = LAYOUT(
