@@ -90,12 +90,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static bool kvm_next_is_two = false;
 
-/* RGBLIGHT_LAYERS: KVM indicator on left LED (index 0) only.
+/* RGBLIGHT_LAYERS: KVM indicator on right LED (index 1) only.
  * Lighting layer 0 = machine 1 (white), layer 1 = machine 2 (blue).
  * The enabled_layer_mask is split-synced, so the slave applies the
  * override inside rgblight_set() → rgblight_layers_write(). */
-const rgblight_segment_t PROGMEM kvm_one_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0x00, 0x00, 0xFF});
-const rgblight_segment_t PROGMEM kvm_two_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0xAA, 0xFF, 0xFF});
+const rgblight_segment_t PROGMEM kvm_one_seg[] = RGBLIGHT_LAYER_SEGMENTS({1, 1, 0x00, 0x00, 0xFF});
+const rgblight_segment_t PROGMEM kvm_two_seg[] = RGBLIGHT_LAYER_SEGMENTS({1, 1, 0xAA, 0xFF, 0xFF});
 
 const rgblight_segment_t * const PROGMEM kvm_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     kvm_one_seg,
@@ -112,7 +112,7 @@ static void update_layer_indicator(uint32_t layer, bool save) {
   rgblight_set_layer_state(0, !kvm_next_is_two);
   rgblight_set_layer_state(1, kvm_next_is_two);
 
-  /* Base color on both LEDs; rgblight_layers_write() then overrides LED 0. */
+  /* Base color on both LEDs; rgblight_layers_write() then overrides LED 1. */
   sval_set_active_layer(layer, save);
 }
 
@@ -480,8 +480,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
-        /*RT*/ TH_NUM          , TH_NAV          , KVM_SYS       , TH_FUNC           , SGUI(KC_LALT)   , KC_LSFT ,
-        /*LT*/ TH_MBO          , TH_SYM          , SV_APP_SWITCH , TH_SYS            , KC_HYPR         , SV_CAPS_WORD
+        /*RT*/ TH_NUM          , TH_NAV          , KVM_SYS       , TH_FUNC           , LCAG(KC_NO)     , KC_LSFT ,
+        /*LT*/ TH_MBO          , TH_SYM          , SV_APP_SWITCH , TH_SYS            , LCAG(KC_NO)     , SV_CAPS_WORD
     ),
 
     [NAV] = LAYOUT(
