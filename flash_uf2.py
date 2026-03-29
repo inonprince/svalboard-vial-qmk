@@ -118,6 +118,16 @@ def flash(firmware_path, drive_path):
     print("Done! The board should reboot automatically.")
 
 
+def wait_for_disconnect():
+    """Wait for the RP2040 bootloader drive to disappear."""
+    print("Disconnect the keyboard...")
+    while find_rp2040_drive() is not None:
+        time.sleep(POLL_INTERVAL_SECONDS)
+    time.sleep(1)
+    print("Put the other side into bootloader mode now.")
+    time.sleep(1)
+
+
 def wait_and_flash(firmware_path):
     """Acquire the bootloader drive and flash the firmware."""
     existing_drive = find_rp2040_drive()
@@ -127,6 +137,7 @@ def wait_and_flash(firmware_path):
     else:
         drive = wait_for_drive()
         print(f"Detected {BOOTLOADER_VOLUME} at {drive}")
+        time.sleep(1)
         flash(firmware_path, drive)
 
 
@@ -163,6 +174,8 @@ def main():
             if flash_left:
                 wait_and_flash(left_path)
             if flash_right:
+                if flash_left:
+                    wait_for_disconnect()
                 wait_and_flash(right_path)
             return
         confirm_file(firmware)
