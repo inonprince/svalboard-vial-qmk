@@ -5,6 +5,7 @@ Waits for the RP2040 bootloader drive to appear, then copies the firmware file t
 """
 
 import argparse
+import re
 import shutil
 import sys
 import termios
@@ -43,6 +44,51 @@ def find_newest_uf2(directory):
     return uf2_files[0]
 
 
+def _match_case(source, target):
+    """Apply the case pattern of source to target."""
+    if source.islower():
+        return target.lower()
+    if source.isupper():
+        return target.upper()
+    if source[0].isupper():
+        return target.capitalize()
+    return target.lower()
+
+
+def detect_side(filename):
+    """Detect if a filename contains a 'left' or 'right' side indicator."""
+    name_lower = filename.lower()
+    if "left" in name_lower:
+        return "left"
+    if "right" in name_lower:
+        return "right"
+    return None
+
+
+def find_paired_file(firmware_path):
+    """Find the other-side file matching this firmware.
+
+    Returns (left_path, right_path) if a pair exists, else None.
+    """
+    name = firmware_path.name
+    side = detect_side(name)
+    if side is None:
+        return None
+
+    if side == "left":
+        other_name = re.sub(r"(?i)left", lambda m: _match_case(m.group(), "right"), name)
+    else:
+        other_name = re.sub(r"(?i)right", lambda m: _match_case(m.group(), "left"), name)
+
+    other_path = firmware_path.parent / other_name
+    if not other_path.exists():
+        return None
+
+    if side == "left":
+        return firmware_path, other_path
+    return other_path, firmware_path
+
+
 def read_single_key():
     """Read a single keypress without waiting for Enter."""
     fd = sys.stdin.fileno()
@@ -72,6 +118,18 @@ def flash(firmware_path, drive_path):
     print("Done! The board should reboot automatically.")
 
 
+def wait_and_flash(firmware_path):
+    """Acquire the bootloader drive and flash the firmware."""
+    existing_drive = find_rp2040_drive()
+    if existing_drive:
+        print(f"Found {BOOTLOADER_VOLUME} already mounted.")
+        flash(firmware_path, existing_drive)
+    else:
+        drive = wait_for_drive()
+        print(f"Detected {BOOTLOADER_VOLUME} at {drive}")
+        flash(firmware_path, drive)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Flash a UF2 firmware file to an RP2040 board.")
     parser.add_argument("firmware", type=Path, help="Path to a .uf2 file or a directory containing .uf2 files")
@@ -84,19 +142,34 @@ def main():
 
     if firmware.is_dir():
         firmware = find_newest_uf2(firmware)
+        pair = find_paired_file(firmware)
+        if pair:
+            left_path, right_path = pair
+
+            print(f"Left side:  \033[1;32m{left_path.name}\033[0m")
+            print("Flash left side? [Y/n] ", end="", flush=True)
+            key = read_single_key().lower()
+            print(key)
+            flash_left = key in ("y", "\r", "\n")
+
+            print(f"Right side: \033[1;32m{right_path.name}\033[0m")
+            print("Flash right side? [Y/n] ", end="", flush=True)
+            key = read_single_key().lower()
+            print(key)
+            flash_right = key in ("y", "\r", "\n")
+
+            if not flash_left and not flash_right:
+                sys.exit("Aborted.")
+            if flash_left:
+                wait_and_flash(left_path)
+            if flash_right:
+                wait_and_flash(right_path)
+            return
         confirm_file(firmware)
     elif firmware.suffix.lower() != ".uf2":
         sys.exit(f"Error: expected a .uf2 file, got {firmware.suffix}")
 
-    existing_drive = find_rp2040_drive()
-    if existing_drive:
-        print(f"Found {BOOTLOADER_VOLUME} already mounted.")
-        flash(firmware, existing_drive)
-        return
-
-    drive = wait_for_drive()
-    print(f"Detected {BOOTLOADER_VOLUME} at {drive}")
-    flash(firmware, drive)
+    wait_and_flash(firmware)
 
 
 if __name__ == "__main__":
