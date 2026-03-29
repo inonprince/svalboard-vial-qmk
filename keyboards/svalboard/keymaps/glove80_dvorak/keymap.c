@@ -480,8 +480,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
-        /*RT*/ TH_NUM          , TH_NAV          , KVM_SYS       , TH_FUNC           , SGUI(KC_LALT)   , KC_LSFT ,
-        /*LT*/ TH_MBO          , TH_SYM          , SV_APP_SWITCH , TH_SYS            , KC_HYPR         , SV_CAPS_WORD
+        /*RT*/ TH_NUM          , TH_NAV          , KVM_SYS       , TH_FUNC           , LCAG(KC_NO)     , KC_CAPS ,
+        /*LT*/ TH_MBO          , TH_SYM          , SV_APP_SWITCH , TH_SYS            , LCAG(KC_NO)     , SV_CAPS_WORD
     ),
 
     [NAV] = LAYOUT(
