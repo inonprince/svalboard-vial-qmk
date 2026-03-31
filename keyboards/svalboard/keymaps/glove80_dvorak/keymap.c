@@ -454,7 +454,7 @@ static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_RETRO_TAPPING, 0);
   set_qmk_setting_u16(QSID_QUICK_TAP_TERM, 300);
   set_qmk_setting_u8(QSID_CHORDAL_HOLD, 1);
-  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 80);
+  set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 60);
 }
 #endif
 
