@@ -221,11 +221,6 @@ static bool handle_mouse_layer_mod(keyrecord_t *record, uint8_t mod_bit) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (app_switch_active && app_switch_added_gui && keycode != SV_APP_SWITCH &&
-      record->event.pressed) {
-    register_weak_mods(MOD_BIT(KC_LGUI));
-  }
-
   /* While the app switcher is open, layer-tap keys (e.g. TH_NAV) would
    * activate layers under the TYPING overlay. Temporarily drop TYPING
    * so the target layer becomes visible, and restore it on release. */
@@ -248,18 +243,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!app_switch_active) {
           uint8_t mods = get_mods() | get_weak_mods();
 
-          // Hold a plain-typing overlay and Cmd while the switcher stays open.
+          // Hold a plain-typing overlay and a real Cmd modifier while the
+          // switcher stays open, so the host sees the same held-mod pattern as
+          // a physical keyboard.
           layer_on(TYPING);
           app_switch_added_gui = (mods & MOD_MASK_GUI) == 0;
           if (app_switch_added_gui) {
-            register_weak_mods(MOD_BIT(KC_LGUI));
+            register_mods(MOD_BIT(KC_LGUI));
           }
           tap_code(KC_TAB);
           app_switch_active = true;
         }
       } else if (app_switch_active) {
         if (app_switch_added_gui) {
-          unregister_weak_mods(MOD_BIT(KC_LGUI));
+          unregister_mods(MOD_BIT(KC_LGUI));
         }
         layer_off(TYPING);
         app_switch_layer_tap_depth = 0;
