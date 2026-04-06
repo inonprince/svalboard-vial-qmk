@@ -365,10 +365,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case KVM_SYS: /* tap = KVM switch, hold = SYS layer (handled by LT) */
+    case KVM_SYS: /* tap = KVM switch, hold = SYS layer + swap trackballs */
       if (!record->event.pressed && record->tap.count) {
         trigger_kvm_switch();
         return false;
+      }
+      if (!record->tap.count) {
+        scroll_hold = record->event.pressed;
       }
       return true;
   }
