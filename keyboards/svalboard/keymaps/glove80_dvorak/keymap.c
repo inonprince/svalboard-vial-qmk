@@ -278,29 +278,65 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case SV_SELECT_WORD:
       if (record->event.pressed) {
-        tap_code16_wait(WORD_RIGHT);
-        tap_code16_wait(WORD_LEFT);
-        tap_code16(SEL_WORD_RIGHT);
+        uint8_t sw_mods = get_mods() | get_oneshot_mods();
+        clear_mods();
+        clear_oneshot_mods();
+        if (sw_mods & MOD_MASK_SHIFT) {
+          tap_code16_wait(WORD_LEFT);
+          tap_code16_wait(WORD_RIGHT);
+          tap_code16(SEL_WORD_LEFT);
+        } else {
+          tap_code16_wait(WORD_RIGHT);
+          tap_code16_wait(WORD_LEFT);
+          tap_code16(SEL_WORD_RIGHT);
+        }
+        set_mods(sw_mods & ~MOD_MASK_SHIFT);
       }
       return false;
 
     case SV_EXTEND_WORD:
       if (record->event.pressed) {
-        tap_code16(SEL_WORD_RIGHT);
+        uint8_t ew_mods = get_mods() | get_oneshot_mods();
+        clear_mods();
+        clear_oneshot_mods();
+        if (ew_mods & MOD_MASK_SHIFT) {
+          tap_code16(SEL_WORD_LEFT);
+        } else {
+          tap_code16(SEL_WORD_RIGHT);
+        }
+        set_mods(ew_mods & ~MOD_MASK_SHIFT);
       }
       return false;
 
     case SV_SELECT_LINE:
       if (record->event.pressed) {
-        tap_code16_wait(LINE_START);
-        tap_code16(SEL_LINE_END);
+        uint8_t sl_mods = get_mods() | get_oneshot_mods();
+        clear_mods();
+        clear_oneshot_mods();
+        if (sl_mods & MOD_MASK_SHIFT) {
+          tap_code16_wait(LINE_END);
+          tap_code16(SEL_LINE_START);
+        } else {
+          tap_code16_wait(LINE_START);
+          tap_code16(SEL_LINE_END);
+        }
+        set_mods(sl_mods & ~MOD_MASK_SHIFT);
       }
       return false;
 
     case SV_EXTEND_LINE:
       if (record->event.pressed) {
-        tap_code16_wait(SEL_DOWN);
-        tap_code16(SEL_LINE_END);
+        uint8_t el_mods = get_mods() | get_oneshot_mods();
+        clear_mods();
+        clear_oneshot_mods();
+        if (el_mods & MOD_MASK_SHIFT) {
+          tap_code16_wait(S(KC_UP));
+          tap_code16(SEL_LINE_START);
+        } else {
+          tap_code16_wait(SEL_DOWN);
+          tap_code16(SEL_LINE_END);
+        }
+        set_mods(el_mods & ~MOD_MASK_SHIFT);
       }
       return false;
 
@@ -377,6 +413,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   return true;
+}
+
+/* Caps Word continuation: letters get shifted, digits/hyphen/underscore/
+ * backspace/delete continue without breaking.  Unlike the QMK default,
+ * KC_MINS stays as a plain hyphen (not shifted to underscore). */
+bool caps_word_press_user(uint16_t keycode) {
+  switch (keycode) {
+    case KC_A ... KC_Z:
+      add_weak_mods(MOD_BIT(KC_LSFT));
+      return true;
+    case KC_1 ... KC_0:
+    case KC_BSPC:
+    case KC_DEL:
+    case KC_UNDS:
+    case KC_MINS:
+      return true;
+    default:
+      return false;
+  }
 }
 
 #ifdef QMK_SETTINGS
