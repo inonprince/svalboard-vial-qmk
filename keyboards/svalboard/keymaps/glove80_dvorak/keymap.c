@@ -197,6 +197,35 @@ static void tap_code16_wait(uint16_t keycode) {
   wait_ms(1);
 }
 
+/* Hold-to-repeat state for SV_EXTEND_WORD / SV_EXTEND_LINE. */
+static uint16_t sel_repeat_keycode = 0;
+static uint16_t sel_repeat_timer = 0;
+static uint8_t  sel_repeat_mods = 0;
+static bool     sel_repeat_started = false;
+#define SEL_REPEAT_DELAY    400
+#define SEL_REPEAT_INTERVAL 60
+
+static void fire_extend_macro(uint16_t keycode, uint8_t mods) {
+  uint8_t saved = get_mods();
+  clear_mods();
+  bool leftward = mods & MOD_MASK_SHIFT;
+  switch (keycode) {
+    case SV_EXTEND_WORD:
+      tap_code16(leftward ? SEL_WORD_LEFT : SEL_WORD_RIGHT);
+      break;
+    case SV_EXTEND_LINE:
+      if (leftward) {
+        tap_code16_wait(S(KC_UP));
+        tap_code16(SEL_LINE_START);
+      } else {
+        tap_code16_wait(SEL_DOWN);
+        tap_code16(SEL_LINE_END);
+      }
+      break;
+  }
+  set_mods(saved);
+}
+
 /* MBO modifier that pins the automouse layer while held but does NOT reset
  * the timeout on tap.  Plain KC_L* mods would call mouse_mode(true) via
  * keymap_support.c on every press, extending the timeout even for taps. */
@@ -290,21 +319,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           tap_code16_wait(WORD_LEFT);
           tap_code16(SEL_WORD_RIGHT);
         }
-        set_mods(sw_mods & ~MOD_MASK_SHIFT);
+        set_mods(sw_mods);
       }
       return false;
 
     case SV_EXTEND_WORD:
       if (record->event.pressed) {
         uint8_t ew_mods = get_mods() | get_oneshot_mods();
-        clear_mods();
-        clear_oneshot_mods();
-        if (ew_mods & MOD_MASK_SHIFT) {
-          tap_code16(SEL_WORD_LEFT);
-        } else {
-          tap_code16(SEL_WORD_RIGHT);
-        }
-        set_mods(ew_mods & ~MOD_MASK_SHIFT);
+        fire_extend_macro(SV_EXTEND_WORD, ew_mods);
+        sel_repeat_keycode = SV_EXTEND_WORD;
+        sel_repeat_mods = ew_mods;
+        sel_repeat_timer = timer_read();
+        sel_repeat_started = false;
+      } else {
+        sel_repeat_keycode = 0;
       }
       return false;
 
@@ -320,23 +348,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           tap_code16_wait(LINE_START);
           tap_code16(SEL_LINE_END);
         }
-        set_mods(sl_mods & ~MOD_MASK_SHIFT);
+        set_mods(sl_mods);
       }
       return false;
 
     case SV_EXTEND_LINE:
       if (record->event.pressed) {
         uint8_t el_mods = get_mods() | get_oneshot_mods();
-        clear_mods();
-        clear_oneshot_mods();
-        if (el_mods & MOD_MASK_SHIFT) {
-          tap_code16_wait(S(KC_UP));
-          tap_code16(SEL_LINE_START);
-        } else {
-          tap_code16_wait(SEL_DOWN);
-          tap_code16(SEL_LINE_END);
-        }
-        set_mods(el_mods & ~MOD_MASK_SHIFT);
+        fire_extend_macro(SV_EXTEND_LINE, el_mods);
+        sel_repeat_keycode = SV_EXTEND_LINE;
+        sel_repeat_mods = el_mods;
+        sel_repeat_timer = timer_read();
+        sel_repeat_started = false;
+      } else {
+        sel_repeat_keycode = 0;
       }
       return false;
 
@@ -685,4 +710,15 @@ void keyboard_post_init_user(void) {
     sval_init_defaults();
   }
 #endif
+}
+
+void matrix_scan_user(void) {
+  if (sel_repeat_keycode) {
+    uint16_t threshold = sel_repeat_started ? SEL_REPEAT_INTERVAL : SEL_REPEAT_DELAY;
+    if (timer_elapsed(sel_repeat_timer) > threshold) {
+      fire_extend_macro(sel_repeat_keycode, sel_repeat_mods);
+      sel_repeat_timer = timer_read();
+      sel_repeat_started = true;
+    }
+  }
 }
