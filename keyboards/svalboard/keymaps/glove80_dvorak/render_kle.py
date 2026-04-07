@@ -144,10 +144,13 @@ KEY_LABELS = {
     "KC_RSFT": "⇧",
     "KC_CAPS": "caps",
     "KC_CAPSLOCK": "caps",
+    "KC_NUM": "numlk",
     "KC_NUMLOCK": "numlk",
+    "KC_SCRL": "scrlk",
     "KC_SCROLLLOCK": "scrlk",
     "KC_PAUSE": "pause",
     "KC_APP": "menu",
+    "KC_PSCR": "prtsc",
     "KC_PSCREEN": "prtsc",
     "KC_WHOM": "home",
     "KC_CALC": "calc",
@@ -221,8 +224,20 @@ MOD_PREFIXES = {
     "SGUI": ["⇧", "⌘"],
     "LSA": ["⇧", "⌥"],
     "LCA": ["⌃", "⌥"],
+    "LCAG": ["⌃", "⌥", "⌘"],
     "HYPR": ["⌃", "⇧", "⌥", "⌘"],
     "MEH": ["⌃", "⇧", "⌥"],
+}
+
+OSM_MOD_LABELS = {
+    "MOD_LSFT": "1s⇧",
+    "MOD_RSFT": "1s⇧",
+    "MOD_LCTL": "1s⌃",
+    "MOD_RCTL": "1s⌃",
+    "MOD_LALT": "1s⌥",
+    "MOD_RALT": "1s⌥",
+    "MOD_LGUI": "1s⌘",
+    "MOD_RGUI": "1s⌘",
 }
 
 CUSTOM_LABEL_OVERRIDES = {
@@ -245,6 +260,26 @@ CUSTOM_LABEL_OVERRIDES = {
     "SV_TOGGLE_AUTOMOUSE": "auto ms",
     "SV_TURBO_SCAN": "turbo",
     "SV_APP_SWITCH": "app sw",
+    "SV_SELECT_NONE": "desel",
+    "SV_SELECT_WORD": "sel wd",
+    "SV_EXTEND_WORD": "ext wd",
+    "SV_SELECT_LINE": "sel ln",
+    "SV_EXTEND_LINE": "ext ln",
+    "SV_TRIPLE_GRAVE": "```",
+    "SV_MBO_SFT": "⇧",
+    "SV_MBO_GUI": "⌘",
+    "SV_MBO_ALT": "⌥",
+    "SV_MBO_CTL": "⌃",
+    "SV_LOCK_NAV": "🔒NAV",
+    "SV_LOCK_NUM": "🔒NUM",
+    "SV_LOCK_SYM": "🔒SYM",
+    "SV_LOCK_FUNC": "🔒FN",
+    "SV_LOCK_SYS": "🔒SYS",
+    "SV_LOCK_MBO": "🔒MBO",
+    "SV_LOCK_CLEAR": "🔒clr",
+    "SV_BOOST_2": "boost2",
+    "SV_BOOST_3": "boost3",
+    "QK_REPEAT_KEY": "rpt",
 }
 
 
@@ -427,11 +462,16 @@ def normalize_name(token: str) -> str:
 
 
 def resolve_layer_name(raw: str, layers: dict[str, int]) -> str:
+    """Return a human-readable layer label.  Prefer the symbolic name."""
     raw = raw.strip()
-    if raw.isdigit():
-        return raw
     if raw in layers:
-        return str(layers[raw])
+        return raw
+    if raw.isdigit():
+        index = int(raw)
+        index_to_name = {v: k for k, v in layers.items()}
+        if index in index_to_name:
+            return index_to_name[index]
+        return raw
     return raw
 
 
@@ -463,11 +503,17 @@ def format_key(token: str, defines: dict[str, str], layers: dict[str, int], cust
 
     if func == "LT" and len(args) == 2:
         tap = format_key(args[1], defines, layers, custom_labels)
-        hold = f"LT {resolve_layer_name(args[0], layers)}"
-        return hold if not tap else f"{tap} ({hold})"
+        layer = resolve_layer_name(args[0], layers)
+        return layer if not tap else f"{tap} ({layer})"
 
     if func == "MO" and len(args) == 1:
         return f"MO {resolve_layer_name(args[0], layers)}"
+
+    if func == "TO" and len(args) == 1:
+        return f"TO {resolve_layer_name(args[0], layers)}"
+
+    if func == "TG" and len(args) == 1:
+        return f"TG {resolve_layer_name(args[0], layers)}"
 
     if func in MOD_TAP_NAMES and len(args) == 1:
         tap = format_key(args[0], defines, layers, custom_labels)
@@ -488,6 +534,10 @@ def format_key(token: str, defines: dict[str, str], layers: dict[str, int], cust
         inner = format_key(args[0], defines, layers, custom_labels)
         mods = "".join(MOD_PREFIXES[func])
         return mods if not inner else f"{mods}{inner}"
+
+    if func == "OSM" and len(args) == 1:
+        mod = args[0].strip()
+        return OSM_MOD_LABELS.get(mod, f"1s{normalize_name(mod)}")
 
     return format_plain_key(token, custom_labels)
 

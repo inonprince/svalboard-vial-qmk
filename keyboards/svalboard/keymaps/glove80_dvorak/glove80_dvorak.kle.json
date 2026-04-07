@@ -94,7 +94,7 @@
       ],
       "a": 4
     },
-    "X\n\u21e7\u2318G\n)\nsv triple grave",
+    "X\n\u21e7\u2318G\n)\n```",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -313,7 +313,7 @@
       ],
       "a": 4
     },
-    "del\nosm(mod lsft)\n/\n",
+    "del\n1s\u21e7\n/\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -415,7 +415,7 @@
       ],
       "a": 4
     },
-    "qk repeat key\n\u2192\n\u2318A\n;",
+    "rpt\n\u2192\n\u2318A\n;",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -512,7 +512,7 @@
       "h": 2,
       "a": 4
     },
-    "bksp (LT 3)\nsv select word\n0\nsv lock sym",
+    "bksp (SYM)\nsel wd\n0\n\ud83d\udd12SYM",
     {
       "w": 1.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -524,7 +524,7 @@
       ],
       "a": 4
     },
-    "capswd\nsv select none\n>\n",
+    "capswd\ndesel\n>\n",
     {
       "a": 4,
       "fa": [
@@ -535,7 +535,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "esc (LT 5)\nsv extend word\n,\n",
+    "esc (SYS)\next wd\n,\n",
     {
       "x": 0.75,
       "a": 4,
@@ -547,7 +547,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "ent (LT 4)\n\n\n\\",
+    "ent (FUNC)\n\n\n\\",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
@@ -559,7 +559,7 @@
         2
       ]
     },
-    "\u21e7\n\n\n*",
+    "caps\n\n\n*",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
@@ -571,7 +571,7 @@
         2
       ]
     },
-    "spc (LT 1)\nsv lock nav\n\n%"
+    "spc (NAV)\n\ud83d\udd12NAV\n\n%"
   ],
   [
     {
@@ -587,7 +587,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "LT 5\n\u2318A\n=\n",
+    "SYS\n\u2318A\n=\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -616,7 +616,7 @@
       "w": 1.5,
       "a": 4
     },
-    "tab (LT 15)\nsv select line\n.\n",
+    "tab (MBO)\nsel ln\n.\n",
     {
       "fa": [
         4,
@@ -627,7 +627,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "hypr\nsv extend line\n<\n",
+    "\u2303\u2325\u2318\next ln\n<\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -639,7 +639,7 @@
       ],
       "a": 4
     },
-    "\u21e7\u2318\u2325\n\n\n.",
+    "\u2303\u2325\u2318\n\n\n.",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -651,6 +651,6 @@
       "w": 1.5,
       "a": 4
     },
-    "del (LT 2)\n\nsv lock num\n:"
+    "del (NUM)\n\n\ud83d\udd12NUM\n:"
   ]
 ]
