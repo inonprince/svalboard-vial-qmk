@@ -58,8 +58,14 @@ the thumb Down switch for a configurable grace window
 (`THUMB_DOUBLEDOWN_GRACE_MS`, default 70 ms in `config.h`). If DoubleDown
 fires within the window, only DoubleDown is reported. If Down is released
 before the window expires (a quick tap), the suppressed press is replayed
-via a synthetic hold so the debouncer still registers it. This prevents
-accidental Down events when the intent is a firm DoubleDown press.
+via a synthetic hold (`THUMB_TAP_REPLAY_MS`, 10 ms) so the debouncer still
+registers it. If the grace window expires and the key is still held, the
+state machine enters DOWN_COMMITTED and passes the real key through. If
+the user releases within `THUMB_TAP_REPLAY_MS` of entering DOWN_COMMITTED
+(before the debouncer can confirm the press), a synthetic replay is used
+instead to guarantee the tap registers. This prevents accidental Down
+events when the intent is a firm DoubleDown press, while ensuring no taps
+are swallowed during rapid typing.
 
 #### MBO modifiers that don't extend automouse timeout
 
@@ -88,6 +94,21 @@ NAV layer left thumb cluster provides one-tap text selection:
 | `SV_EXTEND_LINE` | Extend selection by one line |
 | `SV_SELECT_NONE` | Deselect (move cursor to collapse selection) |
 | `SV_TRIPLE_GRAVE` | Type ` ``` ` (Markdown code fence) |
+
+All four selection/extend macros are **shift-aware**: holding Shift reverses
+the direction (e.g. select word to the left instead of right). Modifiers are
+saved and restored so held Shift persists across repeated taps.
+
+`SV_EXTEND_WORD` and `SV_EXTEND_LINE` support **hold-to-repeat**: hold the
+key and the selection grows continuously (400 ms initial delay, then every
+60 ms). The repeat direction is locked at press time. Repeat is cancelled
+on layer change.
+
+#### Caps Word continuation
+
+`caps_word_press_user` overrides the QMK default so Caps Word continues
+across hyphens (without shifting them to underscore), digits, Backspace,
+and Delete. This matches the Glove80 Caps Word behavior.
 
 #### Pointer boost keycodes
 

@@ -46,5 +46,13 @@ See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_to
 ## Bootloader
 To enter bootloader mode, simply double tap reset in 500ms or less.  The device will come up as a mass storage device titled RPI-RP2.  Drag the desired UF2 file to the drive and it will immediately reboot and enumerate as Svalboard.
 
+## Custom keymaps
+
+- **[glove80_dvorak](keymaps/glove80_dvorak/README.md)** — A Dvorak keymap
+  ported from a Glove80 layout. Includes macOS home-row mods, shift-aware
+  selection macros with hold-to-repeat, an app-switcher with TYPING overlay,
+  KVM switch control, layer locks, and a thumb Down/DoubleDown grace-period
+  state machine. See the keymap README for full documentation.
+
 ## Svalboard-specific firmware features
 See [Svalboard firmware features](docs/firmware_features.md) pages for information.
