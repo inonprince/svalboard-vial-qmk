@@ -90,6 +90,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static bool kvm_next_is_two = false;
 
+/* Hold-to-repeat state for SV_EXTEND_WORD / SV_EXTEND_LINE. */
+static uint16_t sel_repeat_keycode = 0;
+static uint16_t sel_repeat_timer = 0;
+static uint8_t  sel_repeat_mods = 0;
+static bool     sel_repeat_started = false;
+#define SEL_REPEAT_DELAY    400
+#define SEL_REPEAT_INTERVAL 60
+
 /* RGBLIGHT_LAYERS: KVM indicator on left LED (index 0) only.
  * Lighting layer 0 = machine 1 (white), layer 1 = machine 2 (blue).
  * The enabled_layer_mask is split-synced, so the slave applies the
@@ -122,6 +130,7 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+  sel_repeat_keycode = 0;
   update_layer_indicator(get_highest_layer(state), false);
   return state;
 }
@@ -197,17 +206,10 @@ static void tap_code16_wait(uint16_t keycode) {
   wait_ms(1);
 }
 
-/* Hold-to-repeat state for SV_EXTEND_WORD / SV_EXTEND_LINE. */
-static uint16_t sel_repeat_keycode = 0;
-static uint16_t sel_repeat_timer = 0;
-static uint8_t  sel_repeat_mods = 0;
-static bool     sel_repeat_started = false;
-#define SEL_REPEAT_DELAY    400
-#define SEL_REPEAT_INTERVAL 60
-
 static void fire_extend_macro(uint16_t keycode, uint8_t mods) {
   uint8_t saved = get_mods();
   clear_mods();
+  clear_oneshot_mods();
   bool leftward = mods & MOD_MASK_SHIFT;
   switch (keycode) {
     case SV_EXTEND_WORD:
