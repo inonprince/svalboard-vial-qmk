@@ -101,6 +101,18 @@ bool enable_boost_5 = false;
 static bool scroll_hold    = false,
             scroll_toggle  = false;
 
+static void sync_scroll_swap_dpi(void) {
+#ifdef SVALBOARD_SWAP_DPI_WITH_SCROLL_SWAP
+    if (scroll_hold != scroll_toggle) {
+        set_left_dpi(global_saved_values.right_dpi_index);
+        set_right_dpi(global_saved_values.left_dpi_index);
+    } else {
+        set_left_dpi(global_saved_values.left_dpi_index);
+        set_right_dpi(global_saved_values.right_dpi_index);
+    }
+#endif
+}
+
 
 #define AXIS_LOCK_BREAKAWAY_THRESHOLD 18750
 #define AXIS_LOCK_ENGAGE_THRESHOLD 6250
@@ -413,15 +425,19 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
             case SV_LEFT_DPI_INC:
                 increase_left_dpi();
+                sync_scroll_swap_dpi();
                 return false;
             case SV_LEFT_DPI_DEC:
                 decrease_left_dpi();
+                sync_scroll_swap_dpi();
                 return false;
             case SV_RIGHT_DPI_INC:
                 increase_right_dpi();
+                sync_scroll_swap_dpi();
                 return false;
             case SV_RIGHT_DPI_DEC:
                 decrease_right_dpi();
+                sync_scroll_swap_dpi();
                 return false;
             case SV_LEFT_SCROLL_TOGGLE:
                 global_saved_values.left_scroll = !global_saved_values.left_scroll;
@@ -479,6 +495,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 return false;
             case SV_SCROLL_HOLD:
                 scroll_hold = true;
+                sync_scroll_swap_dpi();
                 return false;
             case SV_SCROLL_TOGGLE:
                 return false;
@@ -537,9 +554,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 return false;
             case SV_SCROLL_HOLD:
                 scroll_hold = false;
+                sync_scroll_swap_dpi();
                 return false;
             case SV_SCROLL_TOGGLE:
                 scroll_toggle ^= true;
+                sync_scroll_swap_dpi();
                 return false;
         }
     }

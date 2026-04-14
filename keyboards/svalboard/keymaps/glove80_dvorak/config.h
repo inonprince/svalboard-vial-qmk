@@ -34,3 +34,7 @@
 // The thumb Down switch is held back briefly so a firm press can resolve to
 // DoubleDown without emitting Down first.
 #define THUMB_DOUBLEDOWN_GRACE_MS 70
+
+// When the temporary scroll swap is active, swap the physical CPI settings too
+// so the pointer and scroller keep their usual sensitivities.
+#define SVALBOARD_SWAP_DPI_WITH_SCROLL_SWAP

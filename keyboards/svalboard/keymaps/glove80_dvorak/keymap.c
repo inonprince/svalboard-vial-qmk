@@ -435,6 +435,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       if (!record->tap.count) {
         scroll_hold = record->event.pressed;
+        sync_scroll_swap_dpi();
       }
       return true;
   }

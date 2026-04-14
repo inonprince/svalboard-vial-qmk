@@ -49,7 +49,8 @@ machine 2. The indicator is split-synced across halves.
 
 While `KVM_SYS` is held (SYS layer active), the `scroll_hold` flag is set,
 which swaps trackball behavior (cursor ↔ scroll) for the duration of the
-hold.
+hold. The physical CPI settings are swapped for the same duration, so the
+pointer and scroller keep their usual sensitivities.
 
 #### Thumb Down / DoubleDown grace period
 
