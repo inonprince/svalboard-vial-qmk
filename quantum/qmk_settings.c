@@ -289,6 +289,10 @@ uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     return QS.tapping_term;
 }
 
+__attribute__((weak)) uint16_t qmk_settings_get_quick_tap_term_user(uint16_t keycode, keyrecord_t *record, uint16_t quick_tap_term) {
+    return quick_tap_term;
+}
+
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     return QS_tapping_permissive_hold;
 }
@@ -298,7 +302,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    return QS.quick_tap_term;
+    return qmk_settings_get_quick_tap_term_user(keycode, record, QS.quick_tap_term);
 }
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {

@@ -157,6 +157,10 @@ enum layer {
 /* Tap toggles KVM; hold activates SYS layer. KC_NO tap is intercepted. */
 #define KVM_SYS LT(SYS, KC_NO)
 
+#define THUMB_QUICK_TAP_TERM 300
+#define SPACE_QUICK_TAP_TERM 150
+#define BACKSPACE_QUICK_TAP_TERM 150
+
 enum custom_keycodes {
     SV_APP_SWITCH = QK_KB_20,
     SV_SELECT_NONE,
@@ -463,6 +467,19 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 
 #ifdef QMK_SETTINGS
+uint16_t qmk_settings_get_quick_tap_term_user(uint16_t keycode, keyrecord_t *record, uint16_t quick_tap_term) {
+  (void)record;
+
+  switch (keycode) {
+    case TH_NAV:
+      return SPACE_QUICK_TAP_TERM;
+    case TH_SYM:
+      return BACKSPACE_QUICK_TAP_TERM;
+    default:
+      return quick_tap_term;
+  }
+}
+
 enum qmk_setting_id {
     QSID_GRAVE_ESC_OVERRIDE = 1,
     QSID_COMBO_TERM = 2,
@@ -512,7 +529,8 @@ static void set_qmk_setting_u32(uint16_t qsid, uint32_t value) {
  * - PERMISSIVE_HOLD to mimic ZMK's hold-trigger-on-release behavior
  * - CHORDAL_HOLD to reject same-hand HRM chords
  * - FLOW_TAP_TERM to approximate ZMK's require-prior-idle streak decay
- * - a longer QUICK_TAP_TERM to preserve tap-then-hold repeat behavior
+ * - a longer default QUICK_TAP_TERM to preserve tap-then-hold repeat behavior
+ *   on thumb layer-taps, with shorter Space/Backspace overrides above
  */
 static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_GRAVE_ESC_OVERRIDE, 0);
@@ -538,7 +556,7 @@ static void sync_runtime_qmk_settings(void) {
   set_qmk_setting_u8(QSID_PERMISSIVE_HOLD, 1);
   set_qmk_setting_u8(QSID_HOLD_ON_OTHER_KEY_PRESS, 0);
   set_qmk_setting_u8(QSID_RETRO_TAPPING, 0);
-  set_qmk_setting_u16(QSID_QUICK_TAP_TERM, 300);
+  set_qmk_setting_u16(QSID_QUICK_TAP_TERM, THUMB_QUICK_TAP_TERM);
   set_qmk_setting_u8(QSID_CHORDAL_HOLD, 1);
   set_qmk_setting_u16(QSID_FLOW_TAP_TERM, 60);
 }

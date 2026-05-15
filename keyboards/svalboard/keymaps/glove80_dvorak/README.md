@@ -130,7 +130,10 @@ settings. Key values:
 - `PERMISSIVE_HOLD` enabled
 - `CHORDAL_HOLD` enabled (rejects same-hand home-row-mod chords)
 - `FLOW_TAP_TERM` 60 ms
-- `QUICK_TAP_TERM` 300 ms
+- default `QUICK_TAP_TERM` 300 ms
+- Space and Backspace thumb layer-taps override quick-tap to 150 ms, matching
+  the Glove80 `SPACE_REPEAT_DECAY` window so tap-then-hold repeat has to be
+  very fast on those keys
 
 ### Tools
 

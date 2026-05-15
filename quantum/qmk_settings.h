@@ -152,6 +152,7 @@ int qmk_settings_get(uint16_t qsid, void *setting, size_t maxsz);
 int qmk_settings_set(uint16_t qsid, const void *setting, size_t maxsz);
 
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record);
+uint16_t qmk_settings_get_quick_tap_term_user(uint16_t keycode, keyrecord_t *record, uint16_t quick_tap_term);
 
 extern qmk_settings_t QS;
 
