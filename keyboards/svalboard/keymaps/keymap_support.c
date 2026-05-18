@@ -102,16 +102,58 @@ static bool scroll_hold    = false,
             scroll_toggle  = false;
 
 static void sync_scroll_swap_dpi(void) {
-#ifdef SVALBOARD_SWAP_DPI_WITH_SCROLL_SWAP
-    if (scroll_hold != scroll_toggle) {
-        set_left_dpi(global_saved_values.right_dpi_index);
-        set_right_dpi(global_saved_values.left_dpi_index);
-    } else {
-        set_left_dpi(global_saved_values.left_dpi_index);
-        set_right_dpi(global_saved_values.right_dpi_index);
-    }
+#ifdef SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
+    set_left_dpi(global_saved_values.left_dpi_index);
+    set_right_dpi(global_saved_values.right_dpi_index);
 #endif
 }
+
+static bool scroll_roles_inverted(void) {
+    return scroll_hold != scroll_toggle;
+}
+
+#ifdef SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
+static int32_t scale_dpi_value(int32_t value, uint16_t source_dpi, uint16_t target_dpi) {
+    if (value == 0 || source_dpi == 0 || source_dpi == target_dpi) {
+        return value;
+    }
+
+    int32_t scaled = value * target_dpi;
+    if (scaled >= 0) {
+        scaled += source_dpi / 2;
+    } else {
+        scaled -= source_dpi / 2;
+    }
+    return scaled / source_dpi;
+}
+
+static mouse_xy_report_t clamp_xy_report(int32_t value) {
+    if (value < MOUSE_REPORT_XY_MIN) {
+        return MOUSE_REPORT_XY_MIN;
+    }
+    if (value > MOUSE_REPORT_XY_MAX) {
+        return MOUSE_REPORT_XY_MAX;
+    }
+    return value;
+}
+
+static mouse_hv_report_t clamp_hv_report(int32_t value) {
+    if (value < MOUSE_REPORT_HV_MIN) {
+        return MOUSE_REPORT_HV_MIN;
+    }
+    if (value > MOUSE_REPORT_HV_MAX) {
+        return MOUSE_REPORT_HV_MAX;
+    }
+    return value;
+}
+
+static void scale_report_dpi(report_mouse_t *report, uint16_t source_dpi, uint16_t target_dpi) {
+    report->x = clamp_xy_report(scale_dpi_value(report->x, source_dpi, target_dpi));
+    report->y = clamp_xy_report(scale_dpi_value(report->y, source_dpi, target_dpi));
+    report->h = clamp_hv_report(scale_dpi_value(report->h, source_dpi, target_dpi));
+    report->v = clamp_hv_report(scale_dpi_value(report->v, source_dpi, target_dpi));
+}
+#endif
 
 
 #define AXIS_LOCK_BREAKAWAY_THRESHOLD 18750
@@ -230,6 +272,16 @@ void handle_boost_key(bool pressed, uint8_t multiplier) {
 
 report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, report_mouse_t reportMouse2) {
     report_mouse_t ret_mouse;
+    bool roles_inverted = scroll_roles_inverted();
+    uint16_t left_dpi = get_left_dpi();
+    uint16_t right_dpi = get_right_dpi();
+#ifdef SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
+    uint16_t left_role_dpi = roles_inverted ? right_dpi : left_dpi;
+    uint16_t right_role_dpi = roles_inverted ? left_dpi : right_dpi;
+#else
+    uint16_t left_role_dpi = left_dpi;
+    uint16_t right_role_dpi = right_dpi;
+#endif
 
     if (enable_scale_2 || enable_scale_3 || enable_scale_5 ||
         enable_boost_2 || enable_boost_3 || enable_boost_5) {
@@ -244,10 +296,17 @@ report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, r
         reportMouse2.v = add_to_axis(&sniper_v, reportMouse2.v);
     }
 
+#ifdef SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
+    if (roles_inverted) {
+        scale_report_dpi(&reportMouse1, left_dpi, left_role_dpi);
+        scale_report_dpi(&reportMouse2, right_dpi, right_role_dpi);
+    }
+#endif
+
     if (reportMouse1.x == 0 && reportMouse1.y == 0 && reportMouse2.x == 0 && reportMouse2.y == 0)
         return pointing_device_combine_reports(reportMouse1, reportMouse2);
 
-    if ((global_saved_values.left_scroll != scroll_hold) != scroll_toggle) {
+    if (global_saved_values.left_scroll != roles_inverted) {
         reportMouse1.h = add_to_axis(&l_x, reportMouse1.x);
         reportMouse1.v = add_to_axis(&l_y, -reportMouse1.y);
 
@@ -255,7 +314,7 @@ report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, r
         reportMouse1.x = 0;
         reportMouse1.y = 0;
     }
-    if ((global_saved_values.right_scroll != scroll_hold) != scroll_toggle) {
+    if (global_saved_values.right_scroll != roles_inverted) {
         reportMouse2.h = add_to_axis(&r_x, reportMouse2.x);
         reportMouse2.v = add_to_axis(&r_y, -reportMouse2.y);
 
@@ -269,10 +328,10 @@ report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, r
     }
 
     if (scroll_timer_running) {
-        m_scroll_accumulator_h += ((int32_t)reportMouse1.h * 100000) / get_left_dpi();
-	m_scroll_accumulator_v += ((int32_t)reportMouse1.v * 100000) / get_left_dpi();
-	m_scroll_accumulator_h += ((int32_t)reportMouse2.h * 100000) / get_right_dpi();
-	m_scroll_accumulator_v += ((int32_t)reportMouse2.v * 100000) / get_right_dpi();
+        m_scroll_accumulator_h += ((int32_t)reportMouse1.h * 100000) / left_role_dpi;
+	m_scroll_accumulator_v += ((int32_t)reportMouse1.v * 100000) / left_role_dpi;
+	m_scroll_accumulator_h += ((int32_t)reportMouse2.h * 100000) / right_role_dpi;
+	m_scroll_accumulator_v += ((int32_t)reportMouse2.v * 100000) / right_role_dpi;
 
         scroll_accumulator_h += reportMouse1.h + reportMouse2.h;
         scroll_accumulator_v += reportMouse1.v + reportMouse2.v;

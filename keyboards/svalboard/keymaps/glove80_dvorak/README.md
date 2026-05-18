@@ -50,8 +50,9 @@ on boot.
 
 While `KVM_SYS` is held (SYS layer active), the `scroll_hold` flag is set,
 which swaps trackball behavior (cursor ↔ scroll) for the duration of the
-hold. The physical CPI settings are swapped for the same duration, so the
-pointer and scroller keep their usual sensitivities.
+hold. When the roles are swapped, each trackball's report is scaled to match
+the other role's saved DPI, so the pointer and scroller keep their usual
+sensitivities without waiting for split CPI updates.
 
 #### Thumb Down / DoubleDown grace period
 

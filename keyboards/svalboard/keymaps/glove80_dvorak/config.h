@@ -35,6 +35,6 @@
 // DoubleDown without emitting Down first.
 #define THUMB_DOUBLEDOWN_GRACE_MS 70
 
-// When the temporary scroll swap is active, swap the physical CPI settings too
-// so the pointer and scroller keep their usual sensitivities.
-#define SVALBOARD_SWAP_DPI_WITH_SCROLL_SWAP
+// When the temporary scroll swap is active, scale each physical trackball's
+// report so the pointer and scroller keep their usual sensitivities.
+#define SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
