@@ -42,8 +42,9 @@ the TYPING overlay so the target layer becomes visible.
 `KVM_SYS` key (left thumb Up): tap sends the `RCtrl RCtrl {1|2}` hotkey
 sequence expected by a connected KVM switch and flips the tracked machine.
 Hold activates the SYS layer. An RGBLIGHT layer-based LED indicator on
-LED index 0 shows the current machine: white for machine 1, blue for
-machine 2. The indicator is split-synced across halves.
+LED index 0 shows the current machine: blue for machine 1, white for
+machine 2. The indicator is split-synced across halves and starts blue
+on boot.
 
 #### Trackball swap on KVM_SYS hold
 

@@ -88,7 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LCBR S(KC_LBRC)
 #define RCBR S(KC_RBRC)
 
-static bool kvm_next_is_two = false;
+static bool kvm_current_is_two = false;
 
 /* Hold-to-repeat state for SV_EXTEND_WORD / SV_EXTEND_LINE. */
 static uint16_t sel_repeat_keycode = 0;
@@ -98,16 +98,16 @@ static bool     sel_repeat_started = false;
 #define SEL_REPEAT_DELAY    400
 #define SEL_REPEAT_INTERVAL 60
 
-/* RGBLIGHT_LAYERS: KVM indicator on left LED (index 0) only.
- * Lighting layer 0 = machine 1 (white), layer 1 = machine 2 (blue).
+/* RGBLIGHT_LAYERS: KVM current-machine indicator on left LED (index 0) only.
+ * Lighting layer 0 = machine 2 (white), layer 1 = machine 1 (blue).
  * The enabled_layer_mask is split-synced, so the slave applies the
  * override inside rgblight_set() → rgblight_layers_write(). */
-const rgblight_segment_t PROGMEM kvm_one_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0x00, 0x00, 0xFF});
-const rgblight_segment_t PROGMEM kvm_two_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0xAA, 0xFF, 0xFF});
+const rgblight_segment_t PROGMEM kvm_two_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0x00, 0x00, 0xFF});
+const rgblight_segment_t PROGMEM kvm_one_seg[] = RGBLIGHT_LAYER_SEGMENTS({0, 1, 0xAA, 0xFF, 0xFF});
 
 const rgblight_segment_t * const PROGMEM kvm_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    kvm_one_seg,
-    kvm_two_seg
+    kvm_two_seg,
+    kvm_one_seg
 );
 
 static void update_layer_indicator(uint32_t layer, bool save) {
@@ -117,8 +117,8 @@ static void update_layer_indicator(uint32_t layer, bool save) {
 
   /* Toggle KVM lighting layers before setting base color, so
    * rgblight_layers_write() inside rgblight_set() sees the new mask. */
-  rgblight_set_layer_state(0, !kvm_next_is_two);
-  rgblight_set_layer_state(1, kvm_next_is_two);
+  rgblight_set_layer_state(0, kvm_current_is_two);
+  rgblight_set_layer_state(1, !kvm_current_is_two);
 
   /* Base color on both LEDs; rgblight_layers_write() then overrides LED 0. */
   sval_set_active_layer(layer, save);
@@ -199,8 +199,8 @@ static bool is_app_switch_layer_tap(uint16_t keycode) {
 static void trigger_kvm_switch(void) {
   tap_code(KC_RCTL);
   tap_code(KC_RCTL);
-  tap_code(kvm_next_is_two ? KC_2 : KC_1);
-  kvm_next_is_two = !kvm_next_is_two;
+  tap_code(kvm_current_is_two ? KC_1 : KC_2);
+  kvm_current_is_two = !kvm_current_is_two;
   update_layer_indicator(get_highest_layer(layer_state), false);
 }
 
@@ -720,7 +720,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
 void keyboard_post_init_user(void) {
   rgblight_layers = kvm_rgb_layers;
-  rgblight_set_layer_state(0, true); /* machine 1 (green) active at boot */
+  update_layer_indicator(0, false);
 
 #ifdef QMK_SETTINGS
   sync_runtime_qmk_settings();
