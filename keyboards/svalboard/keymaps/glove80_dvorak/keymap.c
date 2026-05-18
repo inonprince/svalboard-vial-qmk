@@ -158,8 +158,8 @@ enum layer {
 #define KVM_SYS LT(SYS, KC_NO)
 
 #define THUMB_QUICK_TAP_TERM 300
-#define SPACE_QUICK_TAP_TERM 150
-#define BACKSPACE_QUICK_TAP_TERM 150
+#define SPACE_QUICK_TAP_TERM 80
+#define BACKSPACE_QUICK_TAP_TERM 80
 
 enum custom_keycodes {
     SV_APP_SWITCH = QK_KB_20,
