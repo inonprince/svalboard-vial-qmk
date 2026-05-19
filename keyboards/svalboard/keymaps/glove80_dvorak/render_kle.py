@@ -279,6 +279,7 @@ CUSTOM_LABEL_OVERRIDES = {
     "SV_LOCK_CLEAR": "🔒clr",
     "SV_BOOST_2": "boost2",
     "SV_BOOST_3": "boost3",
+    "SV_BOOST_5": "boost5",
     "QK_REPEAT_KEY": "rpt",
 }
 

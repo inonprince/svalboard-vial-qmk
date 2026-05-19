@@ -82,6 +82,21 @@
         "name": "SV_SNIPER_5"
       },
       {
+        "shortName": "Boost\n2x",
+        "title": "Speed the cursor 2x more.",
+        "name": "SV_BOOST_2"
+      },
+      {
+        "shortName": "Boost\n3x",
+        "title": "Speed the cursor 3x more.",
+        "name": "SV_BOOST_3"
+      },
+      {
+        "shortName": "Boost\n5x",
+        "title": "Speed the cursor 5x more.",
+        "name": "SV_BOOST_5"
+      },
+      {
 	"shortName": "Scroll\nToggle\nHold",
 	"title": "Hold to toggle the scrolling mode of both pointers.",
 	"name": "SV_SCROLL_HOLD"

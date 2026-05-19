@@ -162,7 +162,7 @@ enum layer {
 #define BACKSPACE_QUICK_TAP_TERM 80
 
 enum custom_keycodes {
-    SV_APP_SWITCH = QK_KB_20,
+    SV_APP_SWITCH = SV_KEYMAP_SAFE_RANGE,
     SV_SELECT_NONE,
     SV_SELECT_WORD,
     SV_EXTEND_WORD,
