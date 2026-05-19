@@ -101,6 +101,56 @@ bool enable_boost_5 = false;
 static bool scroll_hold    = false,
             scroll_toggle  = false;
 
+#if defined(SVALBOARD_MOUSE_CLICK_GUARD_MS) && SVALBOARD_MOUSE_CLICK_GUARD_MS > 0
+static bool     mouse_click_guard_active = false;
+static uint16_t mouse_click_guard_timer  = 0;
+static int32_t  mouse_click_guard_x      = 0;
+static int32_t  mouse_click_guard_y      = 0;
+
+#    ifndef SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD
+#        define SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD 0
+#    endif
+
+static int32_t abs_i32(int32_t value) {
+    return value < 0 ? -value : value;
+}
+
+static void start_mouse_click_guard(void) {
+    mouse_click_guard_active = true;
+    mouse_click_guard_timer  = timer_read();
+    mouse_click_guard_x      = 0;
+    mouse_click_guard_y      = 0;
+}
+
+static void cancel_mouse_click_guard(void) {
+    mouse_click_guard_active = false;
+}
+
+static void apply_mouse_click_guard(report_mouse_t *left_report, report_mouse_t *right_report) {
+    if (!mouse_click_guard_active) {
+        return;
+    }
+
+    if (timer_elapsed(mouse_click_guard_timer) >= SVALBOARD_MOUSE_CLICK_GUARD_MS) {
+        cancel_mouse_click_guard();
+        return;
+    }
+
+    mouse_click_guard_x += (int32_t)left_report->x + right_report->x;
+    mouse_click_guard_y += (int32_t)left_report->y + right_report->y;
+
+    if (abs_i32(mouse_click_guard_x) + abs_i32(mouse_click_guard_y) > SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD) {
+        cancel_mouse_click_guard();
+        return;
+    }
+
+    left_report->x = 0;
+    left_report->y = 0;
+    right_report->x = 0;
+    right_report->y = 0;
+}
+#endif
+
 static void sync_scroll_swap_dpi(void) {
 #ifdef SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
     set_left_dpi(global_saved_values.left_dpi_index);
@@ -322,6 +372,10 @@ report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, r
         reportMouse2.y = 0;
     }
 
+#if defined(SVALBOARD_MOUSE_CLICK_GUARD_MS) && SVALBOARD_MOUSE_CLICK_GUARD_MS > 0
+    apply_mouse_click_guard(&reportMouse1, &reportMouse2);
+#endif
+
     if ((reportMouse1.h != 0 || reportMouse1.v != 0 || reportMouse2.h != 0 || reportMouse2.v != 0) && !scroll_timer_running) {
         scroll_timer_running = true;
         scroll_timer = timer_read();
@@ -479,6 +533,16 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
         }
     }
+
+#if defined(SVALBOARD_MOUSE_CLICK_GUARD_MS) && SVALBOARD_MOUSE_CLICK_GUARD_MS > 0
+    if (IS_MOUSEKEY_BUTTON(keycode)) {
+        if (record->event.pressed) {
+            start_mouse_click_guard();
+        } else {
+            cancel_mouse_click_guard();
+        }
+    }
+#endif
 
     if (record->event.pressed) { // key pressed
         switch (keycode) {

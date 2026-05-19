@@ -78,6 +78,15 @@ automouse layer open (via `mouse_keys_pressed`) without calling
 `mouse_mode(true)`, so tapping a modifier during automouse does not reset
 the inactivity timeout.
 
+#### Mouse click guard
+
+Mouse button keys start a short movement guard
+(`SVALBOARD_MOUSE_CLICK_GUARD_MS`, default 50 ms in `config.h`). During
+that guard, small pointer movement is discarded so clicking with the other
+hand is less likely to turn into a tiny drag. If movement exceeds
+`SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD` (default 12), the guard is canceled
+and dragging continues normally.
+
 #### Layer locks
 
 Custom keycodes `SV_LOCK_NAV` through `SV_LOCK_SYS`, `SV_LOCK_MBO`, and

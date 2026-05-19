@@ -38,3 +38,8 @@
 // When the temporary scroll swap is active, scale each physical trackball's
 // report so the pointer and scroller keep their usual sensitivities.
 #define SVALBOARD_SCALE_DPI_WITH_SCROLL_SWAP
+
+// When a mouse button key is pressed, briefly suppress tiny pointer motion so
+// click keys do not become accidental drags while the trackball hand settles.
+#define SVALBOARD_MOUSE_CLICK_GUARD_MS 50
+#define SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD 12
