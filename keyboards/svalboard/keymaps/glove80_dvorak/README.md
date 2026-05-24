@@ -87,6 +87,30 @@ hand is less likely to turn into a tiny drag. If movement exceeds
 `SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD` (default 12), the guard is canceled
 and dragging continues normally.
 
+#### Manual mouse-click keys with home-row-mod chording
+
+The right-hand R1 and R2 South positions are bound to `KC_BTN1` /
+`KC_BTN2` so the trackball can be clicked without engaging the automouse
+layer. The same buttons are mirrored on the MBO layer center column.
+
+With the click keys living on the right hand next to home-row-mod keys
+(`HM_T`, `HM_S`, ...), naive tap/hold resolution turned fast cmd-click
+into a literal `T + click`. Two narrow overrides fix this:
+
+- `get_chordal_hold` returns true when the other key is `KC_BTN1` or
+  `KC_BTN2`, so chordal-hold's same-hand rule does not filter the chord
+  out as a tap.
+- `get_hold_on_other_key_press` returns true only for the eight `HM_*`
+  keys, and only while a mouse-button press is flowing through the
+  pipeline (tracked via a flag set in `pre_process_record_user` and
+  cleared in `process_record_user`). Normal typing keeps its existing
+  permissive-hold timing.
+
+To let these keymap-level overrides win at link time, `get_chordal_hold`
+and `get_hold_on_other_key_press` are marked `__attribute__((weak))` in
+`quantum/qmk_settings.c`. Keymaps that don't override still get Vial's
+runtime `QS_tapping_*` settings unchanged.
+
 #### Layer locks
 
 Custom keycodes `SV_LOCK_NAV` through `SV_LOCK_SYS`, `SV_LOCK_MBO`, and
@@ -165,6 +189,13 @@ per-layer legends with color coding. Reads `keymap.c`, applies human-
 friendly label mappings (macOS modifier symbols, shortened names), and
 merges results into a KLE template.
 
+#### `generate_kle.sh`
+
+Convenience wrapper that runs `render_kle.py` twice: once for the primary
+cheat sheet (`glove80_dvorak.kle.json`, layers BASE/NAV/NUM/SYM) and once
+for a secondary sheet (`glove80_dvorak_secondary.kle.json`,
+layers TYPING/FUNC/SYS/MBO).
+
 #### `verify_sync.py`
 
 Checks that the KLE JSON stays in sync with `keymap.c`.
@@ -211,11 +242,15 @@ make svalboard/left:glove80_dvorak
 ## KLE export
 
 ```sh
-python3 keyboards/svalboard/keymaps/glove80_dvorak/render_kle.py \
-  --template keyboards/svalboard/keymaps/glove80_dvorak/svalboard-qwerty-layout.json \
-  --output keyboards/svalboard/keymaps/glove80_dvorak/glove80_dvorak.kle.json
+keyboards/svalboard/keymaps/glove80_dvorak/generate_kle.sh
 ```
 
-Legends are written as four newline-separated slots per key (BASE, NAV,
-NUM, SYM). Tap-hold keys render as `tap (hold)`. Modifier labels use
-compact macOS symbols (`⌃`, `⌥`, `⌘`, `⇧`).
+Renders both cheat sheets in place:
+`glove80_dvorak.kle.json` (BASE, NAV, NUM, SYM) and
+`glove80_dvorak_secondary.kle.json` (TYPING, FUNC, SYS, MBO).
+To render a custom layer set, call `render_kle.py` directly with
+`--layers`.
+
+Legends are written as four newline-separated slots per key. Tap-hold
+keys render as `tap (hold)`. Modifier labels use compact macOS symbols
+(`⌃`, `⌥`, `⌘`, `⇧`).
