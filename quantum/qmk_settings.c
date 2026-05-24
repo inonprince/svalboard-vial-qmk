@@ -297,7 +297,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     return QS_tapping_permissive_hold;
 }
 
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+__attribute__((weak)) bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     return QS_tapping_hold_on_other_key_press;
 }
 
@@ -336,7 +336,7 @@ bool get_auto_shift_no_auto_repeat(uint16_t keycode, keyrecord_t *record) {
     return QS_auto_shift_no_auto_repeat;
 }
 
-bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+__attribute__((weak)) bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
                       uint16_t other_keycode, keyrecord_t* other_record) {
     if (QS_tapping_chordal_hold)
         return get_chordal_hold_default(tap_hold_record, other_record);

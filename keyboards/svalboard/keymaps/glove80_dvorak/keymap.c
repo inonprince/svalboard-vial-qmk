@@ -255,7 +255,51 @@ static bool handle_mouse_layer_mod(keyrecord_t *record, uint8_t mod_bit) {
   return false;
 }
 
+/* When a mouse-button keycode is currently entering the tap-hold pipeline,
+ * force any pending home-row mod-tap to resolve as hold so cmd/shift/etc-click
+ * fires with the modifier instead of leaking the tap letter. */
+static bool mouse_btn_press_pending = false;
+
+static inline bool is_home_row_mod_tap(uint16_t keycode) {
+  switch (keycode) {
+    case HM_A: case HM_O: case HM_E: case HM_U:
+    case HM_H: case HM_T: case HM_N: case HM_S:
+      return true;
+    default:
+      return false;
+  }
+}
+
+/* Override chordal-hold so a same-hand mouse-button chord (HM_T + KC_BTN1,
+ * HM_S + KC_BTN2, ...) is not filtered out as "same hand → tap". Other key
+ * combinations keep the default handedness rule. */
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
+                      uint16_t other_keycode, keyrecord_t *other_record) {
+  if (other_keycode == KC_BTN1 || other_keycode == KC_BTN2) {
+    return true;
+  }
+  return get_chordal_hold_default(tap_hold_record, other_record);
+}
+
+/* Narrow HOLD_ON_OTHER_KEY_PRESS: only force hold when the "other key" being
+ * pressed right now is a mouse button. Normal typing rolls keep the user's
+ * forgiving permissive-hold / chordal-hold timing. */
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  return mouse_btn_press_pending && is_home_row_mod_tap(keycode);
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if ((keycode == KC_BTN1 || keycode == KC_BTN2) && record->event.pressed) {
+    mouse_btn_press_pending = true;
+  }
+  return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (keycode == KC_BTN1 || keycode == KC_BTN2) {
+    mouse_btn_press_pending = false;
+  }
+
   /* While the app switcher is open, layer-tap keys (e.g. TH_NAV) would
    * activate layers under the TYPING overlay. Temporarily drop TYPING
    * so the target layer becomes visible, and restore it on release. */
@@ -571,12 +615,12 @@ uint8_t sval_macros[] = {0};
 const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         /*     Center            North            East              South             West             Double */
-        /*R1*/ HM_H            , KC_G           , KC_F            , KC_M            , KC_D          , KC_NO ,
-        /*R2*/ HM_T            , KC_C           , KC_RBRC         , KC_W            , KC_LBRC       , KC_NO ,
+        /*R1*/ HM_H            , KC_G           , KC_F            , KC_BTN1         , KC_D          , KC_NO ,
+        /*R2*/ HM_T            , KC_C           , KC_W            , KC_BTN2         , KC_M          , KC_NO ,
         /*R3*/ HM_N            , KC_R           , KC_EQL          , KC_V            , KC_B          , KC_NO ,
         /*R4*/ HM_S            , KC_L           , KC_MINS         , KC_Z            , QK_REPEAT_KEY , KC_NO ,
         /*L1*/ HM_U            , KC_P           , KC_I            , KC_K            , KC_Y          , KC_NO ,
-        /*L2*/ HM_E            , KC_DOT         , S(KC_TAB)       , KC_J            , KC_GRV        , KC_NO ,
+        /*L2*/ HM_E            , KC_DOT         , KC_RBRC         , KC_J            , KC_LBRC       , KC_NO ,
         /*L3*/ HM_O            , KC_COMM        , KC_X            , KC_Q            , KC_ESC        , KC_NO ,
         /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
 
