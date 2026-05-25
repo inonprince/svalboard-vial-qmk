@@ -148,9 +148,9 @@ enum layer {
 };
 
 /* Thumb layer-taps: tap sends the key, hold activates the layer. */
-#define TH_NUM  LT(NUM, KC_DOT)
+#define TH_NUM  LT(NUM, KC_ENTER)
 #define TH_NAV  LT(NAV, KC_SPACE)
-#define TH_FUNC LT(FUNC, KC_ENTER)
+#define TH_FUNC LT(FUNC, KC_EQL)
 #define TH_MBO  LT(MBO, KC_TAB)
 #define TH_SYM  LT(SYM, KC_BSPC)
 #define TH_SYS  LT(SYS, KC_ESC)
@@ -575,12 +575,12 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*     Center            North            East              South             West            Double */
         /*R1*/ HM_H            , KC_G           , KC_F            , KC_BTN1         , KC_D          , KC_NO ,
         /*R2*/ HM_T            , KC_C           , KC_W            , KC_BTN2         , KC_M          , KC_NO ,
-        /*R3*/ HM_N            , KC_R           , KC_EQL          , KC_V            , KC_B          , KC_NO ,
+        /*R3*/ HM_N            , KC_R           , KC_SLSH         , KC_V            , KC_B          , KC_NO ,
         /*R4*/ HM_S            , KC_L           , KC_NO           , KC_Z            , QK_REPEAT_KEY , KC_NO ,
         /*L1*/ HM_U            , KC_P           , KC_I            , KC_K            , KC_Y          , KC_NO ,
-        /*L2*/ HM_E            , KC_QUOT        , KC_COMM         , KC_J            , DQUO          , KC_NO ,
+        /*L2*/ HM_E            , KC_COMM        , KC_DOT          , KC_J            , DQUO          , KC_NO ,
         /*L3*/ HM_O            , KC_MINS        , KC_X            , KC_Q            , KC_DEL        , KC_NO ,
-        /*L4*/ HM_A            , KC_SCLN        , KC_SLSH         , COLN            , KC_NO         , KC_NO ,
+        /*L4*/ HM_A            , KC_QUOT        , KC_SCLN         , COLN            , KC_NO         , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
         /*RT*/ TH_NUM          , TH_NAV          , SV_APP_SWITCH       , TH_FUNC           , LCAG(KC_NO)     , KC_CAPS ,

@@ -34,7 +34,7 @@
       ],
       "a": 4
     },
-    "'\n\u21e7\u2318Z\n8\ndel",
+    ",\n\u21e7\u2318Z\n8\ndel",
     {
       "x": 7.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -128,7 +128,7 @@
       ],
       "a": 4
     },
-    ",\n\u2318G\n:\n`",
+    ".\n\u2318G\n:\n`",
     {
       "x": 5.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -196,7 +196,7 @@
       ],
       "a": 4
     },
-    "=\npgup\n\u21e7\u2318G\n~"
+    "/\npgup\n\u21e7\u2318G\n~"
   ],
   [
     {
@@ -211,7 +211,7 @@
       ],
       "a": 4
     },
-    ";\ntab\n*\nesc",
+    "'\ntab\n*\nesc",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -335,7 +335,7 @@
       ],
       "a": 4
     },
-    "/\n\n/\n",
+    ";\n\n/\n",
     {
       "x": 4.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -547,7 +547,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "ent (FUNC)\n\n\n\\",
+    "= (FUNC)\n\n\n\\",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
@@ -651,6 +651,6 @@
       "w": 1.5,
       "a": 4
     },
-    ". (NUM)\n\n\ud83d\udd12NUM\n:"
+    "ent (NUM)\n\n\ud83d\udd12NUM\n:"
   ]
 ]
