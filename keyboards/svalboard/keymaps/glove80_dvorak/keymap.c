@@ -578,9 +578,9 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R3*/ HM_N            , KC_R           , KC_EQL          , KC_V            , KC_B          , KC_NO ,
         /*R4*/ HM_S            , KC_L           , KC_MINS         , KC_Z            , QK_REPEAT_KEY , KC_NO ,
         /*L1*/ HM_U            , KC_P           , KC_I            , KC_K            , KC_Y          , KC_NO ,
-        /*L2*/ HM_E            , KC_DOT         , KC_RBRC         , KC_J            , KC_LBRC       , KC_NO ,
-        /*L3*/ HM_O            , KC_COMM        , KC_X            , KC_Q            , KC_ESC        , KC_NO ,
-        /*L4*/ HM_A            , KC_QUOT        , KC_BSLS         , KC_SCLN         , KC_DEL        , KC_NO ,
+        /*L2*/ HM_E            , KC_DOT         , KC_NO           , KC_J            , KC_NO         , KC_NO ,
+        /*L3*/ HM_O            , KC_COMM        , KC_X            , KC_Q            , KC_NO         , KC_NO ,
+        /*L4*/ HM_A            , KC_QUOT        , KC_NO           , KC_SCLN         , KC_NO         , KC_NO ,
 
         /*     Down               Pad                 Up              Nail               Knuckle          DoubleDown */
         /*RT*/ TH_NUM          , TH_NAV          , SV_APP_SWITCH       , TH_FUNC           , LCAG(KC_NO)     , KC_CAPS ,
@@ -612,7 +612,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L1*/ KC_6            , KC_9            , DLR             , KC_3             , TILD            , KC_NO ,
         /*L2*/ KC_5            , KC_8            , COLN            , KC_2             , PERC            , KC_NO ,
         /*L3*/ KC_4            , KC_7            , RPRN            , KC_1             , LPRN            , KC_NO ,
-        /*L4*/ PLUS            , EXLM            , ASTR            , KC_MINS          , KC_SLSH         , KC_NO ,
+        /*L4*/ PLUS            , ASTR            , EXLM            , KC_MINS          , KC_SLSH         , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ SV_LOCK_NUM   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
@@ -621,17 +621,17 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [SYM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
-        /*R1*/ RPRN            , KC_LBRC         , QUES            , PLUS             , LPRN            , KC_NO ,
-        /*R2*/ LCBR            , KC_RBRC         , PIPE            , ASTR             , DQUO            , KC_NO ,
-        /*R3*/ RCBR            , LTGT            , TILD            , KC_SLSH          , KC_MINS         , KC_NO ,
-        /*R4*/ KC_EQL          , GTGT            , CIRC            , UNDS             , KC_SCLN         , KC_NO ,
-        /*L1*/ KC_LSFT         , S(KC_TAB)       , KC_QUOT         , EXLM             , KC_TAB          , KC_NO ,
-        /*L2*/ KC_LGUI         , KC_DEL          , KC_GRV          , AMPR             , KC_BSPC         , KC_NO ,
-        /*L3*/ KC_LALT         , KC_INS          , SV_TRIPLE_GRAVE , HASH             , KC_SPACE        , KC_NO ,
-        /*L4*/ KC_LCTL         , KC_ENTER        , KC_TRNS         , DLR              , KC_ESC          , KC_NO ,
+        /*R1*/ RPRN            , KC_LBRC         , QUES            , EXLM             , LPRN            , KC_NO ,
+        /*R2*/ LCBR            , KC_RBRC         , PIPE            , AMPR             , DQUO            , KC_NO ,
+        /*R3*/ RCBR            , LTGT            , TILD            , KC_SLSH          , DLR             , KC_NO ,
+        /*R4*/ HASH            , GTGT            , CIRC            , UNDS             , KC_NO           , KC_NO ,
+        /*L1*/ KC_LSFT         , S(KC_TAB)       , KC_NO           , KC_TAB           , KC_NO           , KC_NO ,
+        /*L2*/ KC_LGUI         , KC_DEL          , KC_GRV          , KC_BSPC          , KC_NO           , KC_NO ,
+        /*L3*/ KC_LALT         , KC_INS          , SV_TRIPLE_GRAVE , KC_SPACE         , KC_NO           , KC_NO ,
+        /*L4*/ KC_LCTL         , KC_ESC          , KC_TRNS         , KC_ENTER         , KC_NO           , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_DOT , ASTR ,
+        /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_NO  , KC_NO,
         /*LT*/ KC_TRNS       , SV_LOCK_SYM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
@@ -663,8 +663,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*L4*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, KC_PAUSE           , SV_LEFT_DPI_DEC    , KC_NUM             , KC_NO ,
 
         /*     Down            Pad             Up       Nail            Knuckle          DoubleDown */
-        /*RT*/ SV_LOCK_NUM    , SV_LOCK_NAV    , KC_TRNS, SV_LOCK_FUNC  , SV_LOCK_CLEAR   , KC_TRNS ,
-        /*LT*/ SV_LOCK_MBO    , SV_LOCK_SYM    , KC_TRNS, SV_LOCK_SYS   , SV_LOCK_CLEAR   , KC_TRNS
+        /*RT*/ SV_LOCK_NUM    , SV_LOCK_NAV    , KC_TRNS, SV_LOCK_FUNC  , KC_TRNS         , KC_TRNS ,
+        /*LT*/ SV_LOCK_MBO    , SV_LOCK_SYM    , KC_TRNS, SV_LOCK_SYS   , KC_TRNS         , KC_TRNS
     ),
 
     /* TYPING: overlay activated during app-switch to unmask home-row mods

@@ -22,7 +22,7 @@
       ],
       "a": 4
     },
-    "\nF4\nscrl L\nscrl R",
+    "\nF4\nscrl R\n",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -34,7 +34,7 @@
       ],
       "a": 4
     },
-    "\nF6\nscrl R\ndpi+R",
+    "\nF6\nscrtog\n",
     {
       "x": 7.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -46,7 +46,7 @@
       ],
       "a": 4
     },
-    "\nvol+\nrgb spd\ndpi+L",
+    "\nvol+\n\n",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -58,7 +58,7 @@
       ],
       "a": 4
     },
-    "\nbri+\nprtsc\nscrl L"
+    "\nbri+\n\n"
   ],
   [
     {
@@ -72,7 +72,7 @@
       ],
       "a": 4
     },
-    "\nF22\n\n",
+    "\nF22\nmenu\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -83,7 +83,7 @@
       ],
       "a": 4
     },
-    "O\nF3\ndpi+L\n",
+    "O\nF3\ndpi+R\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -94,7 +94,7 @@
       ],
       "a": 4
     },
-    "\nF13\nsnip3\n",
+    "\nF13\nprtsc\n",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -106,7 +106,7 @@
       ],
       "a": 4
     },
-    "\u2191\nF23\n\n",
+    "\nF23\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -117,7 +117,7 @@
       ],
       "a": 4
     },
-    "E\nF5\ndpi+R\n",
+    "E\nF5\nscrlk\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -128,7 +128,7 @@
       ],
       "a": 4
     },
-    "\u2193\nF11\nsnip2\n",
+    "\nF11\n\n",
     {
       "x": 5.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -140,7 +140,7 @@
       ],
       "a": 4
     },
-    "\u2193\nvol-\nrgb spi\n",
+    "\nvol-\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -151,7 +151,7 @@
       ],
       "a": 4
     },
-    "T\nF11\nrgb vai\n\u2318",
+    "T\nF11\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -162,7 +162,7 @@
       ],
       "a": 4
     },
-    "\u2191\nmute\nrgb vad\n",
+    "\nmute\n\n",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -174,7 +174,7 @@
       ],
       "a": 4
     },
-    "\nbri-\nnumlk\n",
+    "\nbri-\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -185,7 +185,7 @@
       ],
       "a": 4
     },
-    "N\nprtsc\npause\n\u2325",
+    "N\nprtsc\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -196,7 +196,7 @@
       ],
       "a": 4
     },
-    "\n\nmenu\n"
+    "\n\n\n"
   ],
   [
     {
@@ -211,7 +211,7 @@
       ],
       "a": 4
     },
-    "\nF2\nscrtog\n",
+    "\nF2\nscrl L\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -223,7 +223,7 @@
       ],
       "a": 4
     },
-    "\nF8\nms tmr\ndpi-R",
+    "\nF8\nms tmr\n",
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -235,7 +235,7 @@
       ],
       "a": 4
     },
-    "\nprev\nrgb mod\ndpi-L",
+    "\nprev\n\n",
     {
       "x": 7,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -262,7 +262,7 @@
       ],
       "a": 4
     },
-    "\nF14\ndpi-L\nsnip3",
+    "\nF14\ndpi-R\nsnip3",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -274,7 +274,7 @@
       ],
       "a": 4
     },
-    "\nF12\ndpi-R\nbtn2",
+    "\nF12\nbtn2\n",
     {
       "x": 7.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -286,7 +286,7 @@
       ],
       "a": 4
     },
-    "\nF12\nrgb sad\nbtn2",
+    "\u2191\nF12\n\n",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -298,7 +298,7 @@
       ],
       "a": 4
     },
-    "\npause\ncaps\nsnip3"
+    "\npause\n\nsnip3"
   ],
   [
     {
@@ -313,7 +313,7 @@
       ],
       "a": 4
     },
-    "\nF21\n\n",
+    "\nF21\nnumlk\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -324,7 +324,7 @@
       ],
       "a": 4
     },
-    "A\nF1\nscrhold\n",
+    "A\nF1\ndpi+L\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -335,7 +335,7 @@
       ],
       "a": 4
     },
-    "\nF15\n\n",
+    "\nF15\npause\n",
     {
       "x": 4.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -347,7 +347,7 @@
       ],
       "a": 4
     },
-    "\nF24\ncapswd\n",
+    "\nF24\nrgb tog\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -381,7 +381,7 @@
       ],
       "a": 4
     },
-    "\nplay\nrgb sai\n",
+    "\nplay\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -392,7 +392,7 @@
       ],
       "a": 4
     },
-    "H\nF9\nrgb tog\n\u21e7",
+    "H\nF9\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -403,7 +403,7 @@
       ],
       "a": 4
     },
-    "\nnext\nrgb hui\n",
+    "\nnext\n\n",
     {
       "x": 5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -426,7 +426,7 @@
       ],
       "a": 4
     },
-    "S\nmenu\nscrlk\n\u2303",
+    "S\nmenu\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -451,7 +451,7 @@
       ],
       "a": 4
     },
-    "\nF16\n\nboost2",
+    "\nF16\ndpi-L\nboost2",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -463,7 +463,7 @@
       ],
       "a": 4
     },
-    "\nF10\naxislk\nbtn1",
+    "\nF10\nbtn1\n",
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -475,7 +475,7 @@
       ],
       "a": 4
     },
-    "\nF10\nrgb hud\nbtn1",
+    "\u2193\nF10\n\n",
     {
       "x": 1.25,
       "t": "#ff3f3f",
@@ -627,7 +627,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "\nnext\n\ud83d\udd12clr\n",
+    "\nnext\n\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -639,7 +639,7 @@
       ],
       "a": 4
     },
-    "\n\n\ud83d\udd12clr\n",
+    "\n\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
