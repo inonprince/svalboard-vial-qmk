@@ -605,10 +605,10 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [NUM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
-        /*R1*/ KC_LSFT         , S(KC_TAB)       , KC_TAB          , MAC_UNDO         , MAC_FIND        , KC_NO ,
-        /*R2*/ KC_LGUI         , KC_DEL          , KC_BSPC         , MAC_REDO         , SEL_WORD_RIGHT  , KC_NO ,
-        /*R3*/ KC_LALT         , KC_INS          , KC_SPACE        , MAC_FIND_PREV    , SEL_LINE_END    , KC_NO ,
-        /*R4*/ KC_LCTL         , KC_ESC          , KC_ENTER        , MAC_FIND_NEXT    , MAC_SELECT_ALL  , KC_NO ,
+        /*R1*/ KC_LSFT         , S(KC_TAB)       , MAC_UNDO        , KC_TAB           , MAC_FIND        , KC_NO ,
+        /*R2*/ KC_LGUI         , KC_DEL          , MAC_REDO        , KC_BSPC          , SEL_WORD_RIGHT  , KC_NO ,
+        /*R3*/ KC_LALT         , KC_INS          , MAC_FIND_PREV   , KC_SPACE         , SEL_LINE_END    , KC_NO ,
+        /*R4*/ KC_LCTL         , KC_ESC          , MAC_FIND_NEXT   , KC_ENTER         , MAC_SELECT_ALL  , KC_NO ,
         /*L1*/ KC_6            , KC_9            , DLR             , KC_3             , TILD            , KC_NO ,
         /*L2*/ KC_5            , KC_8            , COLN            , KC_2             , PERC            , KC_NO ,
         /*L3*/ KC_4            , KC_7            , RPRN            , KC_1             , LPRN            , KC_NO ,
@@ -625,10 +625,10 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R2*/ LCBR            , KC_RBRC         , PIPE            , ASTR             , DQUO            , KC_NO ,
         /*R3*/ RCBR            , LTGT            , TILD            , KC_SLSH          , KC_MINS         , KC_NO ,
         /*R4*/ KC_EQL          , GTGT            , CIRC            , UNDS             , KC_SCLN         , KC_NO ,
-        /*L1*/ KC_TAB          , S(KC_TAB)       , KC_QUOT         , EXLM             , KC_LSFT         , KC_NO ,
-        /*L2*/ KC_ENTER        , KC_DEL          , KC_GRV          , AMPR             , KC_LGUI         , KC_NO ,
-        /*L3*/ KC_SPACE        , KC_INS          , SV_TRIPLE_GRAVE , HASH             , KC_LALT         , KC_NO ,
-        /*L4*/ KC_ESC          , KC_BSPC         , KC_TRNS         , DLR              , KC_TRNS         , KC_NO ,
+        /*L1*/ KC_LSFT         , S(KC_TAB)       , KC_QUOT         , EXLM             , KC_TAB          , KC_NO ,
+        /*L2*/ KC_LGUI         , KC_DEL          , KC_GRV          , AMPR             , KC_BSPC         , KC_NO ,
+        /*L3*/ KC_LALT         , KC_INS          , SV_TRIPLE_GRAVE , HASH             , KC_SPACE        , KC_NO ,
+        /*L4*/ KC_LCTL         , KC_ENTER        , KC_TRNS         , DLR              , KC_ESC          , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_DOT , ASTR ,
