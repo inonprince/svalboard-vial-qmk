@@ -70,14 +70,6 @@ instead to guarantee the tap registers. This prevents accidental Down
 events when the intent is a firm DoubleDown press, while ensuring no taps
 are swallowed during rapid typing.
 
-#### MBO modifiers that don't extend automouse timeout
-
-Custom keycodes `SV_MBO_SFT`, `SV_MBO_GUI`, `SV_MBO_ALT`, `SV_MBO_CTL`
-on the MBO layer center column. These register the modifier and pin the
-automouse layer open (via `mouse_keys_pressed`) without calling
-`mouse_mode(true)`, so tapping a modifier during automouse does not reset
-the inactivity timeout.
-
 #### Mouse click guard
 
 Mouse button keys start a short movement guard
