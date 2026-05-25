@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-TEMPLATE="$DIR/glove80_dvorak.kle.json"
+TEMPLATE="$DIR/svalboard-qwerty-layout.json"
 SCRIPT="$DIR/render_kle.py"
 
 # Primary layers (BASE, NAV, NUM, SYM) — the default cheat sheet
