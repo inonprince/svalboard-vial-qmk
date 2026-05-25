@@ -5,7 +5,7 @@
 #include QMK_KEYBOARD_H
 
 saved_values_t global_saved_values;
-const int16_t mh_timer_choices[6] = { 200, 300, 400, 500, 800, -1 }; // -1 is infinite.
+const int16_t mh_timer_choices[6] = { 50, 100, 200, 300, 500, -1 }; // -1 is infinite.
 
 uint8_t sval_active_layer = 0;
 #ifdef VIAL_ENABLE
