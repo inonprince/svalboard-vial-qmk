@@ -653,14 +653,14 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [SYS] = LAYOUT(
         /*     Center                North                  East                 South                 West                 Double */
-        /*R1*/ RGB_TOG             , RGB_MOD              , RGB_HUI            , RGB_HUD            , RGB_SAI            , KC_NO ,
-        /*R2*/ RGB_VAI             , RGB_SPD              , RGB_VAD            , RGB_SAD            , RGB_SPI            , KC_NO ,
-        /*R3*/ KC_PAUSE            , KC_PSCR              , KC_APP             , KC_CAPS            , KC_NUM             , KC_NO ,
-        /*R4*/ KC_SCRL             , KC_NO                , KC_NO              , KC_NO              , KC_NO              , KC_NO ,
-        /*L1*/ SV_OUTPUT_STATUS    , SV_MH_CHANGE_TIMEOUTS, SV_TOGGLE_AUTOMOUSE, SV_AXIS_SCROLL_LOCK, SV_CAPS_WORD       , KC_NO ,
-        /*L2*/ SV_RIGHT_DPI_INC    , SV_RIGHT_SCROLL_TOGGLE, SV_SNIPER_2       , SV_RIGHT_DPI_DEC   , KC_NO              , KC_NO ,
-        /*L3*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, SV_SNIPER_3        , SV_LEFT_DPI_DEC    , KC_NO              , KC_NO ,
-        /*L4*/ SV_SCROLL_HOLD      , SV_SCROLL_TOGGLE     , KC_NO              , KC_NO              , KC_NO              , KC_NO ,
+        /*R1*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
+        /*R2*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
+        /*R3*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
+        /*R4*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
+        /*L1*/ SV_OUTPUT_STATUS    , SV_MH_CHANGE_TIMEOUTS, SV_TOGGLE_AUTOMOUSE, KC_BTN1            , RGB_TOG            , KC_NO ,
+        /*L2*/ KC_SCRL             , SV_SCROLL_TOGGLE     , KC_NO              , KC_BTN2            , KC_NO              , KC_NO ,
+        /*L3*/ SV_RIGHT_DPI_INC    , SV_RIGHT_SCROLL_TOGGLE, KC_PSCR           , SV_RIGHT_DPI_DEC   , KC_APP             , KC_NO ,
+        /*L4*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, KC_PAUSE           , SV_LEFT_DPI_DEC    , KC_NUM             , KC_NO ,
 
         /*     Down            Pad             Up       Nail            Knuckle          DoubleDown */
         /*RT*/ SV_LOCK_NUM    , SV_LOCK_NAV    , KC_TRNS, SV_LOCK_FUNC  , SV_LOCK_CLEAR   , KC_TRNS ,
@@ -672,12 +672,12 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
      * are transparent so the base layer still handles them. */
     [TYPING] = LAYOUT(
         /*     Center            North    East     South    West     Double */
-        /*R1*/ KC_H            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
-        /*R2*/ KC_T            , KC_TRNS, KC_UP  , KC_TRNS, KC_DOWN, KC_NO ,
+        /*R1*/ KC_H            , KC_TRNS, KC_TRNS, KC_DOWN, KC_TRNS, KC_NO ,
+        /*R2*/ KC_T            , KC_TRNS, KC_TRNS, KC_UP,   KC_TRNS, KC_NO ,
         /*R3*/ KC_N            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*R4*/ KC_S            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L1*/ KC_U            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
-        /*L2*/ KC_E            , KC_TRNS, KC_DOWN, KC_TRNS, KC_UP  , KC_NO ,
+        /*L2*/ KC_E            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L3*/ KC_O            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L4*/ KC_A            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
 
@@ -687,25 +687,25 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
     ),
 
     [BOARD_CONFIG] = LAYOUT(
-        /*     Center                North                  East                  South                 West                Double */
-        /*R1*/ KC_TRNS             , KC_TRNS              , KC_TRNS             , KC_TRNS             , KC_TRNS            , KC_NO ,
-        /*R2*/ KC_TRNS             , KC_TRNS              , KC_TRNS             , KC_TRNS             , KC_TRNS            , KC_NO ,
-        /*R3*/ KC_TRNS             , KC_TRNS              , KC_TRNS             , KC_TRNS             , KC_TRNS            , KC_NO ,
-        /*R4*/ KC_TRNS             , KC_TRNS              , KC_TRNS             , KC_TRNS             , KC_TRNS            , KC_NO ,
-        /*L1*/ SV_OUTPUT_STATUS    , SV_MH_CHANGE_TIMEOUTS, SV_TOGGLE_AUTOMOUSE , KC_TRNS             , SV_CAPS_WORD       , KC_NO ,
-        /*L2*/ SV_RIGHT_DPI_INC    , SV_RIGHT_SCROLL_TOGGLE, SV_SNIPER_2        , SV_RIGHT_DPI_DEC    , KC_TRNS            , KC_NO ,
-        /*L3*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, SV_SNIPER_3         , SV_LEFT_DPI_DEC     , KC_TRNS            , KC_NO ,
-        /*L4*/ SV_SCROLL_HOLD      , SV_SCROLL_TOGGLE     , SV_AXIS_SCROLL_LOCK , KC_TRNS             , KC_TRNS            , KC_NO ,
+        /*     Center    North     East      South     West      Double */
+        /*R1*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*R2*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*R3*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*R4*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*L1*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*L2*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*L3*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
+        /*L4*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_NO ,
 
-        /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ KC_TRNS       , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ SV_LOCK_MBO   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+        /*     Down      Pad       Up        Nail      Knuckle   DoubleDown */
+        /*RT*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,
+        /*LT*/ KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
     ),
 
     [MBO] = LAYOUT(
         /*     Center                  North    East     South       West     Double */
-        /*R1*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_BTN1      , KC_TRNS, KC_NO ,
-        /*R2*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_BTN2      , KC_TRNS, KC_NO ,
+        /*R1*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
+        /*R2*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
         /*R3*/ KC_TRNS               , KC_TRNS                , KC_TRNS, SV_SNIPER_3  , KC_TRNS, KC_NO ,
         /*R4*/ KC_TRNS               , KC_TRNS                , KC_TRNS, SV_BOOST_2   , KC_TRNS, KC_NO ,
         /*L1*/ KC_TRNS               , KC_TRNS                , KC_TRNS, KC_TRNS      , KC_TRNS, KC_NO ,
