@@ -622,16 +622,16 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
     [SYM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
         /*R1*/ RPRN            , KC_LBRC         , QUES            , EXLM             , LPRN            , KC_NO ,
-        /*R2*/ LCBR            , KC_RBRC         , PIPE            , AMPR             , DQUO            , KC_NO ,
-        /*R3*/ RCBR            , LTGT            , TILD            , KC_SLSH          , DLR             , KC_NO ,
-        /*R4*/ HASH            , GTGT            , KC_NO           , UNDS             , CIRC            , KC_NO ,
-        /*L1*/ KC_LSFT         , S(KC_TAB)       , KC_NO           , KC_TAB           , KC_NO           , KC_NO ,
+        /*R2*/ LCBR            , KC_RBRC         , KC_BSLS         , AMPR             , DQUO            , KC_NO ,
+        /*R3*/ RCBR            , PERC            , TILD            , KC_SLSH          , DLR             , KC_NO ,
+        /*R4*/ HASH            , KC_NO           , KC_NO           , AT               , CIRC            , KC_NO ,
+        /*L1*/ KC_LSFT         , S(KC_TAB)       , SV_TRIPLE_GRAVE , KC_TAB           , KC_NO           , KC_NO ,
         /*L2*/ KC_LGUI         , KC_DEL          , KC_GRV          , KC_BSPC          , KC_NO           , KC_NO ,
-        /*L3*/ KC_LALT         , KC_INS          , SV_TRIPLE_GRAVE , KC_SPACE         , KC_NO           , KC_NO ,
-        /*L4*/ KC_LCTL         , KC_ESC          , KC_TRNS         , KC_ENTER         , KC_NO           , KC_NO ,
+        /*L3*/ KC_LALT         , KC_ESC          , KC_NO           , KC_ENTER         , KC_NO           , KC_NO ,
+        /*L4*/ KC_LCTL         , KC_INS          , KC_TRNS         , KC_SPACE         , KC_NO           , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ COLN          , PERC   , AT     , KC_BSLS, KC_NO  , KC_NO,
+        /*RT*/ COLN          , UNDS   , LTGT   , GTGT   , PIPE   , KC_NO,
         /*LT*/ KC_TRNS       , SV_LOCK_SYM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 

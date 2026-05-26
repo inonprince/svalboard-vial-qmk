@@ -22,7 +22,7 @@
       ],
       "a": 4
     },
-    "-\n\u2318Z\n7\nins",
+    "-\ntab\n7\nesc",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -58,7 +58,7 @@
       ],
       "a": 4
     },
-    "R\nins\nins\n<"
+    "R\nesc\nesc\n%"
   ],
   [
     {
@@ -94,7 +94,7 @@
       ],
       "a": 4
     },
-    "X\n\u21e7\u2318G\n)\n```",
+    "X\n\u21e7\u2318G\n)\n",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -106,7 +106,7 @@
       ],
       "a": 4
     },
-    "\"\n\n%\n",
+    "\"\n\n/\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -128,7 +128,7 @@
       ],
       "a": 4
     },
-    ".\n\u2318G\n:\n`",
+    ".\n\u2318G\n*\n`",
     {
       "x": 5.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -162,7 +162,7 @@
       ],
       "a": 4
     },
-    "W\npgdn\n\u21e7\u2318Z\n|",
+    "W\nend\n\u21e7\u2318Z\n\\",
     {
       "x": 0.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -196,7 +196,7 @@
       ],
       "a": 4
     },
-    "/\npgup\n\u21e7\u2318G\n~"
+    "/\npgdn\n\u2318G\n~"
   ],
   [
     {
@@ -211,7 +211,7 @@
       ],
       "a": 4
     },
-    "'\ntab\n*\nesc",
+    "'\n\u21e7tab\n:\nins",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -223,7 +223,7 @@
       ],
       "a": 4
     },
-    "P\n\u21e7tab\n9\n\u21e7tab",
+    "P\n\u2318Z\n9\n\u21e7tab",
     {
       "x": 2.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -247,7 +247,7 @@
       ],
       "a": 4
     },
-    "L\nesc\nesc\n>"
+    "L\nins\nins\n"
   ],
   [
     {
@@ -262,7 +262,7 @@
       ],
       "a": 4
     },
-    "Q\nF18\n1\nspc",
+    "Q\nF18\n1\nent",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -298,7 +298,7 @@
       ],
       "a": 4
     },
-    "V\nspc\nspc\n/"
+    "V\nent\nent\n/"
   ],
   [
     {
@@ -313,7 +313,7 @@
       ],
       "a": 4
     },
-    "\n1s\u21e7\n!\n",
+    "\n\n~\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -324,7 +324,7 @@
       ],
       "a": 4
     },
-    "A\n\u2190\n+\n\u2303",
+    "A\n\u2190\n%\n\u2303",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -335,7 +335,7 @@
       ],
       "a": 4
     },
-    ";\n\n/\n",
+    ";\n\n!\n",
     {
       "x": 4.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -347,7 +347,7 @@
       ],
       "a": 4
     },
-    "Y\n\n~\n",
+    "Y\n1s\u21e7\n-\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -369,7 +369,7 @@
       ],
       "a": 4
     },
-    "I\n\u2318F\n$\n",
+    "I\n\u2318F\n+\n```",
     {
       "x": 0.5,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -437,7 +437,7 @@
       ],
       "a": 4
     },
-    "\nend\n\u2318G\n"
+    "\npgup\n\u21e7\u2318G\n"
   ],
   [
     {
@@ -451,7 +451,7 @@
       ],
       "a": 4
     },
-    ":\nF19\n-\nent",
+    ":\nF19\n$\nspc",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -496,7 +496,7 @@
         2
       ]
     },
-    "Z\nent\nent\n_"
+    "Z\nspc\nspc\n@"
   ],
   [
     {
@@ -535,7 +535,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "esc (SYS)\next wd\n,\n",
+    "esc (SYS)\n\u2318A\n,\n",
     {
       "x": 0.75,
       "a": 4,
@@ -547,7 +547,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "= (FUNC)\n\n\n\\",
+    "= (FUNC)\n\n\n>",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4,
@@ -571,7 +571,7 @@
         2
       ]
     },
-    "spc (NAV)\n\ud83d\udd12NAV\n\n%"
+    "spc (NAV)\n\ud83d\udd12NAV\n\n_"
   ],
   [
     {
@@ -587,7 +587,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "SYS\n\u2318A\n=\n",
+    "SYS\nsel ln\n<\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -600,7 +600,7 @@
       ],
       "a": 4
     },
-    "app sw\n\n\n@"
+    "app sw\n\n\n<"
   ],
   [
     {
@@ -616,7 +616,7 @@
       "w": 1.5,
       "a": 4
     },
-    "tab (MBO)\nsel ln\n.\n",
+    "tab (MBO)\next wd\n.\n",
     {
       "fa": [
         4,
@@ -627,7 +627,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "\u2303\u2325\u2318\next ln\n<\n",
+    "\u2303\u2325\u2318\next ln\n=\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -639,7 +639,7 @@
       ],
       "a": 4
     },
-    "\u2303\u2325\u2318\n\n\n",
+    "\u2303\u2325\u2318\n\n\n|",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
