@@ -575,8 +575,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*     Center            North            East              South             West            Double */
         /*R1*/ HM_H            , KC_G           , KC_F            , KC_BTN1         , KC_D          , KC_NO ,
         /*R2*/ HM_T            , KC_C           , KC_W            , KC_BTN2         , KC_M          , KC_NO ,
-        /*R3*/ HM_N            , KC_R           , KC_SLSH         , KC_V            , KC_B          , KC_NO ,
-        /*R4*/ HM_S            , KC_L           , KC_NO           , KC_Z            , QK_REPEAT_KEY , KC_NO ,
+        /*R3*/ HM_N            , KC_R           , KC_BSLS         , KC_V            , KC_B          , KC_NO ,
+        /*R4*/ HM_S            , KC_L           , KC_SLSH         , KC_Z            , QK_REPEAT_KEY , KC_NO ,
         /*L1*/ HM_U            , KC_P           , KC_I            , KC_K            , KC_Y          , KC_NO ,
         /*L2*/ HM_E            , KC_COMM        , KC_DOT          , KC_J            , DQUO          , KC_NO ,
         /*L3*/ HM_O            , KC_MINS        , KC_X            , KC_Q            , KC_DEL        , KC_NO ,
@@ -621,17 +621,17 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [SYM] = LAYOUT(
         /*     Center            North             East              South             West              Double */
-        /*R1*/ RPRN            , KC_LBRC         , QUES            , EXLM             , LPRN            , KC_NO ,
-        /*R2*/ LCBR            , KC_RBRC         , KC_BSLS         , AMPR             , DQUO            , KC_NO ,
-        /*R3*/ RCBR            , PERC            , TILD            , KC_SLSH          , DLR             , KC_NO ,
-        /*R4*/ HASH            , KC_NO           , KC_NO           , AT               , CIRC            , KC_NO ,
+        /*R1*/ QUES            , PERC            , RPRN            , EXLM             , LPRN            , KC_NO ,
+        /*R2*/ DQUO            , CIRC            , KC_RBRC         , AT               , KC_LBRC         , KC_NO ,
+        /*R3*/ COLN            , AMPR            , RCBR            , HASH             , LCBR            , KC_NO ,
+        /*R4*/ UNDS            , TILD            , KC_NO           , DLR              , KC_SCLN         , KC_NO ,
         /*L1*/ KC_LSFT         , S(KC_TAB)       , SV_TRIPLE_GRAVE , KC_TAB           , KC_NO           , KC_NO ,
         /*L2*/ KC_LGUI         , KC_DEL          , KC_GRV          , KC_BSPC          , KC_NO           , KC_NO ,
         /*L3*/ KC_LALT         , KC_ESC          , KC_NO           , KC_ENTER         , KC_NO           , KC_NO ,
         /*L4*/ KC_LCTL         , KC_INS          , KC_TRNS         , KC_SPACE         , KC_NO           , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
-        /*RT*/ COLN          , UNDS   , LTGT   , GTGT   , PIPE   , KC_NO,
+        /*RT*/ KC_BSLS       , KC_SLSH    , GTGT   , LTGT   , PIPE   , KC_NO,
         /*LT*/ KC_TRNS       , SV_LOCK_SYM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 
