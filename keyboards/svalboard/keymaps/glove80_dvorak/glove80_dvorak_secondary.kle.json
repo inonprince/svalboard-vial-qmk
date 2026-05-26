@@ -22,7 +22,7 @@
       ],
       "a": 4
     },
-    "\nF4\nscrl R\n",
+    "\nF14\nscrl R\n",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -174,7 +174,7 @@
       ],
       "a": 4
     },
-    "\nbri-\n\n",
+    "\npause\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -211,7 +211,7 @@
       ],
       "a": 4
     },
-    "\nF2\nscrl L\n",
+    "\nF16\nscrl L\n",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -235,7 +235,7 @@
       ],
       "a": 4
     },
-    "\nprev\n\n",
+    "\nF9\n\n",
     {
       "x": 7,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -262,7 +262,7 @@
       ],
       "a": 4
     },
-    "\nF14\ndpi-R\nsnip3",
+    "\nF4\ndpi-R\nsnip3",
     {
       "x": 2.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -298,7 +298,7 @@
       ],
       "a": 4
     },
-    "\npause\n\nsnip3"
+    "\nbri-\n\nsnip3"
   ],
   [
     {
@@ -381,7 +381,7 @@
       ],
       "a": 4
     },
-    "\nplay\n\n",
+    "\nprev\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -392,7 +392,7 @@
       ],
       "a": 4
     },
-    "H\nF9\n\n",
+    "H\nplay\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -415,7 +415,7 @@
       ],
       "a": 4
     },
-    "\n\n\n",
+    "\ncalc\n\n",
     {
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "fa": [
@@ -437,7 +437,7 @@
       ],
       "a": 4
     },
-    "\ncalc\n\n"
+    "\n\n\n"
   ],
   [
     {
@@ -451,7 +451,7 @@
       ],
       "a": 4
     },
-    "\nF16\ndpi-L\nboost2",
+    "\nF2\ndpi-L\nboost2",
     {
       "x": 6.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
@@ -524,7 +524,7 @@
       ],
       "a": 4
     },
-    "\nplay\n\n",
+    "\nprev\n\n",
     {
       "a": 4,
       "fa": [
@@ -535,7 +535,7 @@
       ],
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
     },
-    "\nprev\n\ud83d\udd12SYS\n",
+    "\nnext\n\ud83d\udd12SYS\n",
     {
       "x": 0.75,
       "a": 4,
@@ -627,7 +627,7 @@
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
       "a": 4
     },
-    "\nnext\n\n",
+    "\nplay\n\n",
     {
       "x": 0.75,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
