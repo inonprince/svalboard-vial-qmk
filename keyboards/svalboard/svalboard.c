@@ -21,8 +21,8 @@ void read_eeprom_kb(void) {
     eeconfig_read_kb_datablock(&global_saved_values, 0, EECONFIG_KB_DATA_SIZE);
     if (global_saved_values.version < 1) {
         global_saved_values.version = 1;
-        global_saved_values.right_dpi_index=3;
-        global_saved_values.left_dpi_index=3;
+        global_saved_values.right_dpi_index=4;
+        global_saved_values.left_dpi_index=4;
         modified = true;
     }
     if (global_saved_values.version < 2) {
@@ -86,7 +86,7 @@ const char *yes_or_no(int flag) {
     }
 }
 
-const uint16_t dpi_choices[] = { 200, 400, 600, 800, 1200, 1600, 2400, 3200, 4800, 6400, 12000 }; // If we need more, add them.
+const uint16_t dpi_choices[] = { 200, 300, 400, 600, 800, 1000, 1200, 1400, 1600, 2400, 3600, 6400 }; // If we need more, add them.
 #define DPI_CHOICES_LENGTH (sizeof(dpi_choices)/sizeof(dpi_choices[0]))
 extern bool is_mac;
 
