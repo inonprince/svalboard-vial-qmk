@@ -677,7 +677,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R3*/ KC_N            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*R4*/ KC_S            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L1*/ KC_U            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
-        /*L2*/ KC_E            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
+        /*L2*/ KC_E            , KC_TRNS, KC_DOWN, KC_TRNS, KC_UP,   KC_NO ,
         /*L3*/ KC_O            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
         /*L4*/ KC_A            , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO ,
 
