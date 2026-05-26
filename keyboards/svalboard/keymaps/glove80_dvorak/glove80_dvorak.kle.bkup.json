@@ -1,0 +1,656 @@
+[
+  {
+    "name": "Svalboard inonio Layout",
+    "author": "Inon Prince",
+    "notes": "Trackpoint-enabled versions can use Automousekeys for mouse buttons, shown in red.",
+    "background": {
+      "name": "ABS WA",
+      "style": "background-image: url('/bg/plastic/abs-wa.jpg');"
+    },
+    "radii": "10"
+  },
+  [
+    {
+      "x": 3.5,
+      "c": "#303030",
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    ",\n\u2318Z\n7\nins",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    ".\n\u21e7\u2318Z\n8\ndel",
+    {
+      "x": 7.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "C\ndel\ndel\n]",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "R\nins\nins\n<"
+  ],
+  [
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\n\n(\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "O\n\u2193\n4\n\u2325",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "X\n\u21e7\u2318G\n)\n```",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\n\n%\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "E\n\u2191\n5\n\u2318",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\n\u2318G\n:\n`",
+    {
+      "x": 5.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "M\n\u2193\n\u21e7\u2325\u2192\n\"",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "T\n\u2318\n\u2318\n{",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "W\npgdn\n\u21e7\u2318Z\n|",
+    {
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "B\n\u2191\n\u21e7\u2318\u2192\n$",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "N\n\u2325\n\u2325\n}",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "=\npgup\n\u21e7\u2318G\n~"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 1.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "'\ntab\n*\nesc",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "P\n\u21e7tab\n9\n\u21e7tab",
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "G\n\u21e7tab\n\u21e7tab\n[",
+    {
+      "x": 7,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "L\nesc\nesc\n>"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 3.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "Q\nF18\n1\nspc",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "J\nF17\n2\nbksp",
+    {
+      "x": 7.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "btn2\nbksp\nbksp\n&",
+    {
+      "x": 2.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "V\nspc\nspc\n/"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 0.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "rpt\n1s\u21e7\n/\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "A\n\u2190\n+\n\u2303",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\n\n!\n",
+    {
+      "x": 4.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "Y\n\n~\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "U\n\u2192\n6\n\u21e7",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "I\n\u2318F\n$\n",
+    {
+      "x": 0.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "D\n\u2190\n\u2318F\n(",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "H\n\u21e7\n\u21e7\n)",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "F\nhome\n\u2318Z\n?",
+    {
+      "x": 5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\n\u2192\n\u2318A\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "S\n\u2303\n\u2303\n#",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "-\nend\n\u2318G\n^"
+  ],
+  [
+    {
+      "x": 1.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    ";\nF19\n-\nent",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "K\nF16\n3\ntab",
+    {
+      "x": 2.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "btn1\ntab\ntab\n!",
+    {
+      "x": 1.25,
+      "t": "#ff3f3f",
+      "a": 7,
+      "f": 3,
+      "w": 1.5,
+      "h": 1.25
+    },
+    "Trackpoint",
+    {
+      "x": 4.25,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ]
+    },
+    "Z\nent\nent\n_"
+  ],
+  [
+    {
+      "y": 0.5,
+      "x": 7.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "h": 2,
+      "a": 4
+    },
+    "bksp (SYM)\nsel wd\n0\n\ud83d\udd12SYM",
+    {
+      "w": 1.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "capswd\ndesel\n>\n",
+    {
+      "a": 4,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "esc (SYS)\next wd\n,\n",
+    {
+      "x": 0.75,
+      "a": 4,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00"
+    },
+    "ent (FUNC)\n\n\n\\",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4,
+      "w": 1.5,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ]
+    },
+    "caps\n\n\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4,
+      "h": 2,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ]
+    },
+    "spc (NAV)\n\ud83d\udd12NAV\n\n%"
+  ],
+  [
+    {
+      "y": -0.25,
+      "x": 6,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "w": 2,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4
+    },
+    "SYS\n\u2318A\n=\n",
+    {
+      "x": 6.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "w": 2,
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "app sw\n\n\n@"
+  ],
+  [
+    {
+      "y": -0.75,
+      "x": 8.5,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "w": 1.5,
+      "a": 4
+    },
+    "tab (MBO)\nsel ln\n.\n",
+    {
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "a": 4
+    },
+    "\u2303\u2325\u2318\next ln\n<\n",
+    {
+      "x": 0.75,
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "a": 4
+    },
+    "\u2303\u2325\u2318\n\n\n",
+    {
+      "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
+      "fa": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "w": 1.5,
+      "a": 4
+    },
+    "del (NUM)\n\n\ud83d\udd12NUM\n:"
+  ]
+]

@@ -637,8 +637,8 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
 
     [FUNC] = LAYOUT(
         /*     Center            North              East              South             West               Double */
-        /*R1*/ KC_MPLY         , KC_F9            , KC_MNXT         , KC_F10          , KC_MPRV          , KC_NO ,
-        /*R2*/ KC_F11          , KC_VOLU          , KC_MUTE         , KC_F12          , KC_VOLD          , KC_NO ,
+        /*R1*/ KC_MPLY         , KC_VOLU          , KC_MNXT         , KC_VOLD         , KC_MPRV          , KC_NO ,
+        /*R2*/ KC_MUTE         , KC_NO            , KC_NO           , KC_NO           , KC_NO            , KC_NO ,
         /*R3*/ KC_PSCR         , KC_BRIU          , KC_NO           , KC_BRID         , KC_PAUSE         , KC_NO ,
         /*R4*/ KC_APP          , KC_EJCT          , KC_NO           , KC_WHOM         , KC_CALC          , KC_NO ,
         /*L1*/ KC_F1           , KC_F9            , KC_F13          , KC_F5           , KC_F21           , KC_NO ,

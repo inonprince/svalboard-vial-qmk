@@ -33,7 +33,7 @@
 
 // The thumb Down switch is held back briefly so a firm press can resolve to
 // DoubleDown without emitting Down first.
-#define THUMB_DOUBLEDOWN_GRACE_MS 70
+#define THUMB_DOUBLEDOWN_GRACE_MS 100
 
 // When the temporary scroll swap is active, scale each physical trackball's
 // report so the pointer and scroller keep their usual sensitivities.
