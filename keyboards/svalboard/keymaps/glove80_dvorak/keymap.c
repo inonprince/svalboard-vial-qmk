@@ -607,16 +607,16 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*     Center            North             East              South             West              Double */
         /*R1*/ KC_LSFT         , S(KC_TAB)       , MAC_UNDO        , KC_TAB           , MAC_FIND        , KC_NO ,
         /*R2*/ KC_LGUI         , KC_DEL          , MAC_REDO        , KC_BSPC          , SEL_WORD_RIGHT  , KC_NO ,
-        /*R3*/ KC_LALT         , KC_INS          , MAC_FIND_PREV   , KC_SPACE         , SEL_LINE_END    , KC_NO ,
-        /*R4*/ KC_LCTL         , KC_ESC          , MAC_FIND_NEXT   , KC_ENTER         , MAC_SELECT_ALL  , KC_NO ,
-        /*L1*/ KC_6            , KC_9            , DLR             , KC_3             , TILD            , KC_NO ,
-        /*L2*/ KC_5            , KC_8            , COLN            , KC_2             , PERC            , KC_NO ,
+        /*R3*/ KC_LALT         , KC_ESC          , MAC_FIND_NEXT   , KC_ENTER         , SEL_LINE_END    , KC_NO ,
+        /*R4*/ KC_LCTL         , KC_INS          , MAC_FIND_PREV   , KC_SPACE         , MAC_SELECT_ALL  , KC_NO ,
+        /*L1*/ KC_6            , KC_9            , PLUS            , KC_3             , KC_MINS         , KC_NO ,
+        /*L2*/ KC_5            , KC_8            , ASTR            , KC_2             , KC_SLSH         , KC_NO ,
         /*L3*/ KC_4            , KC_7            , RPRN            , KC_1             , LPRN            , KC_NO ,
-        /*L4*/ PLUS            , ASTR            , KC_SLSH         , KC_MINS          , EXLM            , KC_NO ,
+        /*L4*/ PERC            , COLN            , EXLM            , DLR             , TILD            , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ SV_LOCK_NUM   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS ,
-        /*LT*/ KC_DOT        , KC_0   , KC_EQL , KC_COMM, LTGT   , GTGT
+        /*LT*/ KC_DOT        , KC_0   , LTGT   , KC_COMM, KC_EQL , GTGT
     ),
 
     [SYM] = LAYOUT(
