@@ -590,17 +590,17 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
     [NAV] = LAYOUT(
         /*     Center            North             East               South              West              Double */
         /*R1*/ KC_LSFT         , S(KC_TAB)       , KC_HOME          , KC_TAB            , KC_LEFT         , KC_NO ,
-        /*R2*/ KC_LGUI         , KC_DEL          , KC_PGDN          , KC_BSPC           , KC_DOWN         , KC_NO ,
-        /*R3*/ KC_LALT         , KC_INS          , KC_PGUP          , KC_SPACE          , KC_UP           , KC_NO ,
-        /*R4*/ KC_LCTL         , KC_ESC          , KC_END           , KC_ENTER          , KC_RIGHT        , KC_NO ,
-        /*L1*/ KC_RIGHT        , S(KC_TAB)       , MAC_FIND         , KC_F16            , KC_TRNS         , KC_NO ,
+        /*R2*/ KC_LGUI         , KC_DEL          , KC_END           , KC_BSPC           , KC_DOWN         , KC_NO ,
+        /*R3*/ KC_LALT         , KC_ESC          , KC_PGDN          , KC_ENTER          , KC_UP           , KC_NO ,
+        /*R4*/ KC_LCTL         , KC_INS          , KC_PGUP          , KC_SPACE          , KC_RIGHT        , KC_NO ,
+        /*L1*/ KC_RIGHT        , MAC_UNDO        , MAC_FIND         , KC_F16            , OSM(MOD_LSFT)   , KC_NO ,
         /*L2*/ KC_UP           , MAC_REDO        , MAC_FIND_NEXT    , KC_F17            , KC_TRNS         , KC_NO ,
-        /*L3*/ KC_DOWN         , MAC_UNDO        , MAC_FIND_PREV    , KC_F18            , KC_TRNS         , KC_NO ,
-        /*L4*/ KC_LEFT         , KC_TAB          , KC_TRNS          , KC_F19            , OSM(MOD_LSFT)   , KC_NO ,
+        /*L3*/ KC_DOWN         , KC_TAB          , MAC_FIND_PREV    , KC_F18            , KC_TRNS         , KC_NO ,
+        /*L4*/ KC_LEFT         , S(KC_TAB)       , KC_TRNS          , KC_F19            , KC_TRNS         , KC_NO ,
 
         /*     Down            Pad      Up       Nail     Knuckle  DoubleDown */
         /*RT*/ KC_TRNS       , SV_LOCK_NAV   , KC_TRNS         , KC_TRNS         , KC_TRNS        , KC_TRNS ,
-        /*LT*/ SV_SELECT_LINE, SV_SELECT_WORD, MAC_SELECT_ALL , SV_EXTEND_WORD  , SV_EXTEND_LINE , SV_SELECT_NONE
+        /*LT*/ SV_EXTEND_WORD, SV_SELECT_WORD, SV_SELECT_LINE , MAC_SELECT_ALL  , SV_EXTEND_LINE , SV_SELECT_NONE
     ),
 
     [NUM] = LAYOUT(
