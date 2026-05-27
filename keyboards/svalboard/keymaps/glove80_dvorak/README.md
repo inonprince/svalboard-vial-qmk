@@ -56,19 +56,17 @@ sensitivities without waiting for split CPI updates.
 
 #### Thumb Down / DoubleDown grace period
 
-A state-machine in `matrix.c` (`apply_thumb_double_down_grace`) suppresses
-the thumb Down switch for a configurable grace window
-(`THUMB_DOUBLEDOWN_GRACE_MS`, default 70 ms in `config.h`). If DoubleDown
-fires within the window, only DoubleDown is reported. If Down is released
-before the window expires (a quick tap), the suppressed press is replayed
-via a synthetic hold (`THUMB_TAP_REPLAY_MS`, 10 ms) so the debouncer still
-registers it. If the grace window expires and the key is still held, the
-state machine enters DOWN_COMMITTED and passes the real key through. If
-the user releases within `THUMB_TAP_REPLAY_MS` of entering DOWN_COMMITTED
-(before the debouncer can confirm the press), a synthetic replay is used
-instead to guarantee the tap registers. This prevents accidental Down
-events when the intent is a firm DoubleDown press, while ensuring no taps
-are swallowed during rapid typing.
+A full-matrix state machine in `matrix.c` filters the debounced matrix after
+both halves have been combined. Thumb Down starts pending so a decisive full
+press can still resolve to DoubleDown without emitting Down first. If any
+non-Down/DoubleDown key is newly pressed while Down is pending, Down is
+committed immediately and that new key is delayed by one scan so QMK processes
+the layer-tap before the key that depends on it. This works for cross-hand
+layer use, e.g. right thumb NUM followed by a left-hand digit.
+
+`THUMB_DOUBLEDOWN_GRACE_MS` is now only the fallback timeout for holding Down
+alone with no other key. A quick Down tap is still replayed with
+`THUMB_TAP_REPLAY_MS` (10 ms) so QMK sees a normal tap.
 
 #### Mouse click guard
 
@@ -200,7 +198,7 @@ Checks that the KLE JSON stays in sync with `keymap.c`.
   boost enable/disable flags, and wired them into
   `pointing_device_task_combined_user` and `process_record_kb`
 - `keyboards/svalboard/matrix.c`: replaced the simple `scans_before_dd_detect`
-  logic with the full thumb cluster grace-period state machine
+  logic with the full thumb cluster Down/DoubleDown interlock
 - `keyboards/svalboard/vils/glove80_dvorak.vil`: archived Vial layout
 
 ## Compile examples

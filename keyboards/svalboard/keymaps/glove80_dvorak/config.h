@@ -31,8 +31,9 @@
 #endif
 #define TAPPING_TERM 225
 
-// The thumb Down switch is held back briefly so a firm press can resolve to
-// DoubleDown without emitting Down first.
+// Fallback idle timeout for thumb Down/DoubleDown disambiguation. A non-thumb
+// key press now commits Down immediately; this only applies while Down is held
+// alone.
 #define THUMB_DOUBLEDOWN_GRACE_MS 100
 
 // When the temporary scroll swap is active, scale each physical trackball's

@@ -23,6 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "quantum.h"
 #include "print.h"
 #include "svalboard.h"
+#ifdef SPLIT_KEYBOARD
+#    include "split_common/transport.h"
+#    include "split_common/split_util.h"
+#endif
 
 #define ROWS_PER_HAND 5
 
@@ -94,8 +98,11 @@ static void unselect_rows(void) {
 
 
 /* matrix state(1:on, 0:off) */
-extern matrix_row_t raw_matrix[ROWS_PER_HAND]; // raw values
-extern matrix_row_t matrix[ROWS_PER_HAND];     // debounced values
+extern matrix_row_t raw_matrix[MATRIX_ROWS]; // raw values
+extern matrix_row_t matrix[MATRIX_ROWS];     // filtered debounced values
+#ifdef SPLIT_KEYBOARD
+extern uint8_t thisHand, thatHand;
+#endif
 
 extern uint16_t sval_prewait_us[];
 extern uint16_t sval_postwait_us[];
@@ -104,11 +111,7 @@ extern uint16_t sval_postwait_us[];
 #ifndef THUMB_DOUBLEDOWN_GRACE_MS
 #define THUMB_DOUBLEDOWN_GRACE_MS 50
 #endif
-/* Minimum time (ms) to hold the synthetic Down press during tap replay.
- * Must exceed the debounce period (default 5 ms) so the debouncer registers
- * the press before we release it.  Also used as the threshold for
- * DOWN_COMMITTED: if the real press was visible to the debouncer for less
- * than this, a synthetic replay is needed to guarantee the tap registers. */
+/* Minimum time (ms) to hold the synthetic Down press during tap replay. */
 #ifndef THUMB_TAP_REPLAY_MS
 #define THUMB_TAP_REPLAY_MS 10
 #endif
@@ -121,6 +124,12 @@ typedef enum {
     THUMB_CLUSTER_TAP_REPLAY,
 } thumb_cluster_state_t;
 
+typedef enum {
+    THUMB_RAW_IDLE,
+    THUMB_RAW_DOWN,
+    THUMB_RAW_TAP_REPLAY,
+} thumb_raw_state_t;
+
 /*
  * Gen 2 boards can invert the idle polarity of the double-down switch. Sample
  * the idle level a few scans after boot, then normalize the column by XORing
@@ -131,102 +140,200 @@ static uint8_t dd_detected = 0;
 
 /*
  * The thumb Down and DoubleDown positions are a single physical key with two
- * switches. Hold Down back briefly so a decisive full press can resolve to
- * DoubleDown without ever reporting Down first.
+ * switches. The debounced physical matrix is filtered after both halves have
+ * been combined, so a cross-hand key press can commit Down immediately instead
+ * of waiting for the DoubleDown fallback timer.
  */
-static thumb_cluster_state_t thumb_cluster_state = THUMB_CLUSTER_IDLE;
-static uint32_t thumb_down_pending_started_at = 0;
+typedef struct {
+    thumb_cluster_state_t state;
+    uint32_t              started_at;
+} thumb_cluster_t;
+
+static matrix_row_t   debounced_physical_matrix[MATRIX_ROWS];
+static matrix_row_t   previous_physical_matrix[MATRIX_ROWS];
+static matrix_row_t   delayed_press_matrix[MATRIX_ROWS];
+static thumb_cluster_t thumb_clusters[] = {
+    {THUMB_CLUSTER_IDLE, 0},
+    {THUMB_CLUSTER_IDLE, 0},
+};
 
 static const char * const thumb_state_names[] __attribute__((unused)) = {
     "IDLE", "PEND", "DOWN", "DD", "RPLY"
 };
 
-static void apply_thumb_double_down_grace(matrix_row_t *current_row_value) {
-    const matrix_row_t down_mask         = (matrix_row_t)1 << THUMB_DOWN_COL;
-    const matrix_row_t double_down_mask  = (matrix_row_t)1 << DOUBLEDOWN_COL;
-    const bool         raw_down_pressed  = (*current_row_value & down_mask) != 0;
+static thumb_raw_state_t thumb_raw_state = THUMB_RAW_IDLE;
+static uint32_t          thumb_raw_replay_started_at = 0;
+
+static void apply_thumb_down_tap_replay(matrix_row_t *current_row_value) {
+    const matrix_row_t down_mask           = (matrix_row_t)1 << THUMB_DOWN_COL;
+    const matrix_row_t double_down_mask    = (matrix_row_t)1 << DOUBLEDOWN_COL;
+    const bool         raw_down_pressed    = (*current_row_value & down_mask) != 0;
     const bool         double_down_pressed = (*current_row_value & double_down_mask) != 0;
 
-    if (double_down_pressed) {
-        *current_row_value &= ~down_mask;
+    switch (thumb_raw_state) {
+        case THUMB_RAW_IDLE:
+            if (raw_down_pressed && !double_down_pressed) {
+                thumb_raw_state = THUMB_RAW_DOWN;
+            }
+            break;
+
+        case THUMB_RAW_DOWN:
+            if (double_down_pressed) {
+                thumb_raw_state = THUMB_RAW_IDLE;
+            } else if (!raw_down_pressed) {
+                thumb_raw_state             = THUMB_RAW_TAP_REPLAY;
+                thumb_raw_replay_started_at = timer_read32();
+                *current_row_value |= down_mask;
+            }
+            break;
+
+        case THUMB_RAW_TAP_REPLAY:
+            if (double_down_pressed) {
+                *current_row_value &= ~down_mask;
+                thumb_raw_state = THUMB_RAW_IDLE;
+            } else if (timer_elapsed32(thumb_raw_replay_started_at) >= THUMB_TAP_REPLAY_MS) {
+                *current_row_value &= ~down_mask;
+                thumb_raw_state = raw_down_pressed ? THUMB_RAW_DOWN : THUMB_RAW_IDLE;
+            } else {
+                *current_row_value |= down_mask;
+            }
+            break;
+    }
+}
+
+static bool collect_new_non_down_dd_presses(const matrix_row_t physical_matrix[], matrix_row_t thumb_cluster_mask, matrix_row_t new_presses[]) {
+    bool found = false;
+
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        matrix_row_t row_presses = physical_matrix[row] & ~previous_physical_matrix[row];
+        if (row == 0 || row == ROWS_PER_HAND) {
+            row_presses &= ~thumb_cluster_mask;
+        }
+        new_presses[row] = row_presses;
+        found |= row_presses != 0;
     }
 
-    thumb_cluster_state_t prev_state __attribute__((unused)) = thumb_cluster_state;
+    return found;
+}
 
-    switch (thumb_cluster_state) {
+static void suppress_presses(matrix_row_t output_matrix[], const matrix_row_t suppressed_presses[]) {
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        output_matrix[row] &= ~suppressed_presses[row];
+        delayed_press_matrix[row] |= suppressed_presses[row];
+    }
+}
+
+static bool apply_thumb_cluster_interlock(uint8_t cluster_index, uint8_t thumb_row, const matrix_row_t physical_matrix[], matrix_row_t output_matrix[]) {
+    const matrix_row_t down_mask         = (matrix_row_t)1 << THUMB_DOWN_COL;
+    const matrix_row_t double_down_mask  = (matrix_row_t)1 << DOUBLEDOWN_COL;
+    const bool         raw_down_pressed  = (physical_matrix[thumb_row] & down_mask) != 0;
+    const bool         double_down_pressed = (physical_matrix[thumb_row] & double_down_mask) != 0;
+    thumb_cluster_t   *cluster           = &thumb_clusters[cluster_index];
+    const thumb_cluster_state_t prev_state = cluster->state;
+    matrix_row_t       new_presses[MATRIX_ROWS] = {0};
+
+    if (double_down_pressed) {
+        output_matrix[thumb_row] &= ~down_mask;
+    }
+
+    switch (cluster->state) {
         case THUMB_CLUSTER_IDLE:
             if (double_down_pressed) {
-                thumb_cluster_state = THUMB_CLUSTER_DD_COMMITTED;
+                cluster->state = THUMB_CLUSTER_DD_COMMITTED;
             } else if (raw_down_pressed) {
-                thumb_cluster_state           = THUMB_CLUSTER_PENDING;
-                thumb_down_pending_started_at = timer_read32();
-                *current_row_value &= ~down_mask;
+                cluster->state      = THUMB_CLUSTER_PENDING;
+                cluster->started_at = timer_read32();
+                output_matrix[thumb_row] &= ~down_mask;
             }
             break;
 
         case THUMB_CLUSTER_PENDING:
             if (double_down_pressed) {
-                thumb_cluster_state = THUMB_CLUSTER_DD_COMMITTED;
+                cluster->state = THUMB_CLUSTER_DD_COMMITTED;
             } else if (!raw_down_pressed) {
                 /* Quick tap: Down was released within the grace window
                  * without DoubleDown firing.  Replay the suppressed press
-                 * so the debouncer picks it up. */
-                thumb_cluster_state = THUMB_CLUSTER_TAP_REPLAY;
-                thumb_down_pending_started_at = timer_read32();
-                *current_row_value |= down_mask;
-            } else if (timer_elapsed32(thumb_down_pending_started_at) < THUMB_DOUBLEDOWN_GRACE_MS) {
-                *current_row_value &= ~down_mask;
+                 * so QMK sees a normal tap. */
+                cluster->state      = THUMB_CLUSTER_TAP_REPLAY;
+                cluster->started_at = timer_read32();
+                output_matrix[thumb_row] |= down_mask;
+            } else if (collect_new_non_down_dd_presses(physical_matrix, down_mask | double_down_mask, new_presses)) {
+                /* A real key is trying to use the Down hold.  Commit Down now,
+                 * and hold the new press back for one scan so QMK processes
+                 * the layer-tap before the key that depends on it. */
+                cluster->state      = THUMB_CLUSTER_DOWN_COMMITTED;
+                cluster->started_at = timer_read32();
+                output_matrix[thumb_row] |= down_mask;
+                suppress_presses(output_matrix, new_presses);
+            } else if (timer_elapsed32(cluster->started_at) < THUMB_DOUBLEDOWN_GRACE_MS) {
+                output_matrix[thumb_row] &= ~down_mask;
             } else {
-                thumb_cluster_state = THUMB_CLUSTER_DOWN_COMMITTED;
-                thumb_down_pending_started_at = timer_read32();
+                cluster->state      = THUMB_CLUSTER_DOWN_COMMITTED;
+                cluster->started_at = timer_read32();
             }
             break;
 
         case THUMB_CLUSTER_DOWN_COMMITTED:
             if (double_down_pressed) {
-                thumb_cluster_state = THUMB_CLUSTER_DD_COMMITTED;
+                cluster->state = THUMB_CLUSTER_DD_COMMITTED;
             } else if (!raw_down_pressed) {
-                if (timer_elapsed32(thumb_down_pending_started_at) < THUMB_TAP_REPLAY_MS) {
-                    /* Released before the debouncer could confirm the press
-                     * (Down was suppressed during PENDING, so the debouncer
-                     * only started seeing ON when we entered DOWN_COMMITTED).
-                     * Replay a synthetic press so the tap isn't lost. */
-                    thumb_cluster_state = THUMB_CLUSTER_TAP_REPLAY;
-                    thumb_down_pending_started_at = timer_read32();
-                    *current_row_value |= down_mask;
-                } else {
-                    thumb_cluster_state = THUMB_CLUSTER_IDLE;
-                }
+                cluster->state = THUMB_CLUSTER_IDLE;
             }
             break;
 
         case THUMB_CLUSTER_DD_COMMITTED:
-            *current_row_value &= ~down_mask;
+            output_matrix[thumb_row] &= ~down_mask;
             if (!raw_down_pressed && !double_down_pressed) {
-                thumb_cluster_state = THUMB_CLUSTER_IDLE;
+                cluster->state = THUMB_CLUSTER_IDLE;
             }
             break;
 
         case THUMB_CLUSTER_TAP_REPLAY:
-            if (timer_elapsed32(thumb_down_pending_started_at) >= THUMB_TAP_REPLAY_MS) {
+            if (double_down_pressed) {
+                output_matrix[thumb_row] &= ~down_mask;
+                cluster->state = THUMB_CLUSTER_DD_COMMITTED;
+            } else if (timer_elapsed32(cluster->started_at) >= THUMB_TAP_REPLAY_MS) {
                 /* Replay complete — force OFF and return to idle. */
-                *current_row_value &= ~down_mask;
-                thumb_cluster_state = THUMB_CLUSTER_IDLE;
+                output_matrix[thumb_row] &= ~down_mask;
+                cluster->state = THUMB_CLUSTER_IDLE;
             } else {
-                /* Hold the synthetic press so the debouncer registers it. */
-                *current_row_value |= down_mask;
+                /* Hold the synthetic press long enough for QMK to see it. */
+                output_matrix[thumb_row] |= down_mask;
             }
             break;
     }
 
-    if (thumb_cluster_state != prev_state) {
-        uprintf("TD: %s->%s raw=%d out=%d t=%lu\n",
+    if (cluster->state != prev_state) {
+        uprintf("TD%u: %s->%s raw=%d out=%d t=%lu\n",
+                cluster_index,
                 thumb_state_names[prev_state],
-                thumb_state_names[thumb_cluster_state],
+                thumb_state_names[cluster->state],
                 raw_down_pressed,
-                (*current_row_value & down_mask) ? 1 : 0,
+                (output_matrix[thumb_row] & down_mask) ? 1 : 0,
                 (unsigned long)timer_read32());
     }
+
+    return cluster->state != prev_state;
+}
+
+static bool apply_thumb_double_down_interlock(matrix_row_t output_matrix[]) {
+    matrix_row_t physical_matrix[MATRIX_ROWS];
+    matrix_row_t delayed_matrix[MATRIX_ROWS];
+    memcpy(physical_matrix, output_matrix, sizeof(physical_matrix));
+    memcpy(delayed_matrix, delayed_press_matrix, sizeof(delayed_matrix));
+    memset(delayed_press_matrix, 0, sizeof(delayed_press_matrix));
+
+    bool changed = false;
+    changed |= apply_thumb_cluster_interlock(0, 0, physical_matrix, output_matrix);
+    changed |= apply_thumb_cluster_interlock(1, ROWS_PER_HAND, physical_matrix, output_matrix);
+
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        output_matrix[row] |= delayed_matrix[row];
+    }
+
+    changed |= memcmp(previous_physical_matrix, physical_matrix, sizeof(physical_matrix)) != 0;
+    memcpy(previous_physical_matrix, physical_matrix, sizeof(previous_physical_matrix));
+    return changed;
 }
 
 void matrix_read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row) {
@@ -262,7 +369,7 @@ void matrix_read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
     }
 
     if (current_row == 0) {
-        apply_thumb_double_down_grace(&current_row_value);
+        apply_thumb_down_tap_replay(&current_row_value);
     }
 
     // Unselect row
@@ -308,4 +415,44 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         if (changed) memcpy(raw_matrix, curr_matrix, sizeof(curr_matrix));
 	return changed;
     }
+}
+
+uint8_t matrix_scan(void) {
+    bool changed = matrix_scan_custom(raw_matrix);
+
+#ifdef SPLIT_KEYBOARD
+    changed = debounce(raw_matrix, debounced_physical_matrix + thisHand, ROWS_PER_HAND, changed);
+
+    if (is_keyboard_master()) {
+        static bool  last_connected              = false;
+        matrix_row_t slave_matrix[ROWS_PER_HAND] = {0};
+
+        if (transport_master_if_connected(debounced_physical_matrix + thisHand, slave_matrix)) {
+            bool slave_changed = memcmp(debounced_physical_matrix + thatHand, slave_matrix, sizeof(slave_matrix)) != 0;
+            if (slave_changed) {
+                memcpy(debounced_physical_matrix + thatHand, slave_matrix, sizeof(slave_matrix));
+            }
+            changed |= slave_changed;
+            last_connected = true;
+        } else if (last_connected) {
+            memset(debounced_physical_matrix + thatHand, 0, sizeof(slave_matrix));
+            changed = true;
+            last_connected = false;
+        }
+
+        memcpy(matrix, debounced_physical_matrix, sizeof(debounced_physical_matrix));
+        changed |= apply_thumb_double_down_interlock(matrix);
+        matrix_scan_kb();
+    } else {
+        transport_slave(debounced_physical_matrix + thatHand, debounced_physical_matrix + thisHand);
+        matrix_slave_scan_kb();
+    }
+#else
+    changed = debounce(raw_matrix, debounced_physical_matrix, ROWS_PER_HAND, changed);
+    memcpy(matrix, debounced_physical_matrix, sizeof(debounced_physical_matrix));
+    changed |= apply_thumb_double_down_interlock(matrix);
+    matrix_scan_kb();
+#endif
+
+    return changed;
 }
