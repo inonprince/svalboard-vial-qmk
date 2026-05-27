@@ -190,6 +190,32 @@ layers TYPING/FUNC/SYS/MBO).
 
 Checks that the KLE JSON stays in sync with `keymap.c`.
 
+#### `generate_hebrew_keylayout.py`
+
+Generates the macOS Hebrew input layout from the current `BASE` layer and
+`hebrew_qwerty_positions.json`. The JSON maps Svalboard physical positions to
+the closest classic QWERTY/Hebrew slot; non-text slots such as Esc, Del, and
+Win are retained for physical review but skipped. The script derives the
+Hebrew output and patches `Hebrew Dvorak.keylayout`.
+
+Preview the generated mapping:
+
+```sh
+python3 keyboards/svalboard/keymaps/glove80_dvorak/generate_hebrew_keylayout.py \
+  --bundle "/Users/inon/Downloads/Hebrew-Dvorak-22-01-25/Hebrew Dvorak.bundle"
+```
+
+Write a copied bundle instead of touching the source bundle:
+
+```sh
+python3 keyboards/svalboard/keymaps/glove80_dvorak/generate_hebrew_keylayout.py \
+  --bundle "/Users/inon/Downloads/Hebrew-Dvorak-22-01-25/Hebrew Dvorak.bundle" \
+  --output-bundle keyboards/svalboard/keymaps/glove80_dvorak/generated/Hebrew\ Dvorak.bundle
+```
+
+Pass `--in-place` instead of `--output-bundle` only when you want to rewrite
+the source bundle directly.
+
 ### Other changes
 
 - `keyboards/svalboard/keymaps/keymap_support.h`: added `SV_BOOST_2/3/5`

@@ -1,0 +1,49 @@
+{
+  "description": "Approximate Svalboard physical positions as classic QWERTY/Hebrew slots. The generator derives Hebrew output from text slots and skips non-text slots such as Esc, Del, and Win.",
+  "positions": {
+    "l4n": "Q",
+    "l3n": "W",
+    "l2n": "E",
+    "l1n": "R",
+    "r1n": "U",
+    "r2n": "I",
+    "r3n": "O",
+    "r4n": "P",
+
+    "l4c": "A",
+    "l3c": "S",
+    "l2c": "D",
+    "l1c": "F",
+    "r1c": "J",
+    "r2c": "K",
+    "r3c": "L",
+    "r4c": ";",
+
+    "l4e": "[",
+    "l3e": "B",
+    "l2e": "T",
+    "l1e": "G",
+    "r1w": "H",
+    "r2w": "Y",
+    "r3w": "N",
+    "r4w": "]",
+
+    "l4s": "Z",
+    "l3s": "X",
+    "l2s": "C",
+    "l1s": "V",
+    "r1s": "M",
+    "r2s": ",",
+    "r3s": ".",
+    "r4s": "/",
+
+    "l4w": "Del",
+    "l3w": "Esc",
+    "l2w": "`",
+    "l1w": "\"",
+    "r1e": "'",
+    "r2e": ":",
+    "r3e": "Win",
+    "r4e": "\\"
+  }
+}
