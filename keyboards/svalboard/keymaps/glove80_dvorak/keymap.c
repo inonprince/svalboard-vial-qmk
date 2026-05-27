@@ -658,7 +658,7 @@ const uint16_t PROGMEM keymaps[DYNAMIC_KEYMAP_LAYER_COUNT][MATRIX_ROWS][MATRIX_C
         /*R3*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
         /*R4*/ KC_TRNS             , KC_TRNS              , KC_TRNS            , KC_TRNS            , KC_TRNS            , KC_NO ,
         /*L1*/ SV_OUTPUT_STATUS    , SV_MH_CHANGE_TIMEOUTS, SV_TOGGLE_AUTOMOUSE, KC_BTN1            , RGB_TOG            , KC_NO ,
-        /*L2*/ KC_SCRL             , SV_SCROLL_TOGGLE     , KC_NO              , KC_BTN2            , KC_NO              , KC_NO ,
+        /*L2*/ KC_SCRL             , SV_SCROLL_TOGGLE     , SV_MAC_SCROLL_TOGGLE, KC_BTN2          , KC_NO              , KC_NO ,
         /*L3*/ SV_RIGHT_DPI_INC    , SV_RIGHT_SCROLL_TOGGLE, KC_PSCR           , SV_RIGHT_DPI_DEC   , KC_APP             , KC_NO ,
         /*L4*/ SV_LEFT_DPI_INC     , SV_LEFT_SCROLL_TOGGLE, KC_PAUSE           , SV_LEFT_DPI_DEC    , KC_NUM             , KC_NO ,
 

@@ -53,6 +53,33 @@ axis_scale_t r_y = {1, SCROLL_DIVISOR, SCROLL_MULTIPLIER};
 
 #define MAC_DIVISOR 120
 bool is_mac = false;
+
+static bool scroll_divisor_initialized = false;
+
+static void set_scroll_divisor(uint8_t divisor) {
+    set_div_axis(&l_x, divisor);
+    set_div_axis(&l_y, divisor);
+    set_div_axis(&r_x, divisor);
+    set_div_axis(&r_y, divisor);
+}
+
+static void apply_manual_scroll_divisor(void) {
+    set_scroll_divisor((global_saved_values.mac_scroll_divisor && is_mac) ? MAC_DIVISOR : SCROLL_DIVISOR);
+    scroll_divisor_initialized = true;
+}
+
+static void ensure_scroll_divisor_initialized(void) {
+    if (!scroll_divisor_initialized) {
+        apply_manual_scroll_divisor();
+    }
+}
+
+void toggle_mac_scroll_divisor(void) {
+    global_saved_values.mac_scroll_divisor = !global_saved_values.mac_scroll_divisor;
+    apply_manual_scroll_divisor();
+    write_eeprom_kb();
+}
+
 bool process_detected_host_os_kb(os_variant_t os) {
     if (!process_detected_host_os_user(os)) {
         return false;
@@ -61,20 +88,13 @@ bool process_detected_host_os_kb(os_variant_t os) {
     switch (os) {
         case OS_MACOS:
         case OS_IOS:
-            set_div_axis(&l_x, MAC_DIVISOR);
-            set_div_axis(&l_y, MAC_DIVISOR);
-            set_div_axis(&r_x, MAC_DIVISOR);
-            set_div_axis(&r_y, MAC_DIVISOR);
 	    is_mac = true;
             break;
         default:
-            set_div_axis(&l_x, SCROLL_DIVISOR);
-            set_div_axis(&l_y, SCROLL_DIVISOR);
-            set_div_axis(&r_x, SCROLL_DIVISOR);
-            set_div_axis(&r_y, SCROLL_DIVISOR);
 	    is_mac = false;
 	    break;
     }
+    apply_manual_scroll_divisor();
     return true;
 }
 
@@ -321,6 +341,8 @@ void handle_boost_key(bool pressed, uint8_t multiplier) {
 }
 
 report_mouse_t pointing_device_task_combined_user(report_mouse_t reportMouse1, report_mouse_t reportMouse2) {
+    ensure_scroll_divisor_initialized();
+
     report_mouse_t ret_mouse;
     bool roles_inverted = scroll_roles_inverted();
     uint16_t left_dpi = get_left_dpi();
@@ -506,7 +528,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 		            keycode == SV_RIGHT_SCROLL_TOGGLE || \
 		            keycode == SV_AXIS_SCROLL_LOCK || \
 	                    keycode == SV_MH_CHANGE_TIMEOUTS || \
-                        keycode == SV_TOGGLE_AUTOMOUSE)
+                        keycode == SV_TOGGLE_AUTOMOUSE || \
+                        keycode == SV_MAC_SCROLL_TOGGLE)
 
         uint16_t layer_keycode = keymap_key_to_keycode(MH_AUTO_BUTTONS_LAYER, record->event.key);
         if (BAD_KEYCODE_CONDITONAL ||
@@ -637,6 +660,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 	    case SV_TURBO_SCAN:
 	        change_turbo_scan();
 	        return false;
+            case SV_MAC_SCROLL_TOGGLE:
+                toggle_mac_scroll_divisor();
+                return false;
         }
     } else { // key released
         switch (keycode) {

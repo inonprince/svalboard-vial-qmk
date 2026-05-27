@@ -120,6 +120,11 @@
 	 "shortName": "Turbo\nScan",
 	 "title": "Change the scan mode of the keyboard.",
 	 "name": "SV_TURBO_SCAN"
+      },
+      {
+        "shortName": "Mac\nScroll\nDiv",
+        "title": "Toggle the manual Mac scroll divisor.",
+        "name": "SV_MAC_SCROLL_TOGGLE"
       }
     ],
     "layouts": {

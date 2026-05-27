@@ -33,7 +33,8 @@ struct __attribute__((__packed__)) saved_values {
     bool right_scroll :1;
     bool axis_scroll_lock: 1;
     bool auto_mouse: 1;
-    unsigned int unused0 :4;
+    bool mac_scroll_divisor: 1;
+    unsigned int unused0 :3;
     uint8_t left_dpi_index;
     uint8_t right_dpi_index;
     uint8_t mh_timer_index;
@@ -70,6 +71,7 @@ void set_left_dpi(uint8_t index);
 void set_right_dpi(uint8_t index);
 void write_eeprom_kb(void);
 void change_turbo_scan(void);
+void toggle_mac_scroll_divisor(void);
 void recalibrate_pointer(void);
 void sval_set_active_layer(uint32_t layer, bool save);
 void sval_on_reconnect(void);

@@ -122,6 +122,11 @@
 	 "name": "SV_TURBO_SCAN"
       },
       {
+        "shortName": "Mac\nScroll\nDiv",
+        "title": "Toggle the manual Mac scroll divisor.",
+        "name": "SV_MAC_SCROLL_TOGGLE"
+      },
+      {
         "shortName": "App\nSwitch",
         "title": "Hold Cmd+Tab and a temporary typing layer for app switching.",
         "name": "SV_APP_SWITCH"

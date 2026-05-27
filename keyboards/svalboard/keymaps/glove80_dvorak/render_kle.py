@@ -259,6 +259,7 @@ CUSTOM_LABEL_OVERRIDES = {
     "SV_OUTPUT_STATUS": "status",
     "SV_TOGGLE_AUTOMOUSE": "auto ms",
     "SV_TURBO_SCAN": "turbo",
+    "SV_MAC_SCROLL_TOGGLE": "mac div",
     "SV_APP_SWITCH": "app sw",
     "SV_SELECT_NONE": "desel",
     "SV_SELECT_WORD": "sel wd",

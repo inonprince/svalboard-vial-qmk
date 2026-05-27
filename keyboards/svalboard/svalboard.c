@@ -67,6 +67,11 @@ void read_eeprom_kb(void) {
         global_saved_values.version = 6;
         global_saved_values.turbo_scan = 0;
     }
+    if (global_saved_values.version < 7) {
+        global_saved_values.version = 7;
+        global_saved_values.mac_scroll_divisor = true;
+        modified = true;
+    }
 
     // As we add versions, just append here.
     if (modified) {
@@ -99,9 +104,11 @@ void output_keyboard_info(void) {
 	    yes_or_no(global_saved_values.left_scroll), dpi_choices[global_saved_values.left_dpi_index],
 	    yes_or_no(global_saved_values.right_scroll), dpi_choices[global_saved_values.right_dpi_index]);
     send_string(output_buffer);
-    sprintf(output_buffer, "Axis Scroll Lock: %s (is Mac: %d), Mouse Layer: %s, Mouse Layer Timeout: %d, Turbo Scan: %d\n",
+    sprintf(output_buffer, "Axis Scroll Lock: %s (is Mac: %d), Mac Scroll Divisor Toggle: %s, Mac Scroll Divisor Active: %s, Mouse Layer: %s, Mouse Layer Timeout: %d, Turbo Scan: %d\n",
 	    yes_or_no(global_saved_values.axis_scroll_lock),
 	    is_mac,
+	    yes_or_no(global_saved_values.mac_scroll_divisor),
+	    yes_or_no(global_saved_values.mac_scroll_divisor && is_mac),
 	    yes_or_no(global_saved_values.auto_mouse),
 	    mh_timer_choices[global_saved_values.mh_timer_index],
 	    global_saved_values.turbo_scan);
