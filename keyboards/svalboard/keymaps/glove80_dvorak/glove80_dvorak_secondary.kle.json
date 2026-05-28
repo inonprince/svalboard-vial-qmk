@@ -1,12 +1,9 @@
 [
   {
+    "backcolor": "#141414",
     "name": "Svalboard inonio Layout",
     "author": "Inon Prince",
     "notes": "Trackpoint-enabled versions can use Automousekeys for mouse buttons, shown in red.",
-    "background": {
-      "name": "ABS WA",
-      "style": "background-image: url('/bg/plastic/abs-wa.jpg');"
-    },
     "radii": "10"
   },
   [
@@ -128,7 +125,7 @@
       ],
       "a": 4
     },
-    "\u2193\nF14\n\n",
+    "\u2193\nF14\nmac div\n",
     {
       "x": 5.25,
       "t": "#ffffff\n#3b64ff\n#ff3b3b\n#f9ff00",
