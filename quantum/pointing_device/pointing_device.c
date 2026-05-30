@@ -46,6 +46,44 @@
 report_mouse_t shared_mouse_report = {};
 uint16_t       shared_cpi          = 0;
 
+static inline mouse_xy_report_t pointing_device_shared_xy_clamp(xy_clamp_range_t value) {
+    if (value < MOUSE_REPORT_XY_MIN) {
+        return MOUSE_REPORT_XY_MIN;
+    }
+    if (value > MOUSE_REPORT_XY_MAX) {
+        return MOUSE_REPORT_XY_MAX;
+    }
+    return value;
+}
+
+static inline mouse_hv_report_t pointing_device_shared_hv_clamp(hv_clamp_range_t value) {
+    if (value < MOUSE_REPORT_HV_MIN) {
+        return MOUSE_REPORT_HV_MIN;
+    }
+    if (value > MOUSE_REPORT_HV_MAX) {
+        return MOUSE_REPORT_HV_MAX;
+    }
+    return value;
+}
+
+static void pointing_device_clear_report_motion(report_mouse_t *report) {
+#    ifdef MOUSE_EXTENDED_REPORT
+    report->boot_x = 0;
+    report->boot_y = 0;
+#    endif
+    report->x = 0;
+    report->y = 0;
+    report->h = 0;
+    report->v = 0;
+}
+
+static report_mouse_t pointing_device_consume_shared_report(void) {
+    report_mouse_t report = shared_mouse_report;
+
+    pointing_device_clear_report_motion(&shared_mouse_report);
+    return report;
+}
+
 /**
  * @brief Sets the shared mouse report used be pointing device task
  *
@@ -55,6 +93,21 @@ uint16_t       shared_cpi          = 0;
  */
 void pointing_device_set_shared_report(report_mouse_t new_mouse_report) {
     shared_mouse_report = new_mouse_report;
+}
+
+/**
+ * @brief Accumulates a shared mouse report until pointing device task consumes it
+ *
+ * NOTE : Only available when using SPLIT_POINTING_ENABLE
+ *
+ * @param[in] new_mouse_report report_mouse_t
+ */
+void pointing_device_accumulate_shared_report(report_mouse_t new_mouse_report) {
+    shared_mouse_report.buttons = new_mouse_report.buttons;
+    shared_mouse_report.x       = pointing_device_shared_xy_clamp((xy_clamp_range_t)shared_mouse_report.x + new_mouse_report.x);
+    shared_mouse_report.y       = pointing_device_shared_xy_clamp((xy_clamp_range_t)shared_mouse_report.y + new_mouse_report.y);
+    shared_mouse_report.h       = pointing_device_shared_hv_clamp((hv_clamp_range_t)shared_mouse_report.h + new_mouse_report.h);
+    shared_mouse_report.v       = pointing_device_shared_hv_clamp((hv_clamp_range_t)shared_mouse_report.v + new_mouse_report.v);
 }
 
 /**
@@ -333,7 +386,11 @@ __attribute__((weak)) bool pointing_device_task(void) {
         local_mouse_report         = pointing_device_driver->get_report(local_mouse_report);
         old_buttons                = local_mouse_report.buttons;
 #    elif defined(POINTING_DEVICE_LEFT) || defined(POINTING_DEVICE_RIGHT)
-        local_mouse_report = POINTING_DEVICE_THIS_SIDE ? pointing_device_driver->get_report(local_mouse_report) : shared_mouse_report;
+        if (POINTING_DEVICE_THIS_SIDE) {
+            local_mouse_report = pointing_device_driver->get_report(local_mouse_report);
+        } else {
+            local_mouse_report = pointing_device_consume_shared_report();
+        }
 #    else
 #        error "You need to define the side(s) the pointing device is on. POINTING_DEVICE_COMBINED / POINTING_DEVICE_LEFT / POINTING_DEVICE_RIGHT"
 #    endif
@@ -347,14 +404,15 @@ __attribute__((weak)) bool pointing_device_task(void) {
 
     // allow kb to intercept and modify report
 #if defined(SPLIT_POINTING_ENABLE) && defined(POINTING_DEVICE_COMBINED)
+    report_mouse_t remote_mouse_report = pointing_device_consume_shared_report();
     if (is_keyboard_left()) {
         local_mouse_report  = pointing_device_adjust_by_defines(local_mouse_report);
-        shared_mouse_report = pointing_device_adjust_by_defines_right(shared_mouse_report);
+        remote_mouse_report = pointing_device_adjust_by_defines_right(remote_mouse_report);
     } else {
         local_mouse_report  = pointing_device_adjust_by_defines_right(local_mouse_report);
-        shared_mouse_report = pointing_device_adjust_by_defines(shared_mouse_report);
+        remote_mouse_report = pointing_device_adjust_by_defines(remote_mouse_report);
     }
-    local_mouse_report = is_keyboard_left() ? pointing_device_task_combined_kb(local_mouse_report, shared_mouse_report) : pointing_device_task_combined_kb(shared_mouse_report, local_mouse_report);
+    local_mouse_report = is_keyboard_left() ? pointing_device_task_combined_kb(local_mouse_report, remote_mouse_report) : pointing_device_task_combined_kb(remote_mouse_report, local_mouse_report);
 #else
     local_mouse_report = pointing_device_adjust_by_defines(local_mouse_report);
 #endif

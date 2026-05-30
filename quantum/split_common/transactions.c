@@ -718,10 +718,22 @@ static bool pointing_handlers_master(matrix_row_t master_matrix[], matrix_row_t 
     static uint32_t last_update     = 0;
     static uint32_t last_cpi_update = 0;
     static uint16_t last_cpi        = 0;
-    report_mouse_t  temp_state;
-    uint16_t        temp_cpi;
-    bool            okay = read_if_checksum_mismatch(GET_POINTING_CHECKSUM, GET_POINTING_DATA, &last_update, &temp_state, &split_shmem->pointing.report, sizeof(temp_state));
-    if (okay) pointing_device_set_shared_report(temp_state);
+    static uint8_t  last_sequence   = 0;
+    split_slave_pointing_report_sync_t temp_state;
+    uint16_t                           temp_cpi;
+    uint8_t                            curr_checksum;
+    bool                               okay = transport_read(GET_POINTING_CHECKSUM, &curr_checksum, sizeof(curr_checksum));
+    if (okay && (timer_elapsed32(last_update) >= FORCED_SYNC_THROTTLE_MS || curr_checksum != crc8(&split_shmem->pointing.report, sizeof(split_shmem->pointing.report)))) {
+        okay &= transport_read(GET_POINTING_DATA, &temp_state, sizeof(temp_state));
+        okay &= curr_checksum == crc8(&temp_state, sizeof(temp_state));
+        if (okay) {
+            last_update = timer_read32();
+            if (temp_state.sequence != last_sequence) {
+                last_sequence = temp_state.sequence;
+                pointing_device_accumulate_shared_report(temp_state.report);
+            }
+        }
+    }
     temp_cpi = pointing_device_get_shared_cpi();
     if (temp_cpi) {
         split_shmem->pointing.cpi = temp_cpi;
@@ -735,6 +747,82 @@ static bool pointing_handlers_master(matrix_row_t master_matrix[], matrix_row_t 
 
 extern const pointing_device_driver_t *pointing_device_driver;
 
+static inline mouse_xy_report_t pointing_clamp_xy(xy_clamp_range_t value) {
+    if (value < MOUSE_REPORT_XY_MIN) {
+        return MOUSE_REPORT_XY_MIN;
+    }
+    if (value > MOUSE_REPORT_XY_MAX) {
+        return MOUSE_REPORT_XY_MAX;
+    }
+    return value;
+}
+
+static inline mouse_hv_report_t pointing_clamp_hv(hv_clamp_range_t value) {
+    if (value < MOUSE_REPORT_HV_MIN) {
+        return MOUSE_REPORT_HV_MIN;
+    }
+    if (value > MOUSE_REPORT_HV_MAX) {
+        return MOUSE_REPORT_HV_MAX;
+    }
+    return value;
+}
+
+static bool pointing_report_has_motion(const report_mouse_t *report) {
+    return report->x != 0 || report->y != 0 || report->h != 0 || report->v != 0;
+}
+
+static void pointing_report_clear_motion(report_mouse_t *report) {
+#    ifdef MOUSE_EXTENDED_REPORT
+    report->boot_x = 0;
+    report->boot_y = 0;
+#    endif
+    report->x = 0;
+    report->y = 0;
+    report->h = 0;
+    report->v = 0;
+}
+
+static void pointing_report_accumulate(report_mouse_t *accumulator, report_mouse_t report) {
+    accumulator->buttons = report.buttons;
+    accumulator->x       = pointing_clamp_xy((xy_clamp_range_t)accumulator->x + report.x);
+    accumulator->y       = pointing_clamp_xy((xy_clamp_range_t)accumulator->y + report.y);
+    accumulator->h       = pointing_clamp_hv((hv_clamp_range_t)accumulator->h + report.h);
+    accumulator->v       = pointing_clamp_hv((hv_clamp_range_t)accumulator->v + report.v);
+}
+
+static void pointing_handlers_update_slave_cpi(split_slave_pointing_sync_t *pointing) {
+    static uint16_t applied_cpi = 0;
+
+    if (pointing->cpi && pointing->cpi != applied_cpi && pointing_device_driver->set_cpi) {
+        pointing_device_driver->set_cpi(pointing->cpi);
+        applied_cpi = pointing->cpi;
+    }
+}
+
+static void pointing_handlers_poll_slave(split_slave_pointing_sync_t *pointing) {
+    pointing_handlers_update_slave_cpi(pointing);
+    report_mouse_t report = pointing_device_driver->get_report((report_mouse_t){0});
+
+    pointing_report_accumulate(&pointing->accumulator, report);
+}
+
+static void pointing_handlers_prepare_report(uint8_t initiator2target_buffer_size, const void *initiator2target_buffer, uint8_t target2initiator_buffer_size, void *target2initiator_buffer) {
+    split_slave_pointing_sync_t *pointing = &split_shmem->pointing;
+
+    pointing_handlers_poll_slave(pointing);
+
+    report_mouse_t next = pointing->accumulator;
+
+    pointing_report_clear_motion(&pointing->accumulator);
+
+    if (pointing_report_has_motion(&next) || pointing_report_has_motion(&pointing->report.report) || next.buttons != pointing->report.report.buttons) {
+        pointing->report.sequence++;
+        pointing->report.report = next;
+    }
+
+    pointing->checksum = crc8(&pointing->report, sizeof(pointing->report));
+}
+
 static void pointing_handlers_slave(matrix_row_t master_matrix[], matrix_row_t slave_matrix[]) {
 #    if defined(POINTING_DEVICE_LEFT)
     if (!is_keyboard_left()) {
@@ -745,40 +833,15 @@ static void pointing_handlers_slave(matrix_row_t master_matrix[], matrix_row_t s
         return;
     }
 #    endif
-#    if (POINTING_DEVICE_TASK_THROTTLE_MS > 0)
-#       ifndef SLAVE_POINTING_THROTTLE_MULT
-#           define SLAVE_POINTING_THROTTLE_MULT 5
-#       endif
-    static uint32_t last_exec = 0;
-    if (timer_elapsed32(last_exec) < POINTING_DEVICE_TASK_THROTTLE_MS * SLAVE_POINTING_THROTTLE_MULT) {
-        return;
-    }
-    last_exec = timer_read32();
-#    endif
-
-    uint16_t temp_cpi = !pointing_device_driver->get_cpi ? 0 : pointing_device_driver->get_cpi(); // check for NULL
 
     split_shared_memory_lock();
-    split_slave_pointing_sync_t pointing;
-    memcpy(&pointing, &split_shmem->pointing, sizeof(split_slave_pointing_sync_t));
-    split_shared_memory_unlock();
-
-    if (pointing.cpi && pointing.cpi != temp_cpi && pointing_device_driver->set_cpi) {
-        pointing_device_driver->set_cpi(pointing.cpi);
-    }
-
-    pointing.report = pointing_device_driver->get_report((report_mouse_t){0});
-    // Now update the checksum given that the pointing has been written to
-    pointing.checksum = crc8(&pointing.report, sizeof(report_mouse_t));
-
-    split_shared_memory_lock();
-    memcpy(&split_shmem->pointing, &pointing, sizeof(split_slave_pointing_sync_t));
+    pointing_handlers_poll_slave(&split_shmem->pointing);
     split_shared_memory_unlock();
 }
 
 #    define TRANSACTIONS_POINTING_MASTER() TRANSACTION_HANDLER_MASTER(pointing)
 #    define TRANSACTIONS_POINTING_SLAVE() TRANSACTION_HANDLER_SLAVE(pointing)
-#    define TRANSACTIONS_POINTING_REGISTRATIONS [GET_POINTING_CHECKSUM] = trans_target2initiator_initializer(pointing.checksum), [GET_POINTING_DATA] = trans_target2initiator_initializer(pointing.report), [PUT_POINTING_CPI] = trans_initiator2target_initializer(pointing.cpi),
+#    define TRANSACTIONS_POINTING_REGISTRATIONS [GET_POINTING_CHECKSUM] = trans_target2initiator_initializer_cb(pointing.checksum, pointing_handlers_prepare_report), [GET_POINTING_DATA] = trans_target2initiator_initializer(pointing.report), [PUT_POINTING_CPI] = trans_initiator2target_initializer(pointing.cpi),
 
 #else // defined(POINTING_DEVICE_ENABLE) && defined(SPLIT_POINTING_ENABLE)
 

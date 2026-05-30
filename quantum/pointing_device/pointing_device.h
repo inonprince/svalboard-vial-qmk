@@ -131,6 +131,7 @@ uint16_t pointing_device_get_hires_scroll_resolution(void);
 
 #if defined(SPLIT_POINTING_ENABLE)
 void     pointing_device_set_shared_report(report_mouse_t report);
+void     pointing_device_accumulate_shared_report(report_mouse_t report);
 uint16_t pointing_device_get_shared_cpi(void);
 #    if !defined(POINTING_DEVICE_TASK_THROTTLE_MS)
 #        define POINTING_DEVICE_TASK_THROTTLE_MS 1
