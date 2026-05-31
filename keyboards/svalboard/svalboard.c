@@ -95,10 +95,42 @@ const uint16_t dpi_choices[] = { 200, 300, 400, 600, 800, 1000, 1200, 1400, 1600
 #define DPI_CHOICES_LENGTH (sizeof(dpi_choices)/sizeof(dpi_choices[0]))
 extern bool is_mac;
 
+static bool copy_qmk_git_hash(char *dest, size_t length) {
+    bool   dirty = false;
+    size_t i     = 0;
+
+    if (length == 0) {
+        return false;
+    }
+
+    while (QMK_GIT_HASH[i] != '\0' && i + 1 < length) {
+        if (QMK_GIT_HASH[i] == '*') {
+            dirty = true;
+            break;
+        }
+        dest[i] = QMK_GIT_HASH[i];
+        i++;
+    }
+
+    dest[i] = '\0';
+
+    while (QMK_GIT_HASH[i] != '\0') {
+        if (QMK_GIT_HASH[i] == '*') {
+            dirty = true;
+            break;
+        }
+        i++;
+    }
+
+    return dirty;
+}
+
 void output_keyboard_info(void) {
     char output_buffer[256];
+    char git_hash[sizeof(QMK_GIT_HASH)];
+    bool git_dirty = copy_qmk_git_hash(git_hash, sizeof(git_hash));
 
-    sprintf(output_buffer, "%s:%s @ %s\n", QMK_KEYBOARD, QMK_KEYMAP, QMK_VERSION);
+    sprintf(output_buffer, "%s:%s @ git %s (%s, describe %s)\n", QMK_KEYBOARD, QMK_KEYMAP, git_hash, git_dirty ? "dirty" : "clean", QMK_VERSION);
     send_string(output_buffer);
     sprintf(output_buffer, "Left Ptr: Scroll %s, cpi: %d, Right Ptr: Scroll %s, cpi: %d\n",
 	    yes_or_no(global_saved_values.left_scroll), dpi_choices[global_saved_values.left_dpi_index],
