@@ -5,6 +5,13 @@
 
 #define VIAL_KEYBOARD_UID {0x1B, 0x18, 0x7D, 0xF2, 0x21, 0xF6, 0x29, 0x48}
 
+// The RP2040 build has no dedicated USB VBUS sense pin, so QMK uses
+// SPLIT_USB_DETECT and waits for active USB before deciding which half is
+// master. The stock 2s USB window and 2.1s watchdog are tight enough that a
+// slow host/KVM/hub or still-initializing slave can leave only one half alive.
+#define SPLIT_USB_TIMEOUT 3000
+#define SPLIT_WATCHDOG_TIMEOUT 10000
+
 // Vial security combos, depending on which unit this is...
 #ifdef INIT_EE_HANDS_RIGHT
 // right thumb lock
