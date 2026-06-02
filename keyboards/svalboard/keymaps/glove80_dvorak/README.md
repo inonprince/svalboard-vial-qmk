@@ -23,8 +23,8 @@ this keymap or supports it.
 | 4 | FUNC | F1-F24, media controls, brightness |
 | 5 | SYS | RGB, trackball DPI/scroll config, layer locks |
 | 6 | TYPING | Transparent overlay activated during app-switch to unmask home-row mods |
-| 7 | BOARD_CONFIG | Svalboard hardware config (DPI, scroll, automouse) |
-| 8 | MBO | Automouse buttons layer with custom MBO modifiers |
+| 7 | BOARD_CONFIG | Reserved transparent layer below the automouse layer index |
+| 8 | MBO | Automouse layer, mostly transparent, with mirrored sniper/boost controls |
 
 ### Firmware features added
 
@@ -54,6 +54,19 @@ hold. When the roles are swapped, each trackball's report is scaled to match
 the other role's saved DPI, so the pointer and scroller keep their usual
 sensitivities without waiting for split CPI updates.
 
+#### Manual scroll-role and Mac scroll divisor controls
+
+`SV_SCROLL_TOGGLE` on the SYS layer toggles the same cursor/scroll role swap
+that `KVM_SYS` uses temporarily while held. The swap is still DPI-scaled as
+described above.
+
+For macOS/iOS hosts, scroll movement can use a high divisor (`MAC_DIVISOR`
+120) to match the OS wheel behavior. `SV_MAC_SCROLL_TOGGLE` on SYS toggles
+that Mac-only divisor, persists the setting in keyboard EEPROM
+(`saved_values` version 7), and defaults it on for upgraded installs. The
+status key reports both the stored toggle and whether the divisor is currently
+active (`toggle && is_mac`).
+
 #### Thumb Down / DoubleDown grace period
 
 A full-matrix state machine in `matrix.c` filters the debounced matrix after
@@ -77,11 +90,22 @@ hand is less likely to turn into a tiny drag. If movement exceeds
 `SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD` (default 12), the guard is canceled
 and dragging continues normally.
 
+#### Split pointing report accumulation
+
+Split pointing sync now accumulates remote-half motion until the master
+consumes it instead of replacing the shared report with only the latest
+packet. The slave polls and accumulates `x/y/h/v` deltas with report clamping,
+publishes them with a sequence number, and the master applies each sequence
+once before clearing motion after `pointing_device_task` consumes it. This
+prevents dropped remote trackball motion when split transport timing is slower
+than sensor polling.
+
 #### Manual mouse-click keys with home-row-mod chording
 
 The right-hand R1 and R2 South positions are bound to `KC_BTN1` /
-`KC_BTN2` so the trackball can be clicked without engaging the automouse
-layer. The same buttons are mirrored on the MBO layer center column.
+`KC_BTN2` so the trackball can be clicked directly. The MBO/automouse layer is
+mostly transparent, so those base-layer click keys continue to pass through
+while automouse is active; MBO itself only adds pointer sniper/boost controls.
 
 With the click keys living on the right hand next to home-row-mod keys
 (`HM_T`, `HM_S`, ...), naive tap/hold resolution turned fast cmd-click
@@ -141,7 +165,29 @@ and Delete. This matches the Glove80 Caps Word behavior.
 New `SV_BOOST_2`, `SV_BOOST_3`, `SV_BOOST_5` keycodes added to
 `keymap_support.h/.c` (alongside the existing sniper keys). These multiply
 the trackball sensitivity instead of dividing it, giving a speed boost while
-held. Used on the MBO layer south keys.
+held. The current MBO layer mirrors `SV_SNIPER_3` and `SV_BOOST_2` on the
+lower South keys of both hands; the other sniper/boost keycodes remain
+available as custom Vial keycodes.
+
+#### Svalboard status output
+
+`SV_OUTPUT_STATUS` on the SYS layer types the active keyboard/keymap, full
+40-character git hash, dirty/clean state, and `git describe`/`QMK_VERSION`
+string. It also reports left/right pointer scroll roles and CPI, axis scroll
+lock, the Mac scroll divisor toggle and active state, automouse state, mouse
+layer timeout, and turbo scan setting.
+
+The build helper now stores the full git hash in `QMK_GIT_HASH`; the status
+formatter strips the dirty marker from the hash itself and reports dirty state
+separately.
+
+#### Split startup timing
+
+This keymap raises `SPLIT_USB_TIMEOUT` to 3000 ms and
+`SPLIT_WATCHDOG_TIMEOUT` to 10000 ms. That gives RP2040 halves using
+`SPLIT_USB_DETECT` more time to decide which side is master and keeps slow
+hosts, KVMs, hubs, or a still-starting other half from leaving only one side
+alive.
 
 #### Pinned QMK runtime settings
 
@@ -178,6 +224,10 @@ Generates a Keyboard Layout Editor JSON from the C keymap source, producing
 per-layer legends with color coding. Reads `keymap.c`, applies human-
 friendly label mappings (macOS modifier symbols, shortened names), and
 merges results into a KLE template.
+
+The checked-in template and generated sheets use a solid dark `backcolor`
+instead of the older KLE ABS background image, and the label map includes
+newer custom keycodes such as `SV_MAC_SCROLL_TOGGLE` (`mac div`).
 
 #### `generate_kle.sh`
 
@@ -218,13 +268,22 @@ the source bundle directly.
 
 ### Other changes
 
+- `keyboards/svalboard/keymaps/glove80_dvorak/config.h`: added split USB
+  detection/watchdog timeout overrides, thumb grace timing, DPI-scaled scroll
+  swap, and mouse-click guard config
 - `keyboards/svalboard/keymaps/keymap_support.h`: added `SV_BOOST_2/3/5`
-  to the `my_keycodes` enum
-- `keyboards/svalboard/keymaps/keymap_support.c`: added `handle_boost_key`,
-  boost enable/disable flags, and wired them into
-  `pointing_device_task_combined_user` and `process_record_kb`
+  and `SV_MAC_SCROLL_TOGGLE` to the `my_keycodes` enum
+- `keyboards/svalboard/keymaps/keymap_support.c`: added boost scaling,
+  manual Mac scroll divisor persistence, scroll-role toggle handling, and
+  mouse-click guard integration
+- `keyboards/svalboard/svalboard.c/.h`: added EEPROM version 7 with
+  `mac_scroll_divisor`, expanded `SV_OUTPUT_STATUS`, and full git hash
+  reporting
 - `keyboards/svalboard/matrix.c`: replaced the simple `scans_before_dd_detect`
   logic with the full thumb cluster Down/DoubleDown interlock
+- `quantum/pointing_device/*` and `quantum/split_common/*`: accumulate and
+  consume remote split pointing reports so motion is not overwritten between
+  master polls
 - `keyboards/svalboard/vils/glove80_dvorak.vil`: archived Vial layout
 
 ## Compile examples

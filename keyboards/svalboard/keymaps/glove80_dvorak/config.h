@@ -50,4 +50,4 @@
 // When a mouse button key is pressed, briefly suppress tiny pointer motion so
 // click keys do not become accidental drags while the trackball hand settles.
 #define SVALBOARD_MOUSE_CLICK_GUARD_MS 50
-#define SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD 12
+#define SVALBOARD_MOUSE_CLICK_GUARD_THRESHOLD 30
