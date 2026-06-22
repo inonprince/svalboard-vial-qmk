@@ -201,9 +201,10 @@ settings. Key values:
 - `PERMISSIVE_HOLD` enabled
 - `CHORDAL_HOLD` enabled (rejects same-hand home-row-mod chords)
 - `FLOW_TAP_TERM` 60 ms
-- default `QUICK_TAP_TERM` 300 ms
-- Space and Backspace thumb layer-taps override quick-tap to 80 ms so
-  tap-then-hold repeat has to be very fast on those keys
+- default `QUICK_TAP_TERM` 300 ms (preserves tap-then-hold auto-repeat on
+  the home-row mods)
+- every thumb layer-tap overrides quick-tap to 80 ms so a tap-then-hold
+  engages the layer almost immediately instead of repeating the tapped key
 
 ### Tools
 
