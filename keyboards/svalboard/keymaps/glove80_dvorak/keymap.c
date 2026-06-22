@@ -261,6 +261,31 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   return mouse_btn_press_pending && is_home_row_mod_tap(keycode);
 }
 
+/* Keep Flow Tap from suppressing the home-row mods. Flow Tap forces a mod-tap
+ * to its tap letter when it is pressed within FLOW_TAP_TERM of a preceding
+ * typing key; for the HM_* keys that turned mid-word capitals into the tap
+ * letter. Exempting the HRMs here makes get_flow_tap_term return 0 for them
+ * while Flow Tap stays active for ordinary typing keys. The non-HRM path
+ * mirrors the default is_flow_tap_key. */
+bool is_flow_tap_key(uint16_t keycode) {
+  if (is_home_row_mod_tap(keycode)) {
+    return false;
+  }
+  if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
+    return false;  // Disable Flow Tap on hotkeys.
+  }
+  switch (get_tap_keycode(keycode)) {
+    case KC_SPC:
+    case KC_A ... KC_Z:
+    case KC_DOT:
+    case KC_COMM:
+    case KC_SCLN:
+    case KC_SLSH:
+      return true;
+  }
+  return false;
+}
+
 bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
   if ((keycode == KC_BTN1 || keycode == KC_BTN2) && record->event.pressed) {
     mouse_btn_press_pending = true;

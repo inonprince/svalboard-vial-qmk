@@ -125,6 +125,14 @@ and `get_hold_on_other_key_press` are marked `__attribute__((weak))` in
 `quantum/qmk_settings.c`. Keymaps that don't override still get Vial's
 runtime `QS_tapping_*` settings unchanged.
 
+#### Flow Tap home-row-mod exemption
+
+`is_flow_tap_key` is overridden to exclude the eight `HM_*` keys, so Flow
+Tap never forces a home-row mod to its tap letter when it follows a typing
+key within `FLOW_TAP_TERM`. Without this, a mid-word capital collapsed into
+the Shift mod's tap letter. Flow Tap stays active for ordinary typing keys
+(the non-`HM_*` path mirrors the default `is_flow_tap_key`).
+
 #### Layer locks
 
 Custom keycodes `SV_LOCK_NAV` through `SV_LOCK_SYS`, `SV_LOCK_MBO`, and
@@ -200,7 +208,11 @@ settings. Key values:
   Svalboard's light center keys)
 - `PERMISSIVE_HOLD` enabled
 - `CHORDAL_HOLD` enabled (rejects same-hand home-row-mod chords)
-- `FLOW_TAP_TERM` 60 ms
+- `HOLD_ON_OTHER_KEY_PRESS` off for normal typing; only forced on for an
+  `HM_*` key while a trackball-click is in flight (see *Manual mouse-click
+  keys* above)
+- `FLOW_TAP_TERM` 60 ms, with the `HM_*` keys exempted via `is_flow_tap_key`
+  (see *Flow Tap home-row-mod exemption* above)
 - default `QUICK_TAP_TERM` 300 ms (preserves tap-then-hold auto-repeat on
   the home-row mods)
 - every thumb layer-tap overrides quick-tap to 80 ms so a tap-then-hold
