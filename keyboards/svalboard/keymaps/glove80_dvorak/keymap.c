@@ -158,10 +158,12 @@ enum layer {
 #define KVM_SYS LT(SYS, KC_NO)
 
 /* Global quick-tap term preserves tap-then-hold auto-repeat on the home-row
- * mods (tap a letter, then hold to repeat it). */
+ * mods and the two physical thumb Down layer-taps. */
 #define GLOBAL_QUICK_TAP_TERM 300
 /* Thumb layer-taps use a short quick-tap term so a tap-then-hold engages the
- * layer almost immediately instead of repeating the tapped key. */
+ * layer almost immediately instead of repeating the tapped key.  The Down
+ * positions are excluded because their press is held behind the
+ * Down/DoubleDown grace period before QMK sees it. */
 #define THUMB_LT_QUICK_TAP_TERM 80
 
 enum custom_keycodes {
@@ -502,9 +504,10 @@ uint16_t qmk_settings_get_quick_tap_term_user(uint16_t keycode, keyrecord_t *rec
 
   switch (keycode) {
     case TH_NUM:
+    case TH_MBO:
+      return GLOBAL_QUICK_TAP_TERM;
     case TH_NAV:
     case TH_FUNC:
-    case TH_MBO:
     case TH_SYM:
     case TH_SYS:
     case KVM_SYS:

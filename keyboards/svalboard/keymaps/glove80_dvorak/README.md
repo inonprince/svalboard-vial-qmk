@@ -214,9 +214,11 @@ settings. Key values:
 - `FLOW_TAP_TERM` 60 ms, with the `HM_*` keys exempted via `is_flow_tap_key`
   (see *Flow Tap home-row-mod exemption* above)
 - default `QUICK_TAP_TERM` 300 ms (preserves tap-then-hold auto-repeat on
-  the home-row mods)
-- every thumb layer-tap overrides quick-tap to 80 ms so a tap-then-hold
-  engages the layer almost immediately instead of repeating the tapped key
+  the home-row mods and the two physical thumb Down layer-taps)
+- other thumb layer-taps override quick-tap to 80 ms so a tap-then-hold
+  engages the layer almost immediately instead of repeating the tapped key;
+  the Down positions keep 300 ms because the Down/DoubleDown interlock delays
+  their presses by up to 100 ms before QMK sees them
 
 ### Tools
 
